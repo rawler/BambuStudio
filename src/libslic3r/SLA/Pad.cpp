@@ -352,7 +352,7 @@ ExPolygon offset_contour_only(const ExPolygon &poly, coord_t delta, Args...args)
 
     if (tmp2.empty()) return {};
 
-    return std::move(tmp2.front());
+    return tmp2.front();
 }
 
 bool add_cavity(indexed_triangle_set &pad,

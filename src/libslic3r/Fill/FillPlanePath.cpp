@@ -108,12 +108,12 @@ void FillPlanePath::_fill_surface_single(
             snug_bounding_box.translate(-shift.x(), -shift.y());
             InfillPolylineClipper output(snug_bounding_box, distance_between_lines);
             this->generate(min_x, min_y, max_x, max_y, resolution, output);
-            polyline.points = std::move(output.result());
+            polyline.points = output.result();
         } else {
             // Filling in a snug bounding box, no need to clip.
             InfillPolylineOutput output(distance_between_lines);
             this->generate(min_x, min_y, max_x, max_y, resolution, output);
-            polyline.points = std::move(output.result());
+            polyline.points = output.result();
         }
     }
 

@@ -268,9 +268,9 @@ std::pair<SupportGeneratorLayersPtr, SupportGeneratorLayersPtr> generate_interfa
             remove_empty(in1);
             remove_empty(in2);
             if (in2.empty())
-                return std::move(in1);
+                return in1;
             else if (in1.empty())
-                return std::move(in2);
+                return in2;
             else {
                 SupportGeneratorLayersPtr out(in1.size() + in2.size(), nullptr);
                 std::merge(in1.begin(), in1.end(), in2.begin(), in2.end(), out.begin(), [](auto* l, auto* r) { return l->print_z < r->print_z; });

@@ -3095,7 +3095,7 @@ void GCode::process_layers(
                 print.throw_if_canceled();
                 GCode::LayerResult res = this->process_layer(print, layer.second, layer_tools, &layer == &layers_to_print.back(), &print_object_instances_ordering, tool_ordering.get_most_used_extruder(), size_t(-1));
                 res.gcode_store_pos = layer_to_print_idx - 1;
-                return std::move(res);
+                return res;
             }
         });
     if (m_spiral_vase) {
@@ -3116,7 +3116,7 @@ void GCode::process_layers(
     [&gcode_editer = *this->m_gcode_editer.get(), &layers_extruder_adjustments, object_label](GCode::LayerResult in) -> GCode::LayerResult{
         //record gcode
         in.gcode = gcode_editer.process_layer(std::move(in.gcode), in.not_set_additional_fan, in.layer_id, layers_extruder_adjustments[in.gcode_store_pos], object_label, in.cooling_buffer_flush, false);
-         return std::move(in);
+         return in;
     });
 
     //step2: cooling
@@ -3127,7 +3127,7 @@ void GCode::process_layers(
     const auto cooling = tbb::make_filter<GCode::LayerResult, GCode::LayerResult>(slic3r_tbb_filtermode::serial_in_order,
     [&cooling_processor, &layers_extruder_adjustments](GCode::LayerResult in) -> GCode::LayerResult {
         in.layer_time = cooling_processor.calculate_layer_slowdown(layers_extruder_adjustments[in.gcode_store_pos]);
-         return std::move(in);
+         return in;
     });
 
     // step 4.1: record node date
@@ -3234,7 +3234,7 @@ void GCode::process_layers(
                 print.throw_if_canceled();
                 GCode::LayerResult res = this->process_layer(print, {std::move(layer)}, tool_ordering.tools_for_layer(layer.print_z()), &layer == &layers_to_print.back(), nullptr, tool_ordering.get_most_used_extruder(), single_object_idx, prime_extruder);
                 res.gcode_store_pos = layer_to_print_idx - 1;
-                return std::move(res);
+                return res;
             }
         });
     if (m_spiral_vase) {
@@ -3259,7 +3259,7 @@ void GCode::process_layers(
     [&gcode_editer = *this->m_gcode_editer.get(), &layers_extruder_adjustments, object_label](GCode::LayerResult in) -> GCode::LayerResult{
         //record gcode
         in.gcode = gcode_editer.process_layer(std::move(in.gcode), in.not_set_additional_fan, in.layer_id, layers_extruder_adjustments[in.gcode_store_pos], object_label, in.cooling_buffer_flush, false);
-         return std::move(in);
+         return in;
     });
 
     // step 3: cooling
@@ -3269,7 +3269,7 @@ void GCode::process_layers(
     const auto cooling = tbb::make_filter<GCode::LayerResult, GCode::LayerResult>(slic3r_tbb_filtermode::serial_in_order,
     [&cooling_processor, &layers_extruder_adjustments](GCode::LayerResult in) -> GCode::LayerResult {
         in.layer_time = cooling_processor.calculate_layer_slowdown(layers_extruder_adjustments[in.gcode_store_pos]);
-         return std::move(in);
+         return in;
     });
 
     // step 4.1: record node date
@@ -6369,7 +6369,7 @@ bool GCode::needs_retraction(const Polyline &travel, ExtrusionRole role, LiftTyp
                     continue;
 
                 Polygons temp;
-                temp.emplace_back(std::move(instance_bbox.polygon()));
+                temp.emplace_back(instance_bbox.polygon());
                 if (intersection_pl(travel, temp).empty())
                     continue;
 

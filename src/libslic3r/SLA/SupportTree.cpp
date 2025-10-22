@@ -92,7 +92,7 @@ SupportTree::UPtr SupportTree::create(const SupportableMesh &sm,
         builder->ground_level = sm.emesh.ground_level();
     }
     
-    return std::move(builder);
+    return builder;
 }
 
 }} // namespace Slic3r::sla

@@ -936,7 +936,7 @@ void TreeSupport::detect_overhangs(bool check_support_necessity/* = false*/)
                     enforced_overhangs = intersection_ex(diff_ex(layer->lslices_extrudable, lower_layer->lslices_extrudable), enforcers[layer_nr]);
                 if (is_auto(stype)) {
                     // normal overhang
-                    overhangs_all_layers[layer_nr] = std::move(diff_ex(curr_polys, lower_layer_offseted));
+                    overhangs_all_layers[layer_nr] = diff_ex(curr_polys, lower_layer_offseted);
                     // if is auto, add blocker first
                     if (layer_nr < blockers.size() && !blockers[layer_nr].empty()) {
                         // Arthur: union_ is a must because after mirroring, the blocker polygons are in left-hand coordinates, ie clockwise,
@@ -1543,7 +1543,7 @@ void TreeSupport::generate_toolpaths()
             raft_areas.push_back(expoly);
     }
 
-    raft_areas = std::move(offset_ex(raft_areas, scale_(3.)));
+    raft_areas = offset_ex(raft_areas, scale_(3.));
 
     size_t layer_nr = 0;
     for (; layer_nr < m_slicing_params.base_raft_layers; layer_nr++) {
@@ -1662,9 +1662,9 @@ void TreeSupport::generate_toolpaths()
                             Flow flow = m_raft_layers == 0 ? m_object->print()->brim_flow() : support_flow;
                             make_perimeter_and_inner_brim(ts_layer->support_fills.entities, poly, wall_count, flow,
                                                           area_group.type == SupportLayer::RoofType ? erSupportMaterialInterface : erSupportMaterial);
-                            polys = std::move(offset_ex(poly, -flow.scaled_spacing()));
+                            polys = offset_ex(poly, -flow.scaled_spacing());
                         } else if (area_group.type == SupportLayer::Roof1stLayer) {
-                            polys = std::move(offset_ex(poly, 0.5*support_flow.scaled_width()));
+                            polys = offset_ex(poly, 0.5*support_flow.scaled_width());
                         }
                         else {
                             polys.push_back(poly);
@@ -2474,21 +2474,21 @@ void TreeSupport::draw_circles()
                         for (size_t i = 0; i <= bottom_gap_layers && i <= obj_layer_nr_next; i++)
                         {
                             const Layer *below_layer      = m_object->get_layer(obj_layer_nr_next - i);
-                            ExPolygons bottom_interface = std::move(intersection_ex(base_areas, below_layer->lslices));
+                            ExPolygons bottom_interface = intersection_ex(base_areas, below_layer->lslices);
                             floor_areas.insert(floor_areas.end(), bottom_interface.begin(), bottom_interface.end());
                         }
                     }
                     if (floor_areas.empty() == false) {
                         //floor_areas = std::move(diff_ex(floor_areas, avoid_region_interface));
                         //floor_areas = std::move(offset2_ex(floor_areas, contact_dist_scaled, -contact_dist_scaled));
-                        base_areas = std::move(diff_ex(base_areas, offset_ex(floor_areas, 10)));
+                        base_areas = diff_ex(base_areas, offset_ex(floor_areas, 10));
                     }
                 }
                 if (bottom_gap_layers > 0 && m_ts_data->layer_heights[layer_nr].obj_layer_nr > bottom_gap_layers) {
                     const Layer* below_layer = m_object->get_layer(m_ts_data->layer_heights[layer_nr].obj_layer_nr - bottom_gap_layers);
-                    ExPolygons bottom_gap_area = std::move(intersection_ex(floor_areas, below_layer->lslices));
+                    ExPolygons bottom_gap_area = intersection_ex(floor_areas, below_layer->lslices);
                     if (!bottom_gap_area.empty()) {
-                        floor_areas = std::move(diff_ex(floor_areas, bottom_gap_area));
+                        floor_areas = diff_ex(floor_areas, bottom_gap_area);
                     }
                 }
                 auto &area_groups = ts_layer->area_groups;
@@ -2527,7 +2527,7 @@ void TreeSupport::draw_circles()
                         ts_layer->support_islands.emplace_back(*expoly);
                 }
 
-                ts_layer->support_islands = std::move(union_ex(ts_layer->support_islands));
+                ts_layer->support_islands = union_ex(ts_layer->support_islands);
                 //Must update bounding box which is used in avoid crossing perimeter
                 ts_layer->lslices_bboxes.clear();
                 ts_layer->lslices_bboxes.reserve(ts_layer->support_islands.size());
@@ -2877,7 +2877,7 @@ void TreeSupport::drop_nodes()
 
         m_object->print()->set_status(60 + int(10 * (1 - float(layer_nr) / contact_nodes.size())), _u8L("Generating support"));// (boost::format(_u8L("Support: propagate branches at layer %d")) % layer_nr).str());
 
-        Polygons layer_contours = std::move(m_ts_data->get_contours_with_holes(obj_layer_nr));
+        Polygons layer_contours = m_ts_data->get_contours_with_holes(obj_layer_nr);
         //std::unordered_map<Line, bool, LineHash>& mst_line_x_layer_contour_cache = m_mst_line_x_layer_contour_caches[layer_nr];
         tbb::concurrent_unordered_map<Line, bool, LineHash> mst_line_x_layer_contour_cache;
         auto is_line_cut_by_contour = [&mst_line_x_layer_contour_cache,&layer_contours](Point a, Point b)
@@ -4172,7 +4172,7 @@ const ExPolygons& TreeSupportData::calculate_collision(const RadiusLayerPair& ke
 {
     assert(key.layer_nr < m_layer_outlines.size());
 
-    ExPolygons collision_areas = std::move(offset_ex(m_layer_outlines[key.layer_nr], scale_(key.radius+m_xy_distance)));
+    ExPolygons collision_areas = offset_ex(m_layer_outlines[key.layer_nr], scale_(key.radius+m_xy_distance));
     collision_areas = expolygons_simplify(collision_areas, scale_(m_radius_sample_resolution));
     // collision_areas.emplace_back(m_machine_border);
     const auto ret = m_collision_cache.insert({ key, std::move(collision_areas) });
@@ -4197,11 +4197,11 @@ const ExPolygons& TreeSupportData::calculate_avoidance(const RadiusLayerPair& ke
             get_avoidance(radius, layer_nr - max_recursion_depth);
         }
 
-        avoidance_areas = std::move(offset_ex(get_avoidance(radius, layer_nr - 1), scale_(-m_max_move_distances[layer_nr-1])));
+        avoidance_areas = offset_ex(get_avoidance(radius, layer_nr - 1), scale_(-m_max_move_distances[layer_nr-1]));
     }
     const ExPolygons &collision       = get_collision(radius, layer_nr);
     avoidance_areas.insert(avoidance_areas.end(), collision.begin(), collision.end());
-    avoidance_areas = std::move(union_ex(avoidance_areas));
+    avoidance_areas = union_ex(avoidance_areas);
     auto ret = m_avoidance_cache.insert({key, std::move(avoidance_areas)});
     //assert(ret.second);
     // BOOST_LOG_TRIVIAL(debug) << format("calculate_avoidance: radius=%.2f, layer_nr=%d, recursions=%d, avoidance_areas=%d", radius, layer_nr, key.recursions,

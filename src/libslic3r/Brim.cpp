@@ -1234,7 +1234,7 @@ static Polylines connect_brim_lines(Polylines &&polylines, const Polygons &brim_
             polylines.erase(polylines.begin() + int(end), polylines.end());
     }
 
-    return std::move(polylines);
+    return polylines;
 }
 
 // BBS: this function is used to generate brim for inner island inside holes

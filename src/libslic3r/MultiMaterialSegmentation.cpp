@@ -889,7 +889,7 @@ static ColoredLines filter_colorized_polygon(ColoredLines &&new_lines) {
             }
         }
 
-    return std::move(new_lines);
+    return new_lines;
 }
 
 static ColoredLines colorize_contour(const EdgeGrid::Contour &contour, const std::vector<PaintedLine> &painted_contour) {

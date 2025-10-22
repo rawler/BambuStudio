@@ -701,7 +701,7 @@ void PrintObject::detect_overhangs_for_lift()
                 Layer &lower_layer = *layer.lower_layer;
 
                 ExPolygons overhangs = diff_ex(layer.lslices, offset_ex(lower_layer.lslices, scale_(min_overlap)));
-                layer.loverhangs     = std::move(offset2_ex(overhangs, -0.1f * scale_(m_config.line_width), 0.1f * scale_(m_config.line_width)));
+                layer.loverhangs     = offset2_ex(overhangs, -0.1f * scale_(m_config.line_width), 0.1f * scale_(m_config.line_width));
 
 #ifdef REGISTER_SUPPORTS_FOR_LIFT
                 // register all supports to avoidance region for lift
@@ -710,10 +710,10 @@ void PrintObject::detect_overhangs_for_lift()
                     if (support_layer) {
                         if (!support_layer->support_islands.empty()) {
                             append(layer.loverhangs,
-                                   std::move(offset2_ex(support_layer->support_islands, -0.1f * scale_(m_config.line_width), 0.1f * scale_(m_config.line_width))));
+                                   offset2_ex(support_layer->support_islands, -0.1f * scale_(m_config.line_width), 0.1f * scale_(m_config.line_width)));
                         } else {
                             ExPolygons support_infill_polygons = union_ex(support_layer->support_fills.polygons_covered_by_spacing(double(coord_t(SCALED_EPSILON))));
-                            append(layer.loverhangs, std::move(offset2_ex(support_infill_polygons, -0.1f * scale_(m_config.line_width), 0.1f * scale_(m_config.line_width))));
+                            append(layer.loverhangs, offset2_ex(support_infill_polygons, -0.1f * scale_(m_config.line_width), 0.1f * scale_(m_config.line_width)));
                         }
                     }
                 }

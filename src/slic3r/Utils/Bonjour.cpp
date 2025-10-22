@@ -77,7 +77,7 @@ struct DnsName: public std::string
 					}
 					res.append(*nested);
 					offset += 2;
-					return std::move(res);
+					return res;
 				}
 			} else if (len == 0) {
 				// This is a name terminator
@@ -110,7 +110,7 @@ struct DnsName: public std::string
 		}
 
 		if (res.size() > 0) {
-			return std::move(res);
+			return res;
 		} else {
 			return boost::none;
 		}
@@ -178,7 +178,7 @@ struct DnsQuestion
 		res.qclass = endian::big_to_native(data_16[1]);
 
 		offset += 4;
-		return std::move(res);
+		return res;
 	}
 };
 
@@ -229,7 +229,7 @@ struct DnsResource
         res.data = std::vector<char>(buffer.begin() + offset, buffer.begin() + offset + rdlength);
 		offset += rdlength;
 
-		return std::move(res);
+		return res;
 	}
 };
 
@@ -299,7 +299,7 @@ struct DnsRR_SRV
 
 		if (hostname) {
 			res.hostname = std::move(*hostname);
-			return std::move(res);
+			return res;
 		} else {
 			return boost::none;
 		}
@@ -348,7 +348,7 @@ struct DnsRR_TXT
 			it = it_end;
 		}
 
-		return std::move(res);
+		return res;
 	}
 };
 
@@ -431,7 +431,7 @@ struct DnsMessage
 			}
 		}
 
-		return std::move(res);
+		return res;
 	}
 
 private:
