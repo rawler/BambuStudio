@@ -178,8 +178,8 @@ public:
     void                close();
 
     std::string get_icon_filename(bool b_dark_mode) const override;
-    virtual std::string get_gizmo_entering_text() const{return "Enter Text gizmo";}
-    virtual std::string get_gizmo_leaving_text() const{return "Leave Text gizmo";}
+    virtual std::string get_gizmo_entering_text() const override { return "Enter Text gizmo";}
+    virtual std::string get_gizmo_leaving_text() const override { return "Leave Text gizmo";}
     bool    wants_enter_leave_snapshots() const override { return true; }
 
 protected:
@@ -204,7 +204,7 @@ protected:
     bool     on_mouse(const wxMouseEvent &mouse_event) override;
     bool     on_mouse_for_rotation(const wxMouseEvent &mouse_event);
     virtual CommonGizmosDataID on_get_requirements() const override;
-    virtual void on_render_input_window(float x, float y, float bottom_limit);
+    virtual void on_render_input_window(float x, float y, float bottom_limit) override;
 
     void show_tooltip_information(float x, float y);
 

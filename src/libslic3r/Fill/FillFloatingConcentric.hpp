@@ -59,7 +59,7 @@ namespace Slic3r{
 
         FloatingThickPolylines fill_surface_arachne_floating(const Surface* surface, const FillParams& params);
 
-        void fill_surface_extrusion(const Surface* surface, const FillParams& params, ExtrusionEntitiesPtr& out);
+        void fill_surface_extrusion(const Surface* surface, const FillParams& params, ExtrusionEntitiesPtr& out) override;
 
         FloatingThickPolylines resplit_order_loops(Point curr_point, std::vector<const Arachne::ExtrusionLine*> all_extrusions, const ExPolygons& floating_areas, const Polygons& sparse_polys, const coord_t default_width);
 #if 0
