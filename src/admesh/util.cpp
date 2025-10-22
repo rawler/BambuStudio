@@ -324,10 +324,10 @@ void stl_repair(
 	}
 
   	if (nearby_flag || fixall_flag) {
-    	if (! tolerance_flag)
-      		tolerance = stl->stats.shortest_edge;
- 	   	if (! increment_flag)
-      		increment = stl->stats.bounding_diameter / 10000.0;
+       if (! tolerance_flag)
+           tolerance = stl->stats.shortest_edge;
+       if (! increment_flag)
+           increment = stl->stats.bounding_diameter / 10000.0;
     }
 
 	if (stl->stats.connected_facets_3_edge < int(stl->stats.number_of_facets)) {
