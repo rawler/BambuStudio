@@ -16,7 +16,8 @@ class MultiPoint
 {
 public:
     Points points;
-    
+    virtual ~MultiPoint() = default;
+
     MultiPoint() {}
     MultiPoint(const MultiPoint &other) : points(other.points) {}
     MultiPoint(MultiPoint &&other) noexcept : points(std::move(other.points)) {}
@@ -112,6 +113,7 @@ class MultiPoint3
 {
 public:
     Points3 points;
+    virtual ~MultiPoint3() = default;
 
     void append(const Vec3crd& point) { this->points.push_back(point); }
 
