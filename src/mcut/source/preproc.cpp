@@ -1438,7 +1438,6 @@ extern "C" void preproc(
 #endif
 
     int cut_mesh_perturbation_count = 0; // number of times we have perturbed the cut mesh
-    int kernel_invocation_counter = -1; // number of times we have called the internal dispatch/intersect function
     double relative_perturbation_constant = 0.0; // i.e. relative to the bbox diagonal length
     // the (translation) vector to hold the values with which we will
     // carry out numerical perturbation of the cutting surface
@@ -1458,13 +1457,11 @@ extern "C" void preproc(
     // And if floating polygons arise, then we partition the suspected face into two new faces with an edge that is guaranteed to be
     // severed during the cut.
     do {
-        TIMESTACK_RESET(); 
-
-        kernel_invocation_counter++;
+        TIMESTACK_RESET();
 
         // here we check the reason (if any) for entering the loop body.
         // NOTE: the aforementioned 2 reasons could both be false, which will
-        // be the case during the first iteration (i.e. when "kernel_invocation_counter == 0")
+        // be the case during the first iteration
 #if defined(MCUT_WITH_COMPUTE_HELPER_THREADPOOL)
         bool general_position_assumption_was_violated = ((kernel_output.status.load() == status_t::GENERAL_POSITION_VIOLATION));
         bool floating_polygon_was_detected = kernel_output.status.load() == status_t::DETECTED_FLOATING_POLYGON;

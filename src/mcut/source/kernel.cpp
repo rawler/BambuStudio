@@ -7953,9 +7953,6 @@ void dispatch(output_t& output, const input_t& input)
     //    >
     //    patch_to_floating_flag;
 
-    // tracks how many cut-mesh polygons have been stitched. Used only for naming damped meshes
-    int global_cm_poly_stitch_counter = 0;
-
     // keeps track of the total number of default-winding-order (e.g. CCW) patches which has been identified
     // NOTE: not all will be CCW if we have floating patches (in this case winding could be flipped)
     int total_ccw_patch_count = 0;
@@ -9546,9 +9543,6 @@ void dispatch(output_t& output, const input_t& input)
             >& m1_to_m0_cm_ovtx_colored
             = colour_to_m1_to_m0_cm_ovtx[color_id];
 
-        // keeps track of the total number of cut-mesh polygons for the current color tag (interior/ext)
-        int stitched_poly_counter = 0;
-
         // for each patch with current color
         for (std::vector<int>::const_iterator patch_iter = color_to_patches_iter->second.cbegin();
              patch_iter != color_to_patches_iter->second.cend();
@@ -10534,10 +10528,6 @@ void dispatch(output_t& output, const input_t& input)
                         input.keep_fragments_above_cutmesh,
                         input.keep_fragments_partially_cut);
                 }
-
-                ++global_cm_poly_stitch_counter;
-                stitched_poly_counter++;
-
             } while (!patch_poly_stitching_queue.empty()); // for each polygon of patch
 
             //
