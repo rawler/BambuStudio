@@ -230,7 +230,7 @@ struct indexed_triangle_set
     size_t memsize() const {
         return sizeof(*this) + (sizeof(stl_triangle_vertex_indices) + sizeof(FaceProperty)) * indices.size() + sizeof(stl_vertex) * vertices.size();
     }
-    void   add_indice(int f0, int f1, int f2, bool check_pts_size = false)
+    void   add_indice(size_t f0, size_t f1, size_t f2, bool check_pts_size = false)
     {
         if (f0 < 0 || f1 < 0 || f2 < 0) { return; }
         if (check_pts_size) {
@@ -245,14 +245,14 @@ struct indexed_triangle_set
     std::vector<FaceProperty>                   properties;
 
     bool empty() const { return indices.empty() || vertices.empty(); }
-    stl_vertex get_vertex(int facet_idx, int vertex_idx) const{
+    stl_vertex get_vertex(size_t facet_idx, size_t vertex_idx) const{
         return vertices[indices[facet_idx][vertex_idx]];
     }
-    float facet_area(int facet_idx) const {
+    float facet_area(size_t facet_idx) const {
         return std::abs((get_vertex(facet_idx, 0) - get_vertex(facet_idx, 1))
             .cross(get_vertex(facet_idx, 0) - get_vertex(facet_idx, 2)).norm()) / 2;
     }
-    FaceProperty& get_property(int face_idx) {
+    FaceProperty& get_property(size_t face_idx) {
         if (properties.size() != indices.size()) {
             properties.clear();
             properties.resize(indices.size());

@@ -304,7 +304,7 @@ public:
         std::vector<Line_3D> lines;
         lines.reserve(m_points.size());
         if (m_points.size() > 2) {
-            for (int i = 0; i < m_points.size() - 1; ++i) { lines.push_back(Line_3D(m_points[i], m_points[i + 1])); }
+            for (size_t i = 0; i < m_points.size() - 1; ++i) { lines.push_back(Line_3D(m_points[i], m_points[i + 1])); }
             lines.push_back(Line_3D(m_points.back(), m_points.front()));
         }
         return lines;
