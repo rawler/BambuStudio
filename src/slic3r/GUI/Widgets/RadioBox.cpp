@@ -24,7 +24,7 @@ void RadioBox::SetValue(bool value)
     update();
 }
 
-bool RadioBox::GetValue()
+bool RadioBox::GetValue() const
 {
     return wxBitmapToggleButton::GetValue();
 }

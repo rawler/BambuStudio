@@ -330,26 +330,15 @@ void SwitchBoard::on_left_down(wxMouseEvent &evt)
     wxPostEvent(this, event);
 }
 
-void SwitchBoard::Enable()
+bool SwitchBoard::Enable(bool enable)
 {
-    if (is_enable == true)
+    if (is_enable != enable)
     {
-        return;
+        is_enable = enable;
+        Refresh();
     }
 
-    is_enable = true;
-    Refresh();
-}
-
-void SwitchBoard::Disable()
-{
-    if (is_enable == false)
-    {
-        return;
-    }
-
-    is_enable = false;
-    Refresh();
+    return wxWindow::Enable(enable);
 }
 
 CustomToggleButton::CustomToggleButton(wxWindow* parent, const wxString& label, wxWindowID id, const wxPoint& pos, const wxSize& size)
@@ -442,7 +431,7 @@ void CustomToggleButton::doRender(wxDC& dc)
         dc.SetBrush(*wxTRANSPARENT_BRUSH);
         dc.SetPen(wxPen(wxColour("#EEEEEE")));
     }
-    
+
     dc.DrawRoundedRectangle(rect, 5);
 
     // Draw icon
@@ -501,7 +490,7 @@ void ExpandButton::update_bitmap(std::string bmp)
     Refresh();
 }
 
-void ExpandButton::msw_rescale() 
+void ExpandButton::msw_rescale()
 {
     m_bmp = create_scaled_bitmap(m_bmp_str, this, 18);
     Refresh();
@@ -549,7 +538,7 @@ ExpandButtonHolder::ExpandButtonHolder(wxWindow* parent, wxWindowID id, const wx
 #else
     SetBackgroundColour(wxColour("#3B4446"));
 #endif
-    
+
     hsizer = new wxBoxSizer(wxHORIZONTAL);
     hsizer->AddStretchSpacer(1);
     vsizer = new wxBoxSizer(wxVERTICAL);
@@ -609,7 +598,7 @@ void ExpandButtonHolder::ShowExpandButton(wxWindowID id, bool show)
                 expandBtn->SetBackgroundColour(wxColour("#242E30"));
 #endif
 
-                 
+
              }
          }
      }
@@ -632,7 +621,7 @@ void ExpandButtonHolder::updateExpandButtonBitmap(wxWindowID id, std::string bit
         {
             if (expandBtn->GetId() == id) {
                 expandBtn->update_bitmap(bitmap);
-            }   
+            }
         }
     }
 }
@@ -718,7 +707,7 @@ void ExpandButtonHolder::render(wxDC& dc)
 void ExpandButtonHolder::doRender(wxDC& dc)
 {
     wxSize size = GetSize();
-    
+
     if (GetAvailable() > 1) {
 #ifdef __APPLE__
         dc.SetBrush(wxBrush(wxColour("#384547")));

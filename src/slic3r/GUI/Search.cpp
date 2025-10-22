@@ -670,7 +670,7 @@ SearchDialog::SearchDialog(OptionsSearcher *searcher, Preset::Type type, wxWindo
 
 SearchDialog::~SearchDialog() {}
 
-void SearchDialog::Popup(wxPoint position /*= wxDefaultPosition*/)
+void SearchDialog::Popup(wxWindow *focus)
 {
     /* const std::string& line = searcher->search_string();
      search_line->SetValue(line.empty() ? default_string : from_u8(line));
@@ -685,7 +685,7 @@ void SearchDialog::Popup(wxPoint position /*= wxDefaultPosition*/)
     search_line2->SetValue(wxString(""));
     //const std::string &line = searcher->search_string();
     //searcher->search(into_u8(line), true);
-    PopupWindow::Popup();
+    PopupWindow::Popup(focus);
     search_line2->SetFocus();
     update_list();
 }
@@ -1005,10 +1005,10 @@ SearchObjectDialog::SearchObjectDialog(GUI::ObjectList* object_list, wxWindow* p
 
 SearchObjectDialog::~SearchObjectDialog() {}
 
-void SearchObjectDialog::Popup(wxPoint position /*= wxDefaultPosition*/)
+void SearchObjectDialog::Popup(wxWindow *focus)
 {
     update_list();
-    PopupWindow::Popup();
+    PopupWindow::Popup(focus);
 }
 
 void SearchObjectDialog::Dismiss()

@@ -238,9 +238,9 @@ public:
     ~SearchDialog();
 
     void MSWDismissUnfocusedPopup();
-    void Popup(wxPoint position = wxDefaultPosition);
-    void OnDismiss();
-    void Dismiss();
+    virtual void Popup(wxWindow *focus = NULL) override;
+    virtual void OnDismiss() override;
+    virtual void Dismiss() override;
     void Die();
     void ProcessSelection(wxDataViewItem selection);
     void msw_rescale();
@@ -285,8 +285,8 @@ public:
     SearchObjectDialog(GUI::ObjectList* object_list, wxWindow* parent);
     ~SearchObjectDialog();
 
-    void Popup(wxPoint position = wxDefaultPosition);
-    void Dismiss();
+    virtual void Popup(wxWindow *focus = NULL) override;
+    virtual void Dismiss() override;
 
     void update_list();
 

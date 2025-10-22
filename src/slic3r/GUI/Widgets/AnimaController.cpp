@@ -78,9 +78,10 @@ void AnimaIcon::Stop()
     m_timer->Stop();
 }
 
-void AnimaIcon::Enable()
+bool AnimaIcon::Enable(bool enable)
 {
-    if (m_bitmap) { m_bitmap->SetBitmap(m_image_enable); }
+    if (enable && m_bitmap) { m_bitmap->SetBitmap(m_image_enable); }
+    return wxPanel::Enable(enable);
 }
 
 bool AnimaIcon::IsRunning() const

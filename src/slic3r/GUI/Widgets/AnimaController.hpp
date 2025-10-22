@@ -13,7 +13,7 @@ public:
 
     void Play();
     void Stop();
-    void Enable();
+    virtual bool Enable( bool enable = true );
     bool IsPlaying() const { return IsRunning(); };
     bool IsRunning() const;
 

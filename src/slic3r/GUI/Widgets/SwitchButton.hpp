@@ -61,8 +61,7 @@ public:
     void* client_data = nullptr;/*MachineObject* in StatusPanel*/
 
 public:
-    void Enable();
-    void Disable();
+    virtual bool Enable(bool enable = true) override;
     bool IsEnabled(){return is_enable;};
 
     void  SetClientData(void* data) { client_data = data; };
@@ -123,7 +122,7 @@ public:
         wxWindowID id = wxID_ANY,
         const wxPoint& pos = wxDefaultPosition,
         const wxSize& size = wxDefaultSize);
-    
+
     void update_bitmap(std::string bmp);
     void msw_rescale();
 private:
