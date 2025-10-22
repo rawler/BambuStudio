@@ -876,7 +876,7 @@ static std::vector<const Arachne::ExtrusionLine*>  toplogic_sort_extruisons(cons
     return ordered_extrusions;
 }
 
-void FillFloatingConcentric::_fill_surface_single(const FillParams& params,
+void FillFloatingConcentric::_fill_thick_surface_single(const FillParams& params,
     unsigned int                   thickness_layers,
     const std::pair<float, Point>& direction,
     ExPolygon                      expolygon,
@@ -939,7 +939,7 @@ FloatingThickPolylines FillFloatingConcentric::fill_surface_arachne_floating(con
     // Create the infills for each of the regions.
     FloatingThickPolylines floating_thick_polylines_out;
     for (ExPolygon& expoly : no_overlap_expolygons)
-        _fill_surface_single(params, surface->thickness_layers, _infill_direction(surface), std::move(expoly), floating_thick_polylines_out);
+        _fill_thick_surface_single(params, surface->thickness_layers, _infill_direction(surface), std::move(expoly), floating_thick_polylines_out);
     return floating_thick_polylines_out;
 }
 
