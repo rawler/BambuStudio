@@ -947,8 +947,8 @@ void GCodeProcessor::TimeProcessor::post_process(const std::string& filename, st
 
     auto handle_filament_change = [&filament_blocks,&machine_start_gcode_end_line_id,&machine_end_gcode_start_line_id](int filament_id,int line_id){
         // skip the filaments change in machine start/end gcode
-        if (machine_start_gcode_end_line_id == (unsigned int)(-1) && (unsigned int)(line_id)<machine_start_gcode_end_line_id ||
-            machine_end_gcode_start_line_id != (unsigned int)(-1) && (unsigned int)(line_id)>machine_end_gcode_start_line_id)
+        if ((machine_start_gcode_end_line_id == (unsigned int)(-1) && (unsigned int)(line_id)<machine_start_gcode_end_line_id) ||
+            (machine_end_gcode_start_line_id != (unsigned int)(-1) && (unsigned int)(line_id)>machine_end_gcode_start_line_id))
             return;
 
         if (!filament_blocks.empty())
