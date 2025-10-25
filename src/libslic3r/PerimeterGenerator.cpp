@@ -1181,11 +1181,11 @@ void PerimeterGenerator::process_classic()
             for (int d = 0; d <= loop_number; ++ d) {
                 PerimeterGeneratorLoops &holes_d = holes[d];
                 // loop through all holes having depth == d
-                for (int i = 0; i < (int)holes_d.size(); ++ i) {
+                for (size_t i = 0; i < (int)holes_d.size(); ++ i) {
                     const PerimeterGeneratorLoop &loop = holes_d[i];
                     // find the hole loop that contains this one, if any
-                    for (int t = d + 1; t <= loop_number; ++ t) {
-                        for (int j = 0; j < (int)holes[t].size(); ++ j) {
+                    for (size_t t = d + 1; t <= loop_number; ++ t) {
+                        for (size_t j = 0; j < (int)holes[t].size(); ++ j) {
                             PerimeterGeneratorLoop &candidate_parent = holes[t][j];
                             if (candidate_parent.polygon.contains(loop.polygon.first_point())) {
                                 candidate_parent.children.push_back(loop);
@@ -1196,8 +1196,8 @@ void PerimeterGenerator::process_classic()
                         }
                     }
                     // if no hole contains this hole, find the contour loop that contains it
-                    for (int t = loop_number; t >= 0; -- t) {
-                        for (int j = 0; j < (int)contours[t].size(); ++ j) {
+                    for (size_t t = loop_number; t >= 0; -- t) {
+                        for (size_t j = 0; j < (int)contours[t].size(); ++ j) {
                             PerimeterGeneratorLoop &candidate_parent = contours[t][j];
                             if (candidate_parent.polygon.contains(loop.polygon.first_point())) {
                                 candidate_parent.children.push_back(loop);
@@ -1214,7 +1214,7 @@ void PerimeterGenerator::process_classic()
             for (int d = loop_number; d >= 1; -- d) {
                 PerimeterGeneratorLoops &contours_d = contours[d];
                 // loop through all contours having depth == d
-                for (int i = 0; i < (int)contours_d.size(); ++ i) {
+                for (size_t i = 0; i < (int)contours_d.size(); ++ i) {
                     const PerimeterGeneratorLoop &loop = contours_d[i];
                     // find the contour loop that contains it
                     for (int t = d - 1; t >= 0; -- t) {
@@ -1250,7 +1250,7 @@ void PerimeterGenerator::process_classic()
                     int              second_wall = -1;
                     ExtrusionEntitiesPtr      entities_reorder;
                     ExtrusionEntitiesPtr entities_second_wall;
-                    for (int entity_idx = 0; entity_idx < entities.entities.size(); ++entity_idx) {
+                    for (size_t entity_idx = 0; entity_idx < entities.entities.size(); ++entity_idx) {
                         ExtrusionLoop *eloop = static_cast<ExtrusionLoop *>(entities.entities[entity_idx]);
                         if (eloop->loop_role() & elrSecondPerimeter) {
                             entities_second_wall.push_back(entities.entities[entity_idx]);
@@ -1279,7 +1279,7 @@ void PerimeterGenerator::process_classic()
                 } else {
                     std::vector<bool> matched;
                     matched.resize(outwall_paths.size(), false);
-                    for (int entity_idx = 0; entity_idx < entities.entities.size(); ++entity_idx) {
+                    for (size_t entity_idx = 0; entity_idx < entities.entities.size(); ++entity_idx) {
                         //skip inner wall
                         if(entities.entities[entity_idx]->role() == erPerimeter)
                             continue;
@@ -1645,9 +1645,9 @@ void PerimeterGenerator::process_arachne()
 
         bool is_outer_wall_first =
             this->config->wall_sequence == WallSequence::OuterInner || this->config->wall_sequence == WallSequence::InnerOuterInner;
-        if (layer_id == 0) { 
+        if (layer_id == 0) {
             is_outer_wall_first = this->config->wall_sequence == WallSequence::OuterInner;
-        }       
+        }
         if (is_outer_wall_first) {
             start_perimeter = 0;
             end_perimeter = int(total_perimeters.size());
@@ -1845,7 +1845,7 @@ std::vector<Polygons> PerimeterGenerator::generate_lower_polygons_series(float w
     }
 
     // offset expolygon to generate series of polygons
-    for (int i = 0; i < offset_series.size(); i++) {
+    for (size_t i = 0; i < offset_series.size(); i++) {
         lower_polygons_series.emplace_back(offset(*this->lower_slices, float(scale_(offset_series[i]))));
     }
     return lower_polygons_series;

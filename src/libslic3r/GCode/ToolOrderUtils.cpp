@@ -37,8 +37,8 @@ namespace Slic3r
         std::vector<int>matching(l_nodes.size(), MaxFlowGraph::INVALID_ID);
         // to get the match info, just traverse the left nodes and
         // check the edges with flow > 0 and linked to right nodes
-        for (int u = 0; u < l_nodes.size(); ++u) {
-            for (int eid : adj[u]) {
+        for (size_t u = 0; u < l_nodes.size(); ++u) {
+            for (size_t eid : adj[u]) {
                 Edge& e = edges[eid];
                 if (e.flow > 0 && e.to >= l_nodes.size() && e.to < l_nodes.size() + r_nodes.size())
                     matching[e.from] = r_nodes[e.to - l_nodes.size()];
@@ -109,7 +109,7 @@ namespace Slic3r
             return 0;
             //TODO: test more here
             int sum = 0;
-            for (int i = 0; i < matrix.size(); ++i)
+            for (size_t i = 0; i < matrix.size(); ++i)
                 sum += matrix[i][idx_in_right];
             sum /= matrix.size();
             return -sum;
@@ -136,18 +136,18 @@ namespace Slic3r
         adj.resize(total_nodes);
 
         // add edge from source to left nodes
-        for (int idx = 0; idx < l_nodes.size(); ++idx) {
+        for (size_t idx = 0; idx < l_nodes.size(); ++idx) {
             int capacity = u_capacity.empty() ? 1 : u_capacity[idx];
             add_edge(source_id, idx, capacity);
         }
         // add edge from right nodes to sink node
-        for (int idx = 0; idx < r_nodes.size(); ++idx) {
+        for (size_t idx = 0; idx < r_nodes.size(); ++idx) {
             int capacity = v_capacity.empty() ? 1 : v_capacity[idx];
             add_edge(l_nodes.size() + idx, sink_id, capacity);
         }
 
         // add edge from left nodes to right nodes
-        for (int i = 0; i < l_nodes.size(); ++i) {
+        for (size_t i = 0; i < l_nodes.size(); ++i) {
             int from_idx = i;
             // process link limits , i can only link to uv_link_limits
             if (auto iter = uv_link_limits.find(i); iter != uv_link_limits.end()) {
@@ -160,7 +160,7 @@ namespace Slic3r
             if (auto iter = uv_unlink_limits.find(i); iter != uv_unlink_limits.end())
                 unlink_limits = iter->second;
 
-            for (int j = 0; j < r_nodes.size(); ++j) {
+            for (size_t j = 0; j < r_nodes.size(); ++j) {
                 // check whether i can link to j
                 if (unlink_limits.has_value() && std::find(unlink_limits->begin(), unlink_limits->end(), j) != unlink_limits->end())
                     continue;
@@ -191,7 +191,7 @@ namespace Slic3r
                 travel.pop();
 
                 // traverse all linked edges
-                for (int i = 0; i < adj[from].size(); ++i) {
+                for (size_t i = 0; i < adj[from].size(); ++i) {
                     int eid = adj[from][i];
                     Edge& tmp = edges[eid];
                     if (augment[tmp.to] == 0 && tmp.capacity > tmp.flow) {
@@ -218,8 +218,8 @@ namespace Slic3r
         std::vector<int> matching(l_nodes.size(), MaxFlowGraph::INVALID_ID);
         // to get the match info, just traverse the left nodes and
         // check the edge with flow > 0 and linked to right nodes
-        for (int u = 0; u < l_nodes.size(); ++u) {
-            for (int eid : adj[u]) {
+        for (size_t u = 0; u < l_nodes.size(); ++u) {
+            for (size_t eid : adj[u]) {
                 Edge& e = edges[eid];
                 if (e.flow > 0 && e.to >= l_nodes.size() && e.to < l_nodes.size() + r_nodes.size())
                     matching[e.from] = r_nodes[e.to - l_nodes.size()];
@@ -248,17 +248,17 @@ namespace Slic3r
 
 
         // add edge from source to left nodes,cost to 0
-        for (int i = 0; i < m_solver->l_nodes.size(); ++i)
+        for (size_t i = 0; i < m_solver->l_nodes.size(); ++i)
             m_solver->add_edge(m_solver->source_id, i, 1, 0);
 
         // add edge from right nodes to sink,cost to 0
-        for (int i = 0; i < m_solver->r_nodes.size(); ++i)
+        for (size_t i = 0; i < m_solver->r_nodes.size(); ++i)
             m_solver->add_edge(m_solver->l_nodes.size() + i, m_solver->sink_id, 1, 0);
 
         // add edge from left node to right nodes
-        for (int i = 0; i < m_solver->l_nodes.size(); ++i) {
+        for (size_t i = 0; i < m_solver->l_nodes.size(); ++i) {
             int from_idx = i;
-            for (int j = 0; j < m_solver->r_nodes.size(); ++j) {
+            for (size_t j = 0; j < m_solver->r_nodes.size(); ++j) {
                 int to_idx = m_solver->l_nodes.size() + j;
                 m_solver->add_edge(from_idx, to_idx, 1, m_solver->get_distance(i, j));
             }
@@ -294,17 +294,17 @@ namespace Slic3r
         m_solver->adj.resize(m_solver->total_nodes);
 
         // add edge from source to left nodes,cost to 0
-        for (int i = 0; i < m_solver->l_nodes.size(); ++i) {
+        for (size_t i = 0; i < m_solver->l_nodes.size(); ++i) {
             int capacity = u_capacity.empty() ? 1 : u_capacity[i];
             m_solver->add_edge(m_solver->source_id, i, capacity, 0);
         }
         // add edge from right nodes to sink,cost to 0
-        for (int i = 0; i < m_solver->r_nodes.size(); ++i) {
+        for (size_t i = 0; i < m_solver->r_nodes.size(); ++i) {
             int capacity = v_capacity.empty() ? 1 : v_capacity[i];
             m_solver->add_edge(m_solver->l_nodes.size() + i, m_solver->sink_id, capacity, 0);
         }
         // add edge from left node to right nodes
-        for (int i = 0; i < m_solver->l_nodes.size(); ++i) {
+        for (size_t i = 0; i < m_solver->l_nodes.size(); ++i) {
             int from_idx = i;
             // process link limits, i can only link to link_limits
             if (auto iter = uv_link_limits.find(i); iter != uv_link_limits.end()) {
@@ -317,7 +317,7 @@ namespace Slic3r
             std::optional<std::vector<int>> unlink_limits;
             if (auto iter = uv_unlink_limits.find(i); iter != uv_unlink_limits.end())
                 unlink_limits = iter->second;
-            for (int j = 0; j < m_solver->r_nodes.size(); ++j) {
+            for (size_t j = 0; j < m_solver->r_nodes.size(); ++j) {
                 if (unlink_limits.has_value() && std::find(unlink_limits->begin(), unlink_limits->end(), j) != unlink_limits->end())
                     continue;
                 m_solver->add_edge(from_idx, m_solver->l_nodes.size() + j, 1, m_solver->get_distance(i, j));
@@ -350,22 +350,22 @@ namespace Slic3r
 
 
         // add edge from source to left nodes,cost to 0
-        for (int i = 0; i < m_solver->l_nodes.size(); ++i)
+        for (size_t i = 0; i < m_solver->l_nodes.size(); ++i)
             m_solver->add_edge(m_solver->source_id, i, 1, 0);
 
         // add edge from right nodes to sink,cost to 0
-        for (int i = 0; i < m_solver->r_nodes.size(); ++i)
+        for (size_t i = 0; i < m_solver->r_nodes.size(); ++i)
             m_solver->add_edge(m_solver->l_nodes.size() + i, m_solver->sink_id, v_capacity[i], 0);
 
         // add edge from left node to right nodes
-        for (int i = 0; i < m_solver->l_nodes.size(); ++i) {
+        for (size_t i = 0; i < m_solver->l_nodes.size(); ++i) {
             int from_idx = i;
 
             // process unlink limits, check whether i can link to j
             std::optional<std::vector<int>> unlink_limits;
             if (auto iter = uv_unlink_limits.find(i); iter != uv_unlink_limits.end())
                 unlink_limits = iter->second;
-            for (int j = 0; j < m_solver->r_nodes.size(); ++j) {
+            for (size_t j = 0; j < m_solver->r_nodes.size(); ++j) {
                 if (unlink_limits.has_value() && std::find(unlink_limits->begin(), unlink_limits->end(), j) != unlink_limits->end())
                     continue;
                 m_solver->add_edge(from_idx, m_solver->l_nodes.size() + j, 1, m_solver->get_distance(i, j));
@@ -617,7 +617,7 @@ namespace Slic3r
         std::map<size_t, std::vector<unsigned int>> custom_layer_sequence_map; // save the filament sequences of custom layer
 
         // group the filament
-        for (int i = 0; i < filament_maps.size(); ++i) {
+        for (size_t i = 0; i < filament_maps.size(); ++i) {
             if (filament_maps[i] == 0)
                 groups[0].insert(filament_lists[i]);
             if (filament_maps[i] == 1)

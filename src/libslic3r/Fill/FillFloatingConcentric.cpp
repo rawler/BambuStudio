@@ -87,7 +87,7 @@ static ExtrusionPaths floating_thick_polyline_to_extrusion_paths(const FloatingT
         if (i == 0) {
             max_width = min_width = line.a_width;
         }
-    
+
         const coordf_t line_len = line.length();
         if (line_len < SCALED_EPSILON) continue;
 
@@ -174,7 +174,7 @@ static ExtrusionPaths floating_thick_polyline_to_extrusion_paths(const FloatingT
         path = ExtrusionPath(role);
         double length = 0, sum = 0;
         bool is_floating = false;
-        for (int idx = start_index; idx < final_size; idx++) {
+        for (size_t idx = start_index; idx < final_size; idx++) {
             bool curr_floating = lines[idx].is_a_floating && lines[idx].is_b_floating;
             if (curr_floating!= is_floating && length != 0) {
                 path.polyline.append(lines[idx].a);
@@ -212,7 +212,7 @@ double interpolate_width(const ZPath& path,
     while (prev_idx >= 0 && (path[prev_idx].z() < 0 || path[prev_idx].z() >= subject_idx_range))
         --prev_idx;
 
-    int next_idx = idx;
+    size_t next_idx = idx;
     while (next_idx < path.size() && (path[next_idx].z() < 0 || path[next_idx].z() >= subject_idx_range))
         ++next_idx;
 
@@ -959,7 +959,7 @@ void FillFloatingConcentric::fill_surface_extrusion(const Surface* surface, cons
     size_t idx = ecc->entities.size();
 
     const float tolerance = float(scale_(0.05));
-    for (const auto& line : floating_lines) { 
+    for (const auto& line : floating_lines) {
         ExtrusionPaths paths = floating_thick_polyline_to_extrusion_paths(line, params.extrusion_role, new_flow, tolerance);
         // Append paths to collection.
         assert(!paths.empty());

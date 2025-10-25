@@ -366,7 +366,7 @@ public:
     std::vector<std::string> get_selected_options  (Preset::Type type)  {
         //return m_tree->options(type, true);
          std::vector<std::string> tmp;
-        for (int i = 0; i < m_presetitems.size(); i++) {
+        for (size_t i = 0; i < m_presetitems.size(); i++) {
             if (m_presetitems[i].type == type) {
                 tmp.push_back(m_presetitems[i].opt_key);
             }
@@ -378,7 +378,7 @@ public:
         //return m_tree->selected_options();
 
         std::vector<std::string> tmp;
-        for (int i = 0; i < m_presetitems.size(); i++)
+        for (size_t i = 0; i < m_presetitems.size(); i++)
         {
            tmp.push_back(m_presetitems[i].opt_key);
         }

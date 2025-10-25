@@ -112,7 +112,7 @@ void GLGizmoFaceDetector::display_exterior_face()
             TriangleMesh mesh_temp = mv->mesh();
             mesh_temp.transform(mv->get_matrix() * inst_transfo);
             indexed_triangle_set& mv_its = mesh_temp.its;
-            for (int facet_idx = 0; facet_idx < mv_its.indices.size(); facet_idx++) {
+            for (size_t facet_idx = 0; facet_idx < mv_its.indices.size(); facet_idx++) {
                 const stl_triangle_vertex_indices& facet_vert_idxs = mv_its.indices[facet_idx];
                 if (mv_its.get_property(facet_idx).type != eExteriorAppearance)
                     continue;

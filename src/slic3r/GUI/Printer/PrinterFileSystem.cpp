@@ -746,7 +746,7 @@ void PrinterFileSystem::UpdateGroupSelect()
         if (m_group_mode == G_YEAR)
             for (auto &g : group) g = m_group_month[g];
         m_group_flags.resize(group.size(), FF_SELECT);
-        for (int i = 0; i < m_file_list.size(); ++i) {
+        for (size_t i = 0; i < m_file_list.size(); ++i) {
             if ((m_file_list[i].flags & FF_SELECT) == 0) {
                 auto iter = std::upper_bound(group.begin(), group.end(), i);
                 m_group_flags[iter - group.begin() - 1] &= ~FF_SELECT;

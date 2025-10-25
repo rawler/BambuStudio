@@ -1,9 +1,9 @@
 // This file is part of libigl, a simple c++ geometry processing library.
-// 
+//
 // Copyright (C) 2015 Alec Jacobson <alecjacobson@gmail.com>
-// 
-// This Source Code Form is subject to the terms of the Mozilla Public License 
-// v. 2.0. If a copy of the MPL was not distributed with this file, You can 
+//
+// This Source Code Form is subject to the terms of the Mozilla Public License
+// v. 2.0. If a copy of the MPL was not distributed with this file, You can
 // obtain one at http://mozilla.org/MPL/2.0/.
 #ifndef IGL_BIHARMONIC_COORDINATES_H
 #define IGL_BIHARMONIC_COORDINATES_H
@@ -47,7 +47,7 @@ namespace igl
   //     MatrixXd H(W.cols(),dim);
   //     {
   //       int c = 0;
-  //       for(int h = 0;h<S.size();h++)
+  //       for(size_t h = 0;h<S.size();h++)
   //       {
   //         if(S[h].size()==1)
   //         {

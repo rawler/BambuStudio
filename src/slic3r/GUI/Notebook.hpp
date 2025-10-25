@@ -186,7 +186,7 @@ public:
         int ret = DoSetSelection(n, SetSelection_SendEvent);
         int new_sel = GetSelection();
         //check the new_sel firstly
-        if (new_sel != n) {
+        if (new_sel != (int)n) {
             //not allowed, skip it
             return ret;
         }

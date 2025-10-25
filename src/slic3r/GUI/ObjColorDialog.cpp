@@ -823,8 +823,8 @@ void ObjColorPanel::update_new_add_final_colors()
     }
     else {
         m_new_add_final_colors.resize(m_max_filament_index - m_colours.size());
-        for (int ii = m_colours.size() ; ii < m_max_filament_index; ii++) {
-            for (int j = 0; j < m_cluster_map_filaments.size(); j++) {
+        for (size_t ii = m_colours.size() ; ii < m_max_filament_index; ii++) {
+            for (size_t j = 0; j < m_cluster_map_filaments.size(); j++) {
                 if (m_cluster_map_filaments[j] == (ii+ 1) && j < m_new_add_colors.size()) {
                     auto index                = ii - m_colours.size();
                     if (index < m_new_add_final_colors.size()) {
@@ -1015,7 +1015,7 @@ void ObjColorPanel::deal_reset_btn()
         }
         item->bitmap_combox->SetSelection(0);
     }
-    for (int i = 0; i < m_new_add_colors.size(); i++) {
+    for (size_t i = 0; i < m_new_add_colors.size(); i++) {
         m_new_add_colors[i] = g_undefined_color_in_obj;
     }
     m_warning_text->SetLabelText("");

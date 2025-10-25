@@ -242,7 +242,7 @@ OtherLayersSeqPanel::OtherLayersSeqPanel(wxWindow* parent)
         });
     Bind(EVT_NEED_RESORT_LAYERS, [this](auto& evt) {
         std::vector<LayerSeqInfo> result;
-        for (int i = 0; i < m_layer_input_sizer_list.size(); i++) {
+        for (size_t i = 0; i < m_layer_input_sizer_list.size(); i++) {
             int begin_layer_number = m_begin_layer_input_list[i]->get_layer_number();
             int end_layer_number = m_end_layer_input_list[i]->get_layer_number();
             result.push_back({ begin_layer_number, end_layer_number, m_drag_canvas_list[i]->get_shape_list_order() });
@@ -255,7 +255,7 @@ OtherLayersSeqPanel::OtherLayersSeqPanel(wxWindow* parent)
         });
     Bind(EVT_SET_BED_TYPE_CONFIRM, [this](auto& evt) {
         std::vector<LayerSeqInfo> result;
-        for (int i = 0; i < m_layer_input_sizer_list.size(); i++) {
+        for (size_t i = 0; i < m_layer_input_sizer_list.size(); i++) {
             int begin_layer_number = m_begin_layer_input_list[i]->get_layer_number();
             int end_layer_number = m_end_layer_input_list[i]->get_layer_number();
 
@@ -294,7 +294,7 @@ void OtherLayersSeqPanel::append_layer(const LayerSeqInfo* layer_info)
 
     const std::vector<std::string> extruder_colours = wxGetApp().plater()->get_extruder_colors_from_plater_config();
     std::vector<int> order(extruder_colours.size());
-    for (int i = 0; i < order.size(); i++) {
+    for (size_t i = 0; i < order.size(); i++) {
         order[i] = i + 1;
     }
     auto drag_canvas = new DragCanvas(m_layer_input_panel, extruder_colours, order);
@@ -347,7 +347,7 @@ void OtherLayersSeqPanel::sync_layers_print_seq(int selection, const std::vector
         if (selection == 1) {
             clear_all_layers();
             Freeze();
-            for (int i = 0; i < seq.size(); i++) {
+            for (size_t i = 0; i < seq.size(); i++) {
                 append_layer(&seq[i]);
             }
             Thaw();
@@ -450,7 +450,7 @@ PlateSettingsDialog::PlateSettingsDialog(wxWindow* parent, const wxString& title
 
     const std::vector<std::string> extruder_colours = wxGetApp().plater()->get_extruder_colors_from_plater_config();
     std::vector<int> order(extruder_colours.size());
-    for (int i = 0; i < order.size(); i++) {
+    for (size_t i = 0; i < order.size(); i++) {
         order[i] = i + 1;
     }
     m_drag_canvas = new DragCanvas(this, extruder_colours, order);
@@ -544,7 +544,7 @@ PlateSettingsDialog::~PlateSettingsDialog()
 void PlateSettingsDialog::sync_bed_type(BedType type)
 {
     if (m_bed_type_choice != nullptr) {
-        for (int i = 0; i < m_cur_combox_bed_types.size(); i++) {
+        for (size_t i = 0; i < m_cur_combox_bed_types.size(); i++) {
             if (m_cur_combox_bed_types[i] == type) {
                 m_bed_type_choice->SetSelection(i + 1);//+1 because same as global
                 return;
@@ -581,7 +581,7 @@ void PlateSettingsDialog::sync_other_layers_print_seq(int selection, const std::
     if (selection == 1) {
         std::vector<LayerSeqInfo> sequences;
         sequences.reserve(seq.size());
-        for (int i = 0; i < seq.size(); i++) {
+        for (size_t i = 0; i < seq.size(); i++) {
             LayerSeqInfo info{ seq[i].first.first, seq[i].first.second, seq[i].second };
             sequences.push_back(info);
         }

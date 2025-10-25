@@ -910,7 +910,7 @@ wxString MachineObject::get_curr_stage()
 int MachineObject::get_curr_stage_idx()
 {
     int result = -1;
-    for (int i = 0; i < stage_list_info.size(); i++) {
+    for (size_t i = 0; i < stage_list_info.size(); i++) {
         if (stage_list_info[i] == stage_curr) {
             return i;
         }
@@ -1908,7 +1908,7 @@ int MachineObject::command_start_pa_calibration(const X1CCalibInfos &pa_data, in
     j["print"]["mode"]            = mode;
 
     std::string filament_ids;
-    for (int i = 0; i < pa_data.calib_datas.size(); ++i) {
+    for (size_t i = 0; i < pa_data.calib_datas.size(); ++i) {
         j["print"]["filaments"][i]["tray_id"]              = pa_data.calib_datas[i].tray_id;
         j["print"]["filaments"][i]["extruder_id"]          = pa_data.calib_datas[i].extruder_id;
         j["print"]["filaments"][i]["bed_temp"]             = pa_data.calib_datas[i].bed_temp;
@@ -1948,7 +1948,7 @@ int MachineObject::command_set_pa_calibration(const std::vector<PACalibResult> &
         j["print"]["sequence_id"] = std::to_string(MachineObject::m_sequence_id++);
         j["print"]["nozzle_diameter"] = to_string_nozzle_diameter(pa_calib_values[0].nozzle_diameter);
 
-        for (int i = 0; i < pa_calib_values.size(); ++i) {
+        for (size_t i = 0; i < pa_calib_values.size(); ++i) {
             if (pa_calib_values[i].tray_id >= 0)
                 j["print"]["filaments"][i]["tray_id"] = pa_calib_values[i].tray_id;
             if (pa_calib_values[i].cali_idx >= 0)
@@ -2044,7 +2044,7 @@ int MachineObject::command_start_flow_ratio_calibration(const X1CCalibInfos& cal
         j["print"]["nozzle_diameter"] = to_string_nozzle_diameter(calib_data.calib_datas[0].nozzle_diameter);
 
         std::string filament_ids;
-        for (int i = 0; i < calib_data.calib_datas.size(); ++i) {
+        for (size_t i = 0; i < calib_data.calib_datas.size(); ++i) {
             j["print"]["filaments"][i]["tray_id"]              = calib_data.calib_datas[i].tray_id;
             j["print"]["filaments"][i]["bed_temp"]             = calib_data.calib_datas[i].bed_temp;
             j["print"]["filaments"][i]["filament_id"]          = calib_data.calib_datas[i].filament_id;
@@ -4578,7 +4578,7 @@ void MachineObject::update_slice_info(std::string project_id, std::string profil
                             }
 
                             if (task_j.contains("context") && task_j["context"].contains("plates")) {
-                                for (int i = 0; i < task_j["context"]["plates"].size(); i++) {
+                                for (size_t i = 0; i < task_j["context"]["plates"].size(); i++) {
                                     if (task_j["context"]["plates"][i].contains("index") && task_j["context"]["plates"][i]["index"].get<int>() == plate_index) {
                                         if (task_j["context"]["plates"][i].contains("thumbnail") && task_j["context"]["plates"][i]["thumbnail"].contains("url")) {
                                             slice_info->thumbnail_url = task_j["context"]["plates"][i]["thumbnail"]["url"].get<std::string>();

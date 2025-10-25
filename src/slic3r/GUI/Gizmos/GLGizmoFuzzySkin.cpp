@@ -268,7 +268,7 @@ void GLGizmoFuzzySkin::on_render_input_window(float x, float y, float bottom_lim
         icons = tool_ids;
 
     std::array<wxString, 4> tool_tips = {_L("Circle"), _L("Sphere"), _L("Triangle"), _L("Fill")};
-    for (int i = 0; i < tool_ids.size(); i++) {
+    for (size_t i = 0; i < tool_ids.size(); i++) {
         std::string  str_label = std::string("##");
         std::wstring btn_name = icons[i] + boost::nowide::widen(str_label);
 

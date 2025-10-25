@@ -448,12 +448,12 @@ bool SelectMachinePopup::ProcessLeftDown(wxMouseEvent &event) {
 
 bool SelectMachinePopup::Show(bool show) {
     if (show) {
-        for (int i = 0; i < m_user_list_machine_panel.size(); i++) {
+        for (size_t i = 0; i < m_user_list_machine_panel.size(); i++) {
             m_user_list_machine_panel[i]->mPanel->update_machine_info(nullptr);
             m_user_list_machine_panel[i]->mPanel->Hide();
         }
 
-         for (int j = 0; j < m_other_list_machine_panel.size(); j++) {
+         for (size_t j = 0; j < m_other_list_machine_panel.size(); j++) {
             m_other_list_machine_panel[j]->mPanel->update_machine_info(nullptr);
             m_other_list_machine_panel[j]->mPanel->Hide();
         }

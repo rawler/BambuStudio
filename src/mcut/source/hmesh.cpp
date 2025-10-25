@@ -310,7 +310,7 @@ halfedge_descriptor_t hmesh_t::halfedge(const vertex_descriptor_t s, const verte
         edge_descriptor_t s_edge = edge(*i);
         if (std::find(t_edges.cbegin(), t_edges.cend(), s_edge) != t_edges.cend()) // belong to same edge?
         {
-            
+
 
             // check if we need to return the opposite halfedge
             if ((source(*i) == s && target(*i) == t) == false) {
@@ -331,7 +331,7 @@ halfedge_descriptor_t hmesh_t::halfedge(const vertex_descriptor_t s, const verte
                 if (strict_check || face(*i) != null_face()) { // "strict_check" ensures that we return the halfedge matching the input vertices
                     result = *i;  // assume source(*i) and target(*i) match "s" and "t"
                 }
-                
+
             }
             break;
         }
@@ -730,7 +730,7 @@ void hmesh_t::get_vertices_around_vertex(std::vector<vertex_descriptor_t>& verti
     MCUT_ASSERT(v != null_vertex());
     // halfedges whoe target is 'v'
     const std::vector<halfedge_descriptor_t>& halfedges = get_halfedges_around_vertex(v);
-    
+
     vertices_around_vertex.reserve(halfedges.size());
     for (std::vector<halfedge_descriptor_t>::const_iterator h = halfedges.cbegin(); h != halfedges.cend(); ++h) {
         vertex_descriptor_t src = source(*h);
@@ -807,15 +807,15 @@ uint32_t hmesh_t::get_num_faces_around_face(const face_descriptor_t f, const std
     for (uint32_t i = 0; i < (uint32_t)halfedges_on_face.size(); ++i) {
 
         const halfedge_descriptor_t h = halfedges_on_face[i];
-        
+
         MCUT_ASSERT((size_t)h < m_halfedges.size() /*m_halfedges.count(h) == 1*/);
-        
+
         const halfedge_data_t& hd = m_halfedges[h];
 
         if (hd.o != null_halfedge()) {
-            
+
             MCUT_ASSERT((size_t)hd.o < m_halfedges.size() /*m_halfedges.count(hd.o) == 1*/);
-            
+
             const halfedge_data_t& ohd = m_halfedges[hd.o];
 
             if (ohd.f != null_face()) {

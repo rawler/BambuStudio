@@ -125,7 +125,7 @@ wxColour StateColor::defaultColor() {
 wxColour StateColor::colorForStates(int states)
 {
     bool focused = takeFocusedAsHovered_ && (states & Focused);
-    for (int i = 0; i < statesList_.size(); ++i) {
+    for (size_t i = 0; i < statesList_.size(); ++i) {
         int s = statesList_[i];
         int on = s & 0xffff;
         int off = s >> 16;
@@ -146,7 +146,7 @@ wxColour StateColor::colorForStates(int states)
 wxColour StateColor::colorForStatesNoDark(int states)
 {
     bool focused = takeFocusedAsHovered_ && (states & Focused);
-    for (int i = 0; i < statesList_.size(); ++i) {
+    for (size_t i = 0; i < statesList_.size(); ++i) {
         int s = statesList_[i];
         int on = s & 0xffff;
         int off = s >> 16;
@@ -166,7 +166,7 @@ wxColour StateColor::colorForStatesNoDark(int states)
 
 int StateColor::colorIndexForStates(int states)
 {
-    for (int i = 0; i < statesList_.size(); ++i) {
+    for (size_t i = 0; i < statesList_.size(); ++i) {
         int s   = statesList_[i];
         int on  = s & 0xffff;
         int off = s >> 16;
@@ -177,7 +177,7 @@ int StateColor::colorIndexForStates(int states)
 
 bool StateColor::setColorForStates(wxColour const &color, int states)
 {
-    for (int i = 0; i < statesList_.size(); ++i) {
+    for (size_t i = 0; i < statesList_.size(); ++i) {
         if (statesList_[i] == states) {
             colors_[i] = color;
             return true;

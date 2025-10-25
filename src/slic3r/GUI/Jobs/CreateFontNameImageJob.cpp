@@ -199,7 +199,7 @@ void Slic3r::GUI::BackupFonts::generate_backup_fonts() {
          if (!custom_back_font_name.empty()) {
              font_names.emplace_back(wxString::FromUTF8(custom_back_font_name));
          }
-         for (int i = 0; i < font_names.size(); i++) {
+         for (size_t i = 0; i < font_names.size(); i++) {
              backup_fonts.emplace_back(gener_font_with_cache(font_names[i], wxFontEncoding::wxFONTENCODING_SYSTEM));
          }
     }
@@ -220,4 +220,3 @@ Slic3r::Emboss::FontFileWithCache Slic3r::GUI::BackupFonts::gener_font_with_cach
     font_file_with_cache = Emboss::FontFileWithCache(std::move(font_file));
     return font_file_with_cache;
 }
-

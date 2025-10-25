@@ -326,10 +326,10 @@ void PartPlate::set_spiral_vase_mode(bool spiral_mode, bool as_global)
 
 bool PartPlate::valid_instance(int obj_id, int instance_id)
 {
-	if ((obj_id >= 0) && (obj_id < m_model->objects.size()))
+	if ((obj_id >= 0) && (obj_id < (int)m_model->objects.size()))
 	{
 		ModelObject* object = m_model->objects[obj_id];
-		if ((instance_id >= 0) && (instance_id < object->instances.size()))
+		if ((instance_id >= 0) && (instance_id < (int)object->instances.size()))
 			return true;
 	}
 
@@ -358,7 +358,7 @@ void PartPlate::calc_bounding_boxes() const {
     //calc exclude area bounding box
     m_exclude_bounding_box.clear();
     BoundingBoxf3 exclude_bb;
-    for (int index = 0; index < m_exclude_area.size(); index ++) {
+    for (size_t index = 0; index < m_exclude_area.size(); index ++) {
 		const Vec2d& p = m_exclude_area[index];
 
 		if (index % 4 == 0)
@@ -1087,7 +1087,7 @@ std::vector<int> PartPlate::get_extruders(bool conside_custom_gcode) const
 	bool glb_support = glb_config.opt_bool("enable_support");
     glb_support |= glb_config.opt_int("raft_layers") > 0;
 
-	for (int obj_idx = 0; obj_idx < m_model->objects.size(); obj_idx++) {
+	for (size_t obj_idx = 0; obj_idx < m_model->objects.size(); obj_idx++) {
 		if (!contain_instance_totally(obj_idx, 0))
 			continue;
 
@@ -1174,7 +1174,7 @@ std::vector<int> PartPlate::get_extruders_under_cli(bool conside_custom_gcode, D
         int obj_id = it->first;
         int instance_id = it->second;
 
-        if ((obj_id >= 0) && (obj_id < m_model->objects.size()))
+        if ((obj_id >= 0) && (obj_id < (int)m_model->objects.size()))
         {
             ModelObject* object = m_model->objects[obj_id];
             ModelInstance* instance = object->instances[instance_id];
@@ -1254,7 +1254,7 @@ bool PartPlate::check_objects_empty_and_gcode3mf(std::vector<int> &result) const
 {
     if (m_model->objects.empty()) {//objects is empty
         if (wxGetApp().plater() && wxGetApp().plater()->is_gcode_3mf()) { // if gcode.3mf file
-            for (int i = 0; i < slice_filaments_info.size(); i++) {
+            for (size_t i = 0; i < slice_filaments_info.size(); i++) {
                 result.push_back(slice_filaments_info[i].id + 1);
             }
         }
@@ -1272,7 +1272,7 @@ std::vector<int> PartPlate::get_extruders_without_support(bool conside_custom_gc
 	// if 3mf file
 	const DynamicPrintConfig& glb_config = wxGetApp().preset_bundle->prints.get_edited_preset().config;
 
-	for (int obj_idx = 0; obj_idx < m_model->objects.size(); obj_idx++) {
+	for (size_t obj_idx = 0; obj_idx < m_model->objects.size(); obj_idx++) {
 		if (!contain_instance_totally(obj_idx, 0))
 			continue;
 
@@ -1315,7 +1315,7 @@ std::vector<int> PartPlate::get_extruders_without_support(bool conside_custom_gc
 int PartPlate::get_physical_extruder_by_filament_id(const DynamicConfig& g_config, int idx) const
 {
 	const std::vector<int>& filament_map = get_real_filament_maps(g_config);
-	if (filament_map.size() < idx)
+	if ((int)filament_map.size() < idx)
 	{
 		return -1;
 	}
@@ -1390,7 +1390,7 @@ bool PartPlate::check_mixture_of_pla_and_petg(const DynamicPrintConfig &config)
     if (!used_filaments.empty()) {
         for (auto filament_idx : used_filaments) {
             int                 filament_id        = filament_idx - 1;
-            if (filament_id < config.option<ConfigOptionStrings>("filament_type")->values.size()) {
+            if (filament_id < (int)config.option<ConfigOptionStrings>("filament_type")->values.size()) {
                 std::string filament_type = config.option<ConfigOptionStrings>("filament_type")->values.at(filament_id);
                 if (filament_type == "PLA")
                     has_pla = true;
@@ -1545,7 +1545,7 @@ bool PartPlate::check_compatible_of_nozzle_and_filament(const DynamicPrintConfig
     if (plate_extruder_size == 0)
         return wipe_tower_size;
 
-    for (int obj_idx = 0; obj_idx < m_model->objects.size(); obj_idx++) {
+    for (size_t obj_idx = 0; obj_idx < m_model->objects.size(); obj_idx++) {
         if (!use_global_objects && !contain_instance_totally(obj_idx, 0))
             continue;
 
@@ -1588,7 +1588,7 @@ Vec3d PartPlate::estimate_wipe_tower_size(const DynamicPrintConfig & config, con
     if (plate_extruder_size == 0)
         return wipe_tower_size;
 
-    for (int obj_idx = 0; obj_idx < m_model->objects.size(); obj_idx++) {
+    for (size_t obj_idx = 0; obj_idx < m_model->objects.size(); obj_idx++) {
         if (!use_global_objects && !contain_instance_totally(obj_idx, 0))
             continue;
 
@@ -1972,7 +1972,7 @@ bool PartPlate::contain_instance_totally(ModelObject* object, int instance_id) c
 	bool result = false;
 	int obj_id = -1;
 
-	for (int index = 0; index < m_model->objects.size(); index ++)
+	for (size_t index = 0; index < m_model->objects.size(); index ++)
 	{
 		if (m_model->objects[index] == object)
 		{
@@ -1981,7 +1981,7 @@ bool PartPlate::contain_instance_totally(ModelObject* object, int instance_id) c
 		}
 	}
 
-	if ((obj_id >= 0 ) && (obj_id < m_model->objects.size()))
+	if ((obj_id >= 0 ) && (obj_id < (int)m_model->objects.size()))
 		result = contain_instance_totally(obj_id, instance_id);
 
 	return result;
@@ -2021,7 +2021,7 @@ bool PartPlate::check_outside(int obj_id, int instance_id, BoundingBoxf3* boundi
 	{
 		if (m_exclude_bounding_box.size() > 0)
 		{
-			int index;
+			size_t index;
 			for (index = 0; index < m_exclude_bounding_box.size(); index ++)
 			{
 				Polygon p = m_exclude_bounding_box[index].polygon(true);  // instance convex hull is scaled, so we need to scale here
@@ -2168,7 +2168,7 @@ BoundingBoxf3 PartPlate::get_objects_bounding_box()
         int obj_id = it->first;
         int instance_id = it->second;
 
-        if ((obj_id >= 0) && (obj_id < m_model->objects.size()))
+        if ((obj_id >= 0) && (obj_id < (int)m_model->objects.size()))
         {
             ModelObject* object = m_model->objects[obj_id];
             if ((instance_id >= 0) && (instance_id < object->instances.size()))
@@ -2193,7 +2193,7 @@ void PartPlate::translate_all_instance(Vec3d position)
         if ((obj_id >= 0) && (obj_id < m_model->objects.size()))
         {
             ModelObject* object = m_model->objects[obj_id];
-            if ((instance_id >= 0) && (instance_id < object->instances.size()))
+            if ((instance_id >= 0) && (instance_id < (int)object->instances.size()))
             {
                 ModelInstance* instance = object->instances[instance_id];
                 const Vec3d& offset =  instance->get_offset();
@@ -2213,7 +2213,7 @@ void PartPlate::duplicate_all_instance(unsigned int dup_count, bool need_skip, s
         int obj_id = it->first;
         int instance_id = it->second;
 
-        if ((obj_id >= 0) && (obj_id < m_model->objects.size()))
+        if ((obj_id >= 0) && (obj_id < (int)m_model->objects.size()))
         {
             ModelObject* object = m_model->objects[obj_id];
             ModelInstance* instance = object->instances[instance_id];
@@ -2246,7 +2246,7 @@ void PartPlate::duplicate_all_instance(unsigned int dup_count, bool need_skip, s
         int obj_id = it->first;
         int instance_id = it->second;
 
-        if ((obj_id >= 0) && (obj_id < m_model->objects.size()))
+        if ((obj_id >= 0) && (obj_id < (int)m_model->objects.size()))
         {
             ModelObject* object = m_model->objects[obj_id];
             ModelInstance* instance = object->instances[instance_id];
@@ -2371,7 +2371,7 @@ int PartPlate::printable_instance_size()
         int obj_id      = it->first;
         int instance_id = it->second;
 
-        if (obj_id >= m_model->objects.size())
+        if (obj_id >= (int)m_model->objects.size())
 			continue;
 
         ModelObject *  object   = m_model->objects[obj_id];
@@ -2394,7 +2394,7 @@ bool PartPlate::has_printable_instances()
 		int obj_id = it->first;
 		int instance_id = it->second;
 
-		if (obj_id >= m_model->objects.size())
+		if (obj_id >= (int)m_model->objects.size())
 			continue;
 
 		ModelObject* object = m_model->objects[obj_id];
@@ -2418,7 +2418,7 @@ bool PartPlate::is_all_instances_unprintable()
         int obj_id      = it->first;
         int instance_id = it->second;
 
-        if (obj_id >= m_model->objects.size()) continue;
+        if (obj_id >= (int)m_model->objects.size()) continue;
 
         ModelObject *  object   = m_model->objects[obj_id];
         ModelInstance *instance = object->instances[instance_id];
@@ -3031,7 +3031,7 @@ void PartPlate::update_first_layer_print_sequence(size_t filament_nums)
 		for (auto& other_layers_seq : other_layers_seqs) {
 			std::vector<int>& orders = other_layers_seq.second;
 			if (orders.size() > filament_nums) {
-				orders.erase(std::remove_if(orders.begin(), orders.end(), [filament_nums](int n) { return n > filament_nums; }), orders.end());
+				orders.erase(std::remove_if(orders.begin(), orders.end(), [filament_nums](int n) { return n > (int)filament_nums; }), orders.end());
 				need_update_data = true;
 			}
 			if (orders.size() < filament_nums) {
@@ -3056,7 +3056,7 @@ void PartPlate::update_first_layer_print_sequence(size_t filament_nums)
 		return;
 
 	if (print_sequence_1st.size() > filament_nums) {
-        print_sequence_1st.erase(std::remove_if(print_sequence_1st.begin(), print_sequence_1st.end(), [filament_nums](int n) { return n > filament_nums; }),
+        print_sequence_1st.erase(std::remove_if(print_sequence_1st.begin(), print_sequence_1st.end(), [filament_nums](int n) { return n > (int)filament_nums; }),
                                  print_sequence_1st.end());
     }
 	else if (print_sequence_1st.size() < filament_nums) {
@@ -3075,7 +3075,7 @@ void PartPlate::update_first_layer_print_sequence_when_delete_filament(size_t fi
             std::vector<int> &orders = other_layers_seq.second;
             orders.erase(std::remove_if(orders.begin(), orders.end(), [filament_id](int n) { return n == filament_id +1; }), orders.end());
             for (auto &order : orders) {
-                order = order > filament_id ? order - 1 : order;
+                order = order > (int)filament_id ? order - 1 : order;
             }
             need_update_data = true;
         }
@@ -3093,7 +3093,7 @@ void PartPlate::update_first_layer_print_sequence_when_delete_filament(size_t fi
 
     print_sequence_1st.erase(std::remove_if(print_sequence_1st.begin(), print_sequence_1st.end(), [filament_id](int n) { return n == filament_id + 1; }), print_sequence_1st.end());
     for (auto &order : print_sequence_1st) {
-        order = order > filament_id ? order - 1 : order;
+        order = order > (int)filament_id ? order - 1 : order;
     }
 }
 
@@ -3303,7 +3303,7 @@ void PartPlateList::update_plate_trans(int count)
     m_update_plate_mats_vbo = true;
     m_plate_trans.resize(count);
     int cols     = compute_colum_count(count);
-    for (size_t i = 0; i < count; i++) {
+    for (int i = 0; i < count; i++) {
         Vec2d pos          = compute_shape_position(i, cols);
         Vec3d plate_origin= Vec3d(pos.x(), pos.y(), 0);
         m_plate_trans[i].set_offset(plate_origin);
@@ -3320,7 +3320,7 @@ void PartPlateList::update_unselected_plate_trans(int count) {
     m_unselected_plate_trans.resize(count - 1);
     int cols = compute_colum_count(count);
     int index = 0;
-    for (size_t i = 0; i < count; i++) {
+    for (int i = 0; i < count; i++) {
         if (i == m_current_plate) { continue; }
         Vec2d pos          = compute_shape_position(i, cols);
         Vec3d plate_origin = Vec3d(pos.x(), pos.y(), 0);
@@ -4181,7 +4181,7 @@ int PartPlateList::delete_plate(int index)
 	PartPlate* plate = NULL;
 
 	BOOST_LOG_TRIVIAL(debug) << __FUNCTION__ << boost::format(":delete plate %1%, count %2%") % index % m_plate_list.size();
-	if (index >= m_plate_list.size())
+	if (index >= (int)m_plate_list.size())
 	{
 		BOOST_LOG_TRIVIAL(warning) << __FUNCTION__ << boost::format(":can not find plate");
 		return -1;
@@ -4208,9 +4208,9 @@ int PartPlateList::delete_plate(int index)
 		// wipe_tower_x and wip_tower_y may be less than plate count in the following case:
 		// 1. wipe_tower is enabled after creating new plates
 		// 2. wipe tower is not enabled
-		if (index < wipe_tower_x->values.size())
+		if (index < (int)wipe_tower_x->values.size())
 			wipe_tower_x->values.erase(wipe_tower_x->values.begin() + index);
-		if (index < wipe_tower_y->values.size())
+		if (index < (int)wipe_tower_y->values.size())
 			wipe_tower_y->values.erase(wipe_tower_y->values.begin() + index);
 	}
 
@@ -4299,7 +4299,7 @@ bool PartPlateList::check_all_plate_local_bed_type(const std::vector<BedType> &c
 {
     std::string bed_type_key = "curr_bed_type";
     bool        is_ok        = true;
-    for (int i = 0; i < m_plate_list.size(); i++) {
+    for (size_t i = 0; i < m_plate_list.size(); i++) {
         PartPlate *plate = m_plate_list[i];
         if (plate->config()  && plate->config()->has(bed_type_key)) {
             BedType bed_type = plate->config()->opt_enum<BedType>(bed_type_key);
@@ -4326,7 +4326,7 @@ PartPlate* PartPlateList::get_plate(int index)
 {
 	PartPlate* plate = NULL;
 
-	if (index >= m_plate_list.size() || index < 0)
+	if (index >= (int)m_plate_list.size() || index < 0)
 	{
 		BOOST_LOG_TRIVIAL(warning) << __FUNCTION__ << boost::format(":can not find index %1%, size %2%") % index % m_plate_list.size();
 		return NULL;
@@ -4340,7 +4340,7 @@ PartPlate* PartPlateList::get_plate(int index)
 
 PartPlate* PartPlateList::get_selected_plate()
 {
-	if (m_current_plate < 0 || m_current_plate >= m_plate_list.size()) {
+	if (m_current_plate < 0 || m_current_plate >= (int)m_plate_list.size()) {
 		BOOST_LOG_TRIVIAL(warning) << __FUNCTION__ << boost::format(":can not find m_current_plate  %1%, size %2%") % m_current_plate % m_plate_list.size();
 		return NULL;
 	}
@@ -4368,7 +4368,7 @@ std::vector<const GCodeProcessorResult*> PartPlateList::get_nonempty_plates_slic
 
 std::set<int> PartPlateList::get_extruders(bool conside_custom_gcode) const
 {
-    int plate_count = get_plate_count();
+    size_t plate_count = get_plate_count();
     std::set<int> extruder_ids;
 
     for (size_t i = 0; i < plate_count; i++) {
@@ -4384,7 +4384,7 @@ std::set<int> PartPlateList::get_extruders(bool conside_custom_gcode) const
 int PartPlateList::select_plate(int index)
 {
 	const std::lock_guard<std::mutex> local_lock(m_plates_mutex);
-	if (m_plate_list.empty() || index >= m_plate_list.size()) {
+	if (m_plate_list.empty() || index >= (int)m_plate_list.size()) {
 		return -1;
 	}
 
@@ -4661,7 +4661,7 @@ int PartPlateList::notify_instance_update(int obj_id, int instance_id, bool is_n
 	PartPlate* plate = NULL;
 	ModelObject* object = NULL;
 
-	if ((obj_id >= 0) && (obj_id < m_model->objects.size()))
+	if ((obj_id >= 0) && (obj_id < (int)m_model->objects.size()))
 	{
 		object = m_model->objects[obj_id];
 	}
@@ -5119,7 +5119,7 @@ bool PartPlateList::preprocess_exclude_areas(arrangement::ArrangePolygons &unsel
 		//has exclude areas
 		PartPlate *plate = m_plate_list[0];
 
-		for (int index = 0; index < plate->m_exclude_bounding_box.size(); index ++)
+		for (size_t index = 0; index < plate->m_exclude_bounding_box.size(); index ++)
 		{
 			Polygon ap({
 				{scaled(plate->m_exclude_bounding_box[index].min.x()), scaled(plate->m_exclude_bounding_box[index].min.y())},
@@ -5158,7 +5158,7 @@ bool PartPlateList::preprocess_nonprefered_areas(arrangement::ArrangePolygons& r
 
 	//has exclude areas
 	PartPlate* plate = m_plate_list[0];
-	for (int index = 0; index < nonprefered_regions.size(); index++)
+	for (size_t index = 0; index < nonprefered_regions.size(); index++)
 	{
 		Polygon ap = scaled(nonprefered_regions[index]).polygon();
 		for (int j = 0; j < num_plates; j++)
@@ -5642,7 +5642,7 @@ void PartPlateList::calc_bounding_boxes()
 
 void PartPlateList::select_plate_view()
 {
-	if (m_current_plate < 0 || m_current_plate >= m_plate_list.size()) return;
+	if (m_current_plate < 0 || m_current_plate >= (int)m_plate_list.size()) return;
 
 	Vec3d target = m_plate_list[m_current_plate]->get_bounding_box(false).center();
 	Vec3d position(target.x(), target.y(), m_plater->get_camera().get_distance());
@@ -6332,7 +6332,7 @@ void PartPlateList::init_bed_type_info()
         boost::algorithm::erase_all(bottom_texture_rect_str, " ");
         boost::split(items, bottom_texture_rect_str, boost::is_any_of(","));
         if (items.size() == 4) {
-            for (int i = 0; i < items.size(); i++) {
+            for (size_t i = 0; i < items.size(); i++) {
                 bottom_texture_rect[i] = std::atof(items[i].c_str());
             }
         }
@@ -6342,7 +6342,7 @@ void PartPlateList::init_bed_type_info()
         boost::algorithm::erase_all(bottom_texture_rect_longer_str, " ");
         boost::split(items, bottom_texture_rect_longer_str, boost::is_any_of(","));
         if (items.size() == 4) {
-            for (int i = 0; i < items.size(); i++) {
+            for (size_t i = 0; i < items.size(); i++) {
                 bottom_texture_rect_longer[i] = std::atof(items[i].c_str());
             }
         }
@@ -6352,7 +6352,7 @@ void PartPlateList::init_bed_type_info()
         boost::algorithm::erase_all(middle_texture_rect_str, " ");
         boost::split(items, middle_texture_rect_str, boost::is_any_of(","));
         if (items.size() == 4) {
-            for (int i = 0; i < items.size(); i++) {
+            for (size_t i = 0; i < items.size(); i++) {
                 middle_texture_rect[i] = std::atof(items[i].c_str());
             }
         }
@@ -6428,7 +6428,7 @@ void PartPlateList::init_bed_type_info()
 
         m_allow_bed_type_in_double_nozzle.clear();
         auto bed_types = wxGetApp().plater()->sidebar().get_cur_combox_bed_types();
-        for (int i = 0; i < bed_types.size(); i++) {
+        for (size_t i = 0; i < bed_types.size(); i++) {
             m_allow_bed_type_in_double_nozzle[bed_types[i]] = true;
         }
     } else {
@@ -6467,8 +6467,8 @@ void PartPlateList::init_bed_type_info()
     }
     float x_rate      = bed_width / base_width;
     float y_rate      = bed_height / base_height;
-    for (int i = 0; i < btCount; i++) {
-        for (int j = 0; j < bed_texture_info[i].parts.size(); j++) {
+    for (size_t i = 0; i < btCount; i++) {
+        for (size_t j = 0; j < bed_texture_info[i].parts.size(); j++) {
             if (j == 0 && (bed_width == 180 && bed_height == 180) && is_single_extruder) {
                 bed_texture_info[i].parts[j].x = 10;
                 bed_texture_info[i].parts[j].y = 35;
@@ -6563,8 +6563,8 @@ bool PartPlateList::init_extruder_only_area_info()
         extruder_only_area_info[(unsigned char) ExtruderOnlyAreaType::Chinese].parts.push_back(right_ch_part);
     }
 
-    for (int i = 0; i < (unsigned char) ExtruderOnlyAreaType::btAreaCount; i++) {
-        for (int j = 0; j < extruder_only_area_info[i].parts.size(); j++) {
+    for (size_t i = 0; i < (unsigned char) ExtruderOnlyAreaType::btAreaCount; i++) {
+        for (size_t j = 0; j < extruder_only_area_info[i].parts.size(); j++) {
             extruder_only_area_info[i].parts[j].update_buffer();
         }
     }
@@ -6578,8 +6578,8 @@ void PartPlateList::load_bedtype_textures()
 	init_bed_type_info();
 	GLint max_tex_size = OpenGLManager::get_gl_info().get_max_tex_size();
 	GLint logo_tex_size = (max_tex_size < 2048) ? max_tex_size : 2048;
-	for (int i = 0; i < (unsigned int)btCount; ++i) {
-		for (int j = 0; j < bed_texture_info[i].parts.size(); j++) {
+	for (size_t i = 0; i < (unsigned int)btCount; ++i) {
+		for (size_t j = 0; j < bed_texture_info[i].parts.size(); j++) {
 			std::string filename = resources_dir() + "/images/" + bed_texture_info[i].parts[j].filename;
 			if (boost::filesystem::exists(filename)) {
 				PartPlateList::bed_texture_info[i].parts[j].texture = new GLTexture();
@@ -6604,8 +6604,8 @@ void PartPlateList::load_extruder_only_area_textures() {
     }
     GLint max_tex_size  = OpenGLManager::get_gl_info().get_max_tex_size();
     GLint logo_tex_size = (max_tex_size < 2048) ? max_tex_size : 2048;
-    for (int i = 0; i < (unsigned int) ExtruderOnlyAreaType::btAreaCount; ++i) {
-        for (int j = 0; j < extruder_only_area_info[i].parts.size(); j++) {
+    for (size_t i = 0; i < (unsigned int) ExtruderOnlyAreaType::btAreaCount; ++i) {
+        for (size_t j = 0; j < extruder_only_area_info[i].parts.size(); j++) {
             std::string filename = resources_dir() + "/images/" + extruder_only_area_info[i].parts[j].filename;
             if (boost::filesystem::exists(filename)) {
                 PartPlateList::extruder_only_area_info[i].parts[j].texture = new GLTexture();
@@ -6625,7 +6625,7 @@ void PartPlateList::init_cali_texture_info()
 	BedTextureInfo::TexturePart cali_line(18, 2, 224, 16, "bbl_cali_lines.svg");
 	cali_texture_info.parts.push_back(cali_line);
 
-	for (int j = 0; j < cali_texture_info.parts.size(); j++) {
+	for (size_t j = 0; j < cali_texture_info.parts.size(); j++) {
 		cali_texture_info.parts[j].update_buffer();
 	}
 }
@@ -6637,8 +6637,8 @@ void PartPlateList::load_cali_textures()
 	init_cali_texture_info();
 	GLint max_tex_size = OpenGLManager::get_gl_info().get_max_tex_size();
 	GLint logo_tex_size = (max_tex_size < 2048) ? max_tex_size : 2048;
-	for (int i = 0; i < (unsigned int)btCount; ++i) {
-		for (int j = 0; j < cali_texture_info.parts.size(); j++) {
+	for (size_t i = 0; i < (unsigned int)btCount; ++i) {
+		for (size_t j = 0; j < cali_texture_info.parts.size(); j++) {
 			std::string filename = resources_dir() + "/images/" + cali_texture_info.parts[j].filename;
 			if (boost::filesystem::exists(filename)) {
 				PartPlateList::cali_texture_info.parts[j].texture = new GLTexture();

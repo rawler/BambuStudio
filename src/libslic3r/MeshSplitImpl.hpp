@@ -303,7 +303,7 @@ std::vector<Vec3i> create_face_neighbors_index(ExPolicy &&ex, const indexed_tria
     std::vector<Vec3i> neighbors(indices.size(),
                                  Vec3i(no_value, no_value, no_value));
 
-    //for (int face_idx = 0; face_idx < indices.size(); face_idx++) {
+    //for (size_t face_idx = 0; face_idx < indices.size(); face_idx++) {
     execution::for_each(ex, size_t(0), indices.size(),
         [&neighbors, &indices, &vertex_triangles] (size_t face_idx)
         {

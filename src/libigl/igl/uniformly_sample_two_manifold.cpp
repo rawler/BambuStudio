@@ -179,7 +179,7 @@ IGL_INLINE void igl::uniformly_sample_two_manifold(
       //cout<<"seed: "<<seed<<endl;
 #endif
       // loop over indcident triangles
-      for(int f=0;f<(int)incident_F.size();f++)
+      for(size_t f=0;f<(int)incident_F.size();f++)
       {
 #ifdef EXTREME_VERBOSE
         verbose("incident_F[%d]: %d\n",f,incident_F[f]);
@@ -246,7 +246,7 @@ IGL_INLINE void igl::uniformly_sample_two_manifold(
       // resize distance matrix for new samples
       D[i].resize(sample_faces[i].size(),k+W.cols());
       // Loop over i's samples
-      for(int s = 0;s<(int)sample_faces[i].size();s++)
+      for(size_t s = 0;s<(int)sample_faces[i].size();s++)
       {
         int sample_face = sample_faces[i][s];
         Eigen::Vector3d sample_bary = sample_barys[i][s];
@@ -295,7 +295,7 @@ IGL_INLINE void igl::uniformly_sample_two_manifold(
         // find random sample with maximum minimum distance to other seeds
         int old_cur_maxmin = cur_maxmin[i];
         double max_min = -2;
-        for(int s = 0;s<(int)sample_faces[i].size();s++)
+        for(size_t s = 0;s<(int)sample_faces[i].size();s++)
         {
           if(max_min < minD(s))
           {

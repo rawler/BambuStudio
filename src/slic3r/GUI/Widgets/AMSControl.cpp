@@ -925,7 +925,7 @@ void AMSControl::UpdateAms(const std::string   &series_name,
         // basic check
         if (m_ams_info.size() == ams_info.size() && m_total_ext_count == data.GetTotalExtderCount() && m_dev_id == dev_id && m_ext_info.size() == ext_info.size())
         {
-            for (int i = 0; i < m_ams_info.size(); i++){
+            for (size_t i = 0; i < m_ams_info.size(); i++){
                 if (m_ams_info[i].ams_id != ams_info[i].ams_id){
                     fresh = true;
                 }

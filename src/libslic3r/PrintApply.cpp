@@ -1126,7 +1126,7 @@ Print::ApplyStatus Print::apply(const Model &model, DynamicPrintConfig new_full_
     t_config_option_keys changed_keys = new_full_config.normalize_fdm_2(objects().size(), used_filaments.size());
     if (changed_keys.size() > 0) {
         BOOST_LOG_TRIVIAL(info) << __FUNCTION__ << boost::format(", got changed_keys, size=%1%")%changed_keys.size();
-        for (int i = 0; i < changed_keys.size(); i++)
+        for (size_t i = 0; i < changed_keys.size(); i++)
         {
             BOOST_LOG_TRIVIAL(info) << __FUNCTION__ << boost::format(", i=%1%, key=%2%")%i %changed_keys[i];
         }
@@ -1691,7 +1691,7 @@ Print::ApplyStatus Print::apply(const Model &model, DynamicPrintConfig new_full_
     t_config_option_keys new_changed_keys = new_full_config.normalize_fdm_2(objects().size(), new_used_filaments);
     if (new_changed_keys.size() > 0) {
         BOOST_LOG_TRIVIAL(info) << __FUNCTION__ << boost::format(", got new_changed_keys, size=%1%")%new_changed_keys.size();
-        for (int i = 0; i < new_changed_keys.size(); i++)
+        for (size_t i = 0; i < new_changed_keys.size(); i++)
         {
             BOOST_LOG_TRIVIAL(info) << __FUNCTION__ << boost::format(", i=%1%, key=%2%")%i %new_changed_keys[i];
         }

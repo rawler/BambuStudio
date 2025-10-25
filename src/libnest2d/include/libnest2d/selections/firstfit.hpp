@@ -136,7 +136,7 @@ public:
             typename Placer::PackResult result, result_best, result_firstfit;
             int j = 0;
             while (!was_packed && !cancelled() && placers.size() <= MAX_NUM_PLATES) {
-                for(; j < placers.size() && !was_packed && !cancelled() && j<MAX_NUM_PLATES; j++) {
+                for(; j < (int)placers.size() && !was_packed && !cancelled() && j<MAX_NUM_PLATES; j++) {
                     if (it->get().is_wipe_tower && it->get().binId() != placers[j].plateID()) {
                         if (this->unfitindicator_)
                             this->unfitindicator_(it->get().name + " cant be placed in plate_id=" + std::to_string(j) + "/" + std::to_string(placers.size()) + ", continue to next plate");
@@ -145,7 +145,7 @@ public:
                     result = placers[j].pack(*it, rem(it, store_));
                     score = result.score();
                     score_all_plates = score + COST_OF_NEW_PLATE * j; // add a larger cost to larger plate id to encourace to use less plates
-                    for (int i = 0; i < placers.size(); i++) { score_all_plates += placers[i].score();}
+                    for (size_t i = 0; i < placers.size(); i++) { score_all_plates += placers[i].score();}
                     if (this->unfitindicator_)
                         this->unfitindicator_((boost::format("item %1% bed_id=%2%, score=%3%, score_all_plates=%4%, pos=(%5%, %6%)") % it->get().name % j % score %
                                                score_all_plates % unscale_(it->get().translation()[0]) % unscale_(it->get().translation()[1]))

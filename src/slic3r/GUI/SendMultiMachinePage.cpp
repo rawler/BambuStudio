@@ -624,7 +624,7 @@ bool SendMultiMachinePage::get_ams_mapping_result(std::string &mapping_array_str
 
     bool valid_mapping_result = true;
     int  invalid_count        = 0;
-    for (int i = 0; i < m_ams_mapping_result.size(); i++) {
+    for (size_t i = 0; i < m_ams_mapping_result.size(); i++) {
         if (m_ams_mapping_result[i].tray_id == -1) {
             valid_mapping_result = false;
             invalid_count++;
@@ -652,7 +652,7 @@ bool SendMultiMachinePage::get_ams_mapping_result(std::string &mapping_array_str
             BOOST_LOG_TRIVIAL(error) << "get_ams_mapping_result, plater is nullptr";
         }
 
-        for (int i = 0; i < wxGetApp().preset_bundle->filament_presets.size(); i++) {
+        for (size_t i = 0; i < wxGetApp().preset_bundle->filament_presets.size(); i++) {
             int  tray_id = -1;
             json mapping_item_v1;
             mapping_item_v1["ams_id"]  = 0xff;
@@ -662,7 +662,7 @@ bool SendMultiMachinePage::get_ams_mapping_result(std::string &mapping_array_str
             mapping_item["targetColor"]  = "";
             mapping_item["filamentId"]   = "";
             mapping_item["filamentType"] = "";
-            for (int k = 0; k < m_ams_mapping_result.size(); k++) {
+            for (size_t k = 0; k < m_ams_mapping_result.size(); k++) {
                 if (m_ams_mapping_result[k].id == i) {
                     tray_id                      = m_ams_mapping_result[k].tray_id;
                     mapping_item["ams"]          = tray_id;
@@ -1450,7 +1450,7 @@ void SendMultiMachinePage::sync_ams_list()
     auto                     preset_bundle = wxGetApp().preset_bundle;
 
     for (auto filament_name : preset_bundle->filament_presets) {
-        for (int f_index = 0; f_index < preset_bundle->filaments.size(); f_index++) {
+        for (size_t f_index = 0; f_index < preset_bundle->filaments.size(); f_index++) {
             PresetCollection* filament_presets = &wxGetApp().preset_bundle->filaments;
             Preset* preset = &filament_presets->preset(f_index);
 

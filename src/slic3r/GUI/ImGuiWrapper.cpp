@@ -726,7 +726,7 @@ bool ImGuiWrapper::bbl_combo_with_filter(const char* label, const std::string& p
 
         if (is_filtering) {
             std::vector<std::pair<int, int>> filtered_items_with_priority; // std::pair<index, priority>
-            for (int i = 0; i < all_items.size(); i++) {
+            for (size_t i = 0; i < all_items.size(); i++) {
                 int priority = simple_match(pattern_buffer, all_items[i].c_str());
                 if (priority != wxNOT_FOUND)
                     filtered_items_with_priority.push_back({i, priority});
@@ -1275,7 +1275,7 @@ bool ImGuiWrapper::combo(const wxString& label, const std::vector<std::string>& 
 
     const char *selection_str = selection < int(options.size()) && selection >= 0 ? options[selection].c_str() : "";
     if (ImGui::BeginCombo("", selection_str)) {
-        for (int i = 0; i < (int)options.size(); i++) {
+        for (size_t i = 0; i < (int)options.size(); i++) {
             if (ImGui::Selectable(options[i].c_str(), i == selection)) {
                 selection_out = i;
             }

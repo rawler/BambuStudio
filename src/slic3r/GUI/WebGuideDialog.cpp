@@ -1516,7 +1516,7 @@ int GuideFrame::LoadProfileFamily(std::string strVendor, std::string strFilePath
 
 void GuideFrame::StrReplace(std::string &strBase, std::string strSrc, std::string strDes)
 {
-    int pos    = 0;
+    size_t pos = 0;
     int srcLen = strSrc.size();
     int desLen = strDes.size();
     pos = strBase.find(strSrc, pos);

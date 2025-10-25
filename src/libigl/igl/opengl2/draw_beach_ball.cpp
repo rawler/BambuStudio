@@ -1,9 +1,9 @@
 // This file is part of libigl, a simple c++ geometry processing library.
-// 
+//
 // Copyright (C) 2013 Alec Jacobson <alecjacobson@gmail.com>
-// 
-// This Source Code Form is subject to the terms of the Mozilla Public License 
-// v. 2.0. If a copy of the MPL was not distributed with this file, You can 
+//
+// This Source Code Form is subject to the terms of the Mozilla Public License
+// v. 2.0. If a copy of the MPL was not distributed with this file, You can
 // obtain one at http://mozilla.org/MPL/2.0/.
 #include "draw_beach_ball.h"
 #include "gl.h"
@@ -161,7 +161,7 @@ static void CreateArrow()
         s_ArrowTri[i].clear();
         s_ArrowNorm[i].clear();
     }
-    
+
     float x0, x1, y0, y1, z0, z1, a0, a1, nx, nn;
     for(i=0; i<SUBDIV; ++i)
     {
@@ -251,7 +251,7 @@ IGL_INLINE void igl::opengl2::draw_beach_ball()
   glScalef(0.7,0.7,0.7);
   glEnable(GL_NORMALIZE);
   glBegin(GL_TRIANGLES);
-  for(int i = 0;i<(int)s_SphCol.size();i++)
+  for( size_t i = 0;i<(int)s_SphCol.size();i++)
   {
     glNormal3fv(&s_SphTri[i*3]);
     glColor4ub(GLubyte(s_SphCol[i]>>16), GLubyte(s_SphCol[i]>>8), GLubyte(s_SphCol[i]), GLubyte(s_SphCol[i]>>24));

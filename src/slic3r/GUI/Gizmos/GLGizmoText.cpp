@@ -433,7 +433,7 @@ GLGizmoText::~GLGizmoText()
     if (m_thread.joinable())
         m_thread.join();
 
-    for (int i = 0; i < m_textures.size(); i++) {
+    for (size_t i = 0; i < m_textures.size(); i++) {
         if (m_textures[i].texture != nullptr)
             delete m_textures[i].texture;
     }
@@ -467,7 +467,7 @@ bool GLGizmoText::on_init()
 void GLGizmoText::update_font_texture()
 {
     m_font_names.clear();
-    for (int i = 0; i < m_textures.size(); i++) {
+    for (size_t i = 0; i < m_textures.size(); i++) {
         if (m_textures[i].texture != nullptr)
             delete m_textures[i].texture;
     }
@@ -475,7 +475,7 @@ void GLGizmoText::update_font_texture()
     m_combo_height = 0.0f;
     m_textures.clear();
     m_textures.reserve(m_avail_font_names.size());
-    for (int i = 0; i < m_avail_font_names.size(); i++)
+    for (size_t i = 0; i < m_avail_font_names.size(); i++)
     {
         GLTexture* texture = new GLTexture();
         auto face = wxString::FromUTF8(m_avail_font_names[i]);
@@ -1696,7 +1696,7 @@ void GLGizmoText::load_init_text(bool first_open_text)
                     Vec3f closest_pt;
                     float min_dist     = 1e6;
                     Vec3f local_center = m_text_tran_in_world.get_offset().cast<float>(); //(m_text_tran_in_object.get_matrix() * box.center()).cast<float>();
-                    for (int i = 0; i < mo->volumes.size(); i++) {
+                    for (size_t i = 0; i < mo->volumes.size(); i++) {
                         auto mv = mo->volumes[i];
                         if (mv == model_volume || !filter_model_volume(mv)) {
                             continue;
@@ -1864,7 +1864,7 @@ void GLGizmoText::on_render()
     const Selection &selection = m_parent.get_selection();
     const auto p_model = selection.get_model();
     if (p_model) {
-        if (m_object_idx < p_model->objects.size()) {
+        if (m_object_idx < (int)p_model->objects.size()) {
             mo = p_model->objects[m_object_idx];
         }
     }
@@ -2026,7 +2026,7 @@ void GLGizmoText::on_update(const UpdateData &data)
     // Cast a ray on all meshes, pick the closest hit and save it for the respective mesh
     const Selection &selection = m_parent.get_selection();
     auto             mo        = selection.get_model()->objects[m_object_idx];
-    for (int mesh_id = 0; mesh_id < int(trafo_matrices.size()); ++mesh_id) {
+    for (size_t mesh_id = 0; mesh_id < trafo_matrices.size(); ++mesh_id) {
         if (!filter_model_volume(mo->volumes[mesh_id])) {
             continue;
         }
@@ -2519,7 +2519,7 @@ void GLGizmoText::draw_text_input(int caption_width)
         if (support_backup_fonts) {
             std::vector<std::shared_ptr<const FontFile>> fonts;
             fonts.emplace_back(ff.font_file);
-            for (int i = 0; i < Slic3r::GUI::BackupFonts::backup_fonts.size(); i++) {
+            for (size_t i = 0; i < Slic3r::GUI::BackupFonts::backup_fonts.size(); i++) {
                 if (Slic3r::GUI::BackupFonts::backup_fonts[i].has_value()) {
                     fonts.emplace_back(Slic3r::GUI::BackupFonts::backup_fonts[i].font_file);
                 }
@@ -3050,7 +3050,7 @@ void GLGizmoText::reset_text_info()
 void GLGizmoText::update_text_pos_normal() {
     if (m_rr.mesh_id < 0) { return; }
     if (m_rr.normal.norm() < 0.1) { return; }
-    if (m_rr.mesh_id >= m_trafo_matrices.size()) { return; }
+    if (m_rr.mesh_id >= (int)m_trafo_matrices.size()) { return; }
 #ifdef DEBUG_TEXT_VALUE
     m_rr.hit    = Vec3f(-0.58, -1.70, -12.8);
     m_rr.normal = Vec3f(0,0,-1);//just rotate cube
@@ -3077,7 +3077,7 @@ float GLGizmoText::get_text_height(const std::string &text)//todo
     }
     auto  texts  = alphas ;
     float max_height = 0.f;
-    for (int i = 0; i < texts.size(); ++i) {
+    for (size_t i = 0; i < texts.size(); ++i) {
         std::string alpha;
         if (texts[i] == " ") {
             alpha = "i";
@@ -3265,7 +3265,7 @@ bool GLGizmoText::update_raycast_cache(const Vec2d &mouse_position, const Camera
     const Selection &selection = m_parent.get_selection();
     auto             mo        = selection.get_model()->objects[m_object_idx];
     // Cast a ray on all meshes, pick the closest hit and save it for the respective mesh
-    for (int mesh_id = 0; mesh_id < int(trafo_matrices.size()); ++mesh_id) {
+    for (size_t mesh_id = 0; mesh_id < trafo_matrices.size(); ++mesh_id) {
         if (exclude_last && mesh_id == int(trafo_matrices.size()) - 1)
             continue;
         if (!filter_model_volume(mo->volumes[mesh_id])) {

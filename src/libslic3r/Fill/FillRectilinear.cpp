@@ -3100,7 +3100,7 @@ Polylines FillGrid::fill_surface(const Surface *surface, const FillParams &param
         BOOST_LOG_TRIVIAL(error) << "FillGrid::fill_surface() failed to fill a region.";
 
     if (this->layer_id % 2 == 1)
-        for (int i = 0; i < polylines_out.size(); i++)
+        for (size_t i = 0; i < polylines_out.size(); i++)
             std::reverse(polylines_out[i].begin(), polylines_out[i].end());
     return polylines_out;
 }

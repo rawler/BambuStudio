@@ -136,7 +136,7 @@ namespace Slic3r {
             pt::ptree root;
             pt::read_json(ss, root);
 
-            for (int i = 0; i < subtasks.size(); i++) {
+            for (size_t i = 0; i < subtasks.size(); i++) {
                 delete subtasks[i];
             }
             subtasks.clear();

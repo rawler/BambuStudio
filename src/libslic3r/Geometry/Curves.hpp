@@ -156,9 +156,9 @@ PiecewiseFittedCurve<Dimension, NumberType, Kernel> fit_curve(
 
 #ifdef LSQR_DEBUG
     std::cout << "weight matrix: " << std::endl;
-    for (int obs = 0; obs < observation_points.size(); ++obs) {
+    for (size_t obs = 0; obs < observation_points.size(); ++obs) {
         std::cout << std::endl;
-        for (int segment = 0; segment < parameters_count; ++segment) {
+        for (size_t segment = 0; segment < parameters_count; ++segment) {
             std::cout << T(obs, segment) << "  ";
         }
     }

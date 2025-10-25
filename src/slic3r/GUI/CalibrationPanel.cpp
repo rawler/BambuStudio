@@ -300,7 +300,7 @@ bool SelectMObjectPopup::ProcessLeftDown(wxMouseEvent& event) {
 
 bool SelectMObjectPopup::Show(bool show) {
     if (show) {
-        for (int i = 0; i < m_user_list_machine_panel.size(); i++) {
+        for (size_t i = 0; i < m_user_list_machine_panel.size(); i++) {
             m_user_list_machine_panel[i]->mPanel->update_machine_info(nullptr);
             m_user_list_machine_panel[i]->mPanel->Hide();
         }

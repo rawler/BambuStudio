@@ -140,7 +140,7 @@ void SmoothCalculator::layer_speed_filter(const int object_id, const int node_id
         if (node.outwall_line.empty()) continue;
 
         double conv_sum = 0;
-        for (int filter_pos_idx = 0; filter_pos_idx < guassian_filter.size(); ++filter_pos_idx) {
+        for (size_t filter_pos_idx = 0; filter_pos_idx < guassian_filter.size(); ++filter_pos_idx) {
             int remap_data_pos = layer_id - start_pos + filter_pos_idx;
 
             if (remap_data_pos < layer_start)
@@ -182,7 +182,7 @@ void SmoothCalculator::filter_layer_time()
         if (layers_cooling_time[layer_id] > layer_time_smoothing_threshold) continue;
 
         double conv_sum = 0;
-        for (int filter_pos_idx = 0; filter_pos_idx < guassian_filter.size(); ++filter_pos_idx) {
+        for (size_t filter_pos_idx = 0; filter_pos_idx < guassian_filter.size(); ++filter_pos_idx) {
             int remap_data_pos = layer_id - start_pos + filter_pos_idx;
 
             if (remap_data_pos < 1)

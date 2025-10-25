@@ -205,7 +205,7 @@ ConflictComputeOpt ConflictChecker::find_inter_of_lines(const LineWithIDs &lines
     using namespace RasterizationImpl;
     std::map<IndexPair, std::vector<int>> indexToLine;
 
-    for (int i = 0; i < lines.size(); ++i) {
+    for (size_t i = 0; i < lines.size(); ++i) {
         const LineWithID &l1      = lines[i];
         auto              indexes = line_rasterization(l1._line);
         for (auto index : indexes) {
@@ -230,7 +230,7 @@ ConflictResultOpt ConflictChecker::find_inter_of_lines_in_diff_objs(PrintObjectP
         //auto            wtpaths = wtdptr.value()->getFakeExtrusionPathsFromWipeTower();
         ExtrusionLayers wtels = wtdptr.value()->getTrueExtrusionLayersFromWipeTower();
         //wtels.type = ExtrusionLayersType::WIPE_TOWER;
-        //for (int i = 0; i < wtpaths.size(); ++i) { // assume that wipe tower always has same height
+        //for (size_t i = 0; i < wtpaths.size(); ++i) { // assume that wipe tower always has same height
         //    ExtrusionLayer el;
         //    el.paths    = wtpaths[i];
         //    el.bottom_z = wtpaths[i].front().height * (float) i;

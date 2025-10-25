@@ -68,7 +68,7 @@ MediaPlayCtrl::MediaPlayCtrl(wxWindow *parent, wxMediaCtrl3 *media_ctrl, const w
         wxString str = e.GetString();
         m_stat.clear();
         for (auto k : {"FPS:", "BPS:", "T:", "B:"}) {
-            auto ik = str.Find(k);
+            size_t ik = str.Find(k);
             double value = 0;
             if (ik != wxString::npos) {
                 ik += strlen(k);

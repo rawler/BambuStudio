@@ -1066,7 +1066,7 @@ void AMSMaterialsSetting::Popup(wxString filament, wxString sn, wxString temp_mi
     // traverse the hint selection idx
     int selection_idx = -1;
     {
-        for(int i = 0; i < filament_items.size(); i++)
+        for( size_t i = 0; i < filament_items.size(); i++)
         {
             if (hint_filament_name == filament_items[i])
             {
@@ -1490,7 +1490,7 @@ void ColorPicker::doRender(wxDC& dc)
                 float total_width = size.x;
                 int gwidth = std::round(total_width / (m_cols.size() - 1));
 
-                for (int i = 0; i < m_cols.size() - 1; i++) {
+                for (size_t i = 0; i < m_cols.size() - 1; i++) {
 
                     if ((left + gwidth) > (size.x)) {
                         gwidth = size.x - left;
@@ -1512,7 +1512,7 @@ void ColorPicker::doRender(wxDC& dc)
                 float startAngle = 270.0;
                 float endAngle = 270.0;
                 dc.SetPen(*wxTRANSPARENT_PEN);
-                for (int i = 0; i < m_cols.size(); i++) {
+                for (size_t i = 0; i < m_cols.size(); i++) {
                     dc.SetBrush(m_cols[i]);
                     endAngle += ev_angle;
                     endAngle = endAngle > 360.0 ? endAngle - 360.0 : endAngle;
@@ -1703,7 +1703,7 @@ ColorPickerPopup::ColorPickerPopup(wxWindow* parent)
 void ColorPickerPopup::on_custom_clr_picker(wxMouseEvent& event)
 {
     std::vector<std::string> colors = wxGetApp().app_config->get_custom_color_from_config();
-    for (int i = 0; i < colors.size(); i++) {
+    for (size_t i = 0; i < colors.size(); i++) {
         m_clrData->SetCustomColour(i, string_to_wxColor(colors[i]));
     }
     auto clr_dialog = new wxColourDialog(nullptr, m_clrData);

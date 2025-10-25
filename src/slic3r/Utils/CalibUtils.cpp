@@ -1461,7 +1461,7 @@ bool CalibUtils::is_support_auto_pa_cali(std::string filament_id)
 }
 
 int CalibUtils::get_selected_calib_idx(const std::vector<PACalibResult> &pa_calib_values, int cali_idx) {
-    for (int i = 0; i < pa_calib_values.size(); ++i) {
+    for (size_t i = 0; i < pa_calib_values.size(); ++i) {
         if(pa_calib_values[i].cali_idx == cali_idx)
             return i;
     }

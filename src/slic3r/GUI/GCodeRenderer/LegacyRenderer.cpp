@@ -642,7 +642,7 @@ namespace Slic3r {
                 EViewType last_view_type = m_view_type;
                 unsigned int last_role_visibility_flags = m_p_extrusions->role_visibility_flags;
                 // set color scheme to FilamentId
-                for (int i = 0; i < view_type_items.size(); i++) {
+                for (size_t i = 0; i < view_type_items.size(); i++) {
                     if (view_type_items[i] == EViewType::FilamentId) {
                         m_view_type_sel = i;
                         break;
@@ -1303,11 +1303,11 @@ namespace Slic3r {
                         continue;
                     //if (wxGetApp().is_gcode_viewer())
                     //if (m_only_gcode_in_preview)
-                    //    for (int i = 0; i < move.interpolation_points.size(); i++)
+                    //    for (size_t i = 0; i < move.interpolation_points.size(); i++)
                     //        m_paths_bounding_box.merge(move.interpolation_points[i].cast<double>());
                     //else {
                     if (move.type == EMoveType::Extrude && move.width != 0.0f && move.height != 0.0f)
-                        for (int i = 0; i < move.interpolation_points.size(); i++) {
+                        for (size_t i = 0; i < move.interpolation_points.size(); i++) {
                             m_paths_bounding_box.merge(move.interpolation_points[i].cast<double>());
                             //BBS: use convex_hull for toolpath outside check
                             pts.emplace_back(Point(scale_(move.interpolation_points[i].x()), scale_(move.interpolation_points[i].y())));

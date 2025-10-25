@@ -332,7 +332,7 @@ void DropDown::render(wxDC &dc)
     std::set<wxString> groups;
     // draw texts & icons
     int index = 0;
-    for (int i = 0; i < items.size(); ++i) {
+    for (size_t i = 0; i < items.size(); ++i) {
         auto &item = items[i];
         int states2 = states;
         if ((item.style & DD_ITEM_STYLE_DISABLED) != 0)
@@ -423,7 +423,7 @@ int DropDown::hoverIndex()
         return hover_item;
     int index = -1;
     std::set<wxString> groups;
-    for (int i = 0; i < items.size(); ++i) {
+    for (size_t i = 0; i < items.size(); ++i) {
         auto &item = items[i];
         // Skip by group
         if (group.IsEmpty()) {

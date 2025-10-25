@@ -15,7 +15,7 @@ Slic3r::Polylines Paths64_to_polylines(const Clipper2Lib::Paths64& in)
         for (const Clipper2Lib::Point64& point64 : path64)
             points.emplace_back(Slic3r::Point(point64.x, point64.y));
         out.emplace_back(Slic3r::Polyline(points));
-    } 
+    }
     return out;
 }
 
@@ -52,12 +52,12 @@ static ExPolygons PolyTreeToExPolygons(Clipper2Lib::PolyTree64 &&polytree)
             size_t cnt = expolygons->size();
             expolygons->resize(cnt + 1);
             (*expolygons)[cnt].contour.points = Path64ToPoints(polynode.Polygon());
-            
+
             (*expolygons)[cnt].holes.resize(polynode.Count());
-            for (int i = 0; i < polynode.Count(); ++i) {
+            for (size_t i = 0; i < polynode.Count(); ++i) {
                 (*expolygons)[cnt].holes[i].points = Path64ToPoints(polynode[i]->Polygon());
                 // Add outer polygons contained by (nested within) holes.
-                for (int j = 0; j < polynode[i]->Count(); ++j) PolyTreeToExPolygonsRecursive(std::move(*polynode[i]->Child(j)), expolygons);
+                for (size_t j = 0; j < polynode[i]->Count(); ++j) PolyTreeToExPolygonsRecursive(std::move(*polynode[i]->Child(j)), expolygons);
             }
         }
 
@@ -73,9 +73,9 @@ static ExPolygons PolyTreeToExPolygons(Clipper2Lib::PolyTree64 &&polytree)
 
     ExPolygons retval;
     size_t     cnt = 0;
-    for (int i = 0; i < polytree.Count(); ++i) cnt += Inner::PolyTreeCountExPolygons(*polytree[i]);
+    for (size_t i = 0; i < polytree.Count(); ++i) cnt += Inner::PolyTreeCountExPolygons(*polytree[i]);
     retval.reserve(cnt);
-    for (int i = 0; i < polytree.Count(); ++i) Inner::PolyTreeToExPolygonsRecursive(std::move(*polytree[i]), &retval);
+    for (size_t i = 0; i < polytree.Count(); ++i) Inner::PolyTreeToExPolygonsRecursive(std::move(*polytree[i]), &retval);
     return retval;
 }
 
@@ -151,7 +151,7 @@ ExPolygons union_ex_2(const Polygons& polygons)
     c.Execute(ct, fr, solution);
 
     ExPolygons results = PolyTreeToExPolygons(std::move(solution));
-    
+
     return results;
 }
 
@@ -172,7 +172,7 @@ ExPolygons union_ex_2(const ExPolygons &expolygons)
 
 // 对 ExPolygons 进行偏移
 ExPolygons offset_ex_2(const ExPolygons &expolygons, double delta)
-{    
+{
     Clipper2Lib::Paths64 subject = Slic3rExPolygons_to_Paths64(expolygons);
     Clipper2Lib::ClipperOffset offsetter;
     offsetter.AddPaths(subject, Clipper2Lib::JoinType::Round, Clipper2Lib::EndType::Polygon);

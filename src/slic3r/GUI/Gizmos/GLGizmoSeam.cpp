@@ -262,7 +262,7 @@ void GLGizmoSeam::on_render_input_window(float x, float y, float bottom_limit)
     else
         icons = { ImGui::CircleButtonIcon, ImGui::SphereButtonIcon };
     std::array<wxString, 2> tool_tips = { _L("Circle"), _L("Sphere")};
-    for (int i = 0; i < tool_ids.size(); i++) {
+    for (size_t i = 0; i < tool_ids.size(); i++) {
         std::string  str_label = std::string("##");
         std::wstring btn_name = icons[i] + boost::nowide::widen(str_label);
 

@@ -29,7 +29,7 @@ IGL_INLINE void igl::min(
     });
   Eigen::VectorXi Z;
   find_zero(A,dim,Z);
-  for(int j = 0;j<I.size();j++)
+  for(size_t j = 0;j<I.size();j++)
   {
     if(Z(j) != (dim==1?m:n) && 0 < B(j))
     {
@@ -38,4 +38,3 @@ IGL_INLINE void igl::min(
     }
   }
 }
-

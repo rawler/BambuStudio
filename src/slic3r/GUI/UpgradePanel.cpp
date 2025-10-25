@@ -678,7 +678,7 @@ void MachineInfoPanel::update_ams_ext(MachineObject *obj)
         has_hub_model = true;
         show_ams(true);
 
-        for (auto i = 0; i < m_amspanel_list.GetCount(); i++) {
+        for (size_t i = 0; i < m_amspanel_list.GetCount(); i++) {
             AmsPanel *amspanel = m_amspanel_list[i];
             amspanel->Hide();
         }
@@ -829,7 +829,7 @@ void MachineInfoPanel::update_ams_ext(MachineObject *obj)
                 }
             }
 
-            for (auto i = 0; i < m_amspanel_list.GetCount(); i++) {
+            for (size_t i = 0; i < m_amspanel_list.GetCount(); i++) {
                 AmsPanel* amspanel = m_amspanel_list[i];
                 amspanel->Hide();
             }

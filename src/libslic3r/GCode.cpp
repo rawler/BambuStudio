@@ -2322,7 +2322,7 @@ void GCode::_do_export(Print& print, GCodeOutputStream &file, ThumbnailsGenerato
         // match the filament to the physical extruder
         std::vector<int> physicial_first_filaments;
         physicial_first_filaments.resize(filaments.size());
-        for (int extruder_id = 0; extruder_id < filaments.size(); extruder_id++) {
+        for (size_t extruder_id = 0; extruder_id < filaments.size(); extruder_id++) {
             physicial_first_filaments[config.physical_extruder_map.get_at(extruder_id)] = filaments[extruder_id];
         }
         filaments = physicial_first_filaments;
@@ -4223,7 +4223,7 @@ GCode::LayerResult GCode::process_layer(
 
             std::vector<GCode::ObjectByExtruder> &objects_by_extruder = objects_by_extruder_it->second;
             std::vector<const PrintObject *>      print_objects;
-            for (int obj_idx = 0; obj_idx < objects_by_extruder.size(); obj_idx++) {
+            for (size_t obj_idx = 0; obj_idx < objects_by_extruder.size(); obj_idx++) {
                 auto &object_by_extruder = objects_by_extruder[obj_idx];
                 if (object_by_extruder.islands.empty() && (object_by_extruder.support == nullptr || object_by_extruder.support->empty())) continue;
 
@@ -5441,7 +5441,7 @@ void GCode::split_and_mapping_speed(double other_path_v, double final_v, Extrusi
     };
 
     ExtrusionPaths left_paths;
-    for (int idx = 0; idx < this_path.size(); idx++) {
+    for (size_t idx = 0; idx < this_path.size(); idx++) {
         ExtrusionPath &extrusion = this_path[idx];
 
         // just in case, polyline error
@@ -5596,7 +5596,7 @@ std::vector<ExtrusionPaths> GCode::merge_same_speed_paths(const ExtrusionPaths &
 ExtrusionPaths GCode::set_speed_transition(std::vector<ExtrusionPaths> &paths)
 {
     ExtrusionPaths interpolated_paths;
-    for (int path_idx = 0; path_idx < paths.size(); path_idx++) {
+    for (size_t path_idx = 0; path_idx < paths.size(); path_idx++) {
         // update path
         ExtrusionPaths &path = paths[path_idx]; //paths with same speed
         // 100% overhang speed will not to set smooth speed
@@ -6398,7 +6398,7 @@ bool GCode::needs_retraction(const Polyline &travel, ExtrusionRole role, LiftTyp
     };
 
     float max_z_hop = 0.f;
-    for (int i = 0; i < m_config.z_hop.size(); i++)
+    for (size_t i = 0; i < m_config.z_hop.size(); i++)
         max_z_hop = std::max(max_z_hop, (float)m_config.z_hop.get_at(i));
     float travel_len_thresh = scale_(max_z_hop / tan(GCodeWriter::slope_threshold));
     float accum_len = 0.f;

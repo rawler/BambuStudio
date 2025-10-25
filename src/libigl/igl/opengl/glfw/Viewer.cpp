@@ -835,7 +835,7 @@ namespace glfw
         return;
       }
     }
-    for(int i = 0;i<data_list.size();i++)
+    for( size_t i = 0;i<data_list.size();i++)
     {
       core.draw(data_list[i]);
     }

@@ -220,7 +220,7 @@ bool check_filaments_printable(const std::string &tag_vendor, const std::string 
     std::vector<int> physical_extruder_maps = physical_extruder_map_op->values;
     int obj_extruder_id = obj->get_extruder_id_by_ams_id(std::to_string(ams_id));
     int extruder_idx = obj_extruder_id;
-    for (int index = 0; index < physical_extruder_maps.size(); ++index) {
+    for (size_t index = 0; index < physical_extruder_maps.size(); ++index) {
         if (physical_extruder_maps[index] == obj_extruder_id) {
             extruder_idx = index;
             break;

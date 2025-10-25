@@ -338,7 +338,7 @@ namespace Slic3r
                 for (const PrintObject* obj : print.objects()) {
                     const ModelObject* model_obj = obj->model_object();
                     int object_idx = -1;
-                    for (int idx = 0; idx < model_objs.size(); idx++) {
+                    for (size_t idx = 0; idx < model_objs.size(); idx++) {
                         if (model_objs[idx]->id() == model_obj->id()) {
                             object_idx = idx;
                             break;
@@ -698,7 +698,7 @@ namespace Slic3r
                 std::vector<float> filament_diameters = gcode_result_list.front()->filament_diameters;
                 std::vector<float> filament_densities = gcode_result_list.front()->filament_densities;
                 std::vector<Color> filament_colors = ::decode_colors(wxGetApp().plater()->get_extruder_colors_from_plater_config(gcode_result_list.back()));
-                for (int i = 0; i < filament_colors.size(); i++) {
+                for (size_t i = 0; i < filament_colors.size(); i++) {
                     filament_colors[i] = adjust_color_for_rendering(filament_colors[i]);
                 }
                 bool imperial_units = wxGetApp().app_config->get("use_inches") == "1";
@@ -886,7 +886,7 @@ namespace Slic3r
                     }
                     auto offsets_ = calculate_offsets(title_columns, icon_size);
                     std::vector<std::pair<std::string, float>> title_offsets;
-                    for (int i = 0; i < offsets_.size(); i++) {
+                    for (size_t i = 0; i < offsets_.size(); i++) {
                         title_offsets.push_back({ title_columns[i].first, offsets_[i] });
                         fil_table_offsets[title_columns[i].first] = offsets_[i];
                     }
@@ -1034,7 +1034,7 @@ namespace Slic3r
                         time_columns.push_back({_u8L("Time"), time_values});
 
                         auto time_offsets = calculate_offsets(time_columns);
-                        for (int i = 0; i < time_offsets.size(); i++) { time_est_table_offsets[time_columns[i].first] = time_offsets[i]; }
+                        for (size_t i = 0; i < time_offsets.size(); i++) { time_est_table_offsets[time_columns[i].first] = time_offsets[i]; }
                     }
 
                     ImGui::Dummy(ImVec2(0.0f, ImGui::GetFontSize() * 0.1));
@@ -1176,7 +1176,7 @@ namespace Slic3r
                     m_tools.m_tool_visibles = std::vector<bool>(m_tools.m_tool_colors.size());
                     for (auto item : m_tools.m_tool_visibles) item = true;
                 }
-                for (int i = 0; i < m_tools.m_tool_colors.size(); i++) {
+                for (size_t i = 0; i < m_tools.m_tool_colors.size(); i++) {
                     m_tools.m_tool_colors[i] = adjust_color_for_rendering(m_tools.m_tool_colors[i]);
                 }
                 // ensure there are enough colors defined
@@ -1627,7 +1627,7 @@ namespace Slic3r
                     m_show_horizontal_slider = false;
                     if ((int)Slic3r::HelioBackgroundProcess::State::STATE_FINISHED == m_last_helio_process_status || (m_gcode_result->update_imgui_flag && m_gcode_result->is_helio_gcode)) {
                         update_thermal_options(true);
-                        for (int i = 0; i < view_type_items.size(); i++) {
+                        for (size_t i = 0; i < view_type_items.size(); i++) {
                             if (view_type_items[i] == EViewType::ThermalIndexMean) {
                                 m_view_type_sel = i;
                                 break;
@@ -1648,7 +1648,7 @@ namespace Slic3r
                 const char* view_type_value = view_type_image_names[m_view_type_sel].option_name.c_str();
                 if (ImGui::BBLBeginCombo("", view_type_value, flags)) {
                     ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0.0f);
-                    for (int i = 0; i < view_type_image_names.size(); i++) {
+                    for (size_t i = 0; i < view_type_image_names.size(); i++) {
                         const bool is_selected = (m_view_type_sel == i);
                         if (ImGui::BBLSelectable_LeftImage(view_type_image_names[i].option_name.c_str(), is_selected, view_type_image_names[i].texture_id)) {
                             m_fold = false;
@@ -1861,7 +1861,7 @@ namespace Slic3r
                     }
                     auto offsets_ = calculate_offsets(title_columns, icon_size);
                     std::vector<std::pair<std::string, float>> title_offsets;
-                    for (int i = 0; i < offsets_.size(); i++) {
+                    for (size_t i = 0; i < offsets_.size(); i++) {
                         title_offsets.push_back({ title_columns[i].first, offsets_[i] });
                         color_print_offsets[title_columns[i].first] = offsets_[i];
                     }
@@ -3009,7 +3009,7 @@ namespace Slic3r
                 view_type_items.push_back(EViewType::LayerTime);
                 view_type_items.push_back(EViewType::FanSpeed);
                 view_type_items.push_back(EViewType::Temperature);
-                for (int i = 0; i < view_type_items.size(); i++) {
+                for (size_t i = 0; i < view_type_items.size(); i++) {
                     if (view_type_items[i] == EViewType::FilamentId) {
                         continue;
                     }

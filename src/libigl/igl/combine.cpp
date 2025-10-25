@@ -33,7 +33,7 @@ IGL_INLINE void igl::combine(
   const int ss = FF.size() > 0 ? FF[0].cols() : 0;
   int n = 0;
   int m = 0;
-  for(int i = 0;i<VV.size();i++)
+  for( size_t i = 0;i<VV.size();i++)
   {
     const auto & Vi = VV[i];
     const auto & Fi = FF[i];
@@ -49,7 +49,7 @@ IGL_INLINE void igl::combine(
   {
     int kv = 0;
     int kf = 0;
-    for(int i = 0;i<VV.size();i++)
+    for( size_t i = 0;i<VV.size();i++)
     {
       const auto & Vi = VV[i];
       const int ni = Vi.rows();

@@ -1674,7 +1674,7 @@ bool GCodeProcessor::check_multi_extruder_gcode_valid(const int                 
         if (move.type == EMoveType::Extrude && move.extrusion_role != ExtrusionRole::erFlush /* || move.type == EMoveType::Travel*/)
             if (move.extrusion_role == ExtrusionRole::erCustom) {
                 if (move.is_arc_move_with_interpolation_points()) {
-                    for (int i = 0; i < move.interpolation_points.size(); i++) {
+                    for (size_t i = 0; i < move.interpolation_points.size(); i++) {
                         gcode_path_pos[move.object_label_id][int(move.extruder_id)].pos_custom.emplace_back(to_2d(move.interpolation_points[i].cast<double>()));
                     }
                 } else {
@@ -1684,7 +1684,7 @@ bool GCodeProcessor::check_multi_extruder_gcode_valid(const int                 
                     std::max(gcode_path_pos[move.object_label_id][int(move.extruder_id)].max_print_z_custom, move.print_z);
             } else {
                 if (move.is_arc_move_with_interpolation_points()) {
-                    for (int i = 0; i < move.interpolation_points.size(); i++) {
+                    for (size_t i = 0; i < move.interpolation_points.size(); i++) {
                         gcode_path_pos[move.object_label_id][int(move.extruder_id)].pos.emplace_back(to_2d(move.interpolation_points[i].cast<double>()));
                     }
                 } else {
@@ -1776,7 +1776,7 @@ bool GCodeProcessor::check_multi_extruder_gcode_valid(const int                 
                     valid = false;
                 }
 
-                for (int i = 0; i < unprintable_areas.size(); ++i) {
+                for (size_t i = 0; i < unprintable_areas.size(); ++i) {
                     for (Polygon poly : unprintable_areas[i]) {
                         poly.translate(plate_offset);
                         if (!poly.bounding_box().overlap(bbox)) continue;
@@ -1789,9 +1789,9 @@ bool GCodeProcessor::check_multi_extruder_gcode_valid(const int                 
     }
 
     // apply unprintable filament type result
-    for (int extruder_id = 0; extruder_id < unprintable_filament_types.size(); ++extruder_id) {
+    for (size_t extruder_id = 0; extruder_id < unprintable_filament_types.size(); ++extruder_id) {
         const std::set<int> &filament_ids = unprintable_filament_types[extruder_id];
-        for (int filament_id : filament_ids) {
+        for (size_t filament_id : filament_ids) {
             m_result.limit_filament_maps[filament_id] |= (1 << extruder_id);
         }
     };
@@ -6333,4 +6333,3 @@ void GCodeProcessor::PreCoolingInjector::build_by_extruder_blocks(const std::vec
 }
 
 } /* namespace Slic3r */
-

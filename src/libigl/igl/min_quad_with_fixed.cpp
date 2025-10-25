@@ -527,9 +527,9 @@ IGL_INLINE bool igl::min_quad_with_fixed_solve(
     sol.resize(data.unknown.size()+data.neq,cols);
     sol.block(0,0,solu.rows(),solu.cols()) = solu;
     sol.block(solu.rows(),0,solLambda.rows(),solLambda.cols()) = solLambda;
-    for(int u = 0;u<data.unknown.size();u++)
+    for(size_t u = 0;u<data.unknown.size();u++)
     {
-      for(int j = 0;j<Z.cols();j++)
+      for(size_t j = 0;j<Z.cols();j++)
       {
         Z(data.unknown(u),j) = solu(u,j);
       }

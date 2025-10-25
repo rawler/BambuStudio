@@ -57,9 +57,9 @@ IGL_INLINE void igl::straighten_seams(
   Array<bool,Dynamic,3> BT,BF;
   on_boundary(FT,_,BT);
   on_boundary(F,_,BF);
-  assert((!((BF && (BT!=true)).any())) && 
+  assert((!((BF && (BT!=true)).any())) &&
     "Not dealing with boundaries of mesh that get 'stitched' in texture mesh");
-  typedef Matrix<typename DerivedF::Scalar,Dynamic,2> MatrixX2I; 
+  typedef Matrix<typename DerivedF::Scalar,Dynamic,2> MatrixX2I;
   const MatrixX2I ET = (MatrixX2I(FT.rows()*3,2)
     <<FT.col(1),FT.col(2),FT.col(2),FT.col(0),FT.col(0),FT.col(1)).finished();
   // "half"-edges with indices into 3D-mesh
@@ -104,7 +104,7 @@ IGL_INLINE void igl::straighten_seams(
   sparse(
     F,
     FT,
-    Array<bool,Dynamic,3>::Ones(F.rows(),F.cols()), 
+    Array<bool,Dynamic,3>::Ones(F.rows(),F.cols()),
     V.rows(),
     VT.rows(),
     V2VT);
@@ -127,7 +127,7 @@ IGL_INLINE void igl::straighten_seams(
   Array<bool,Dynamic,1> SV = Array<bool,Dynamic,1>::Zero(VT.rows(),1);
   //std::cout<<"#SV: "<<SV.count()<<std::endl;
   assert(BTF.size() == OT.rows());
-  for(int h = 0;h<BTF.size();h++)
+  for(size_t h = 0;h<BTF.size();h++)
   {
     if(!BTF(h))
     {
@@ -139,7 +139,7 @@ IGL_INLINE void igl::straighten_seams(
   Array<bool,Dynamic,1> CL = DT.array()==2;
   SparseMatrix<bool> VTOT;
   {
-    Eigen::MatrixXi I = 
+    Eigen::MatrixXi I =
       igl::LinSpaced<VectorXi >(OT.rows(),0,OT.rows()-1).replicate(1,2);
     sparse(
       OT,
@@ -154,7 +154,7 @@ IGL_INLINE void igl::straighten_seams(
   }
   //std::cout<<"#CL: "<<CL.count()<<std::endl;
   assert(CL.size() == SV.size());
-  for(int c = 0;c<CL.size();c++) if(CL(c)) SV(c) = false;
+  for(size_t c = 0;c<CL.size();c++) if(CL(c)) SV(c) = false;
   {}
   //std::cout<<"#SV: "<<SV.count()<<std::endl;
 
@@ -168,7 +168,7 @@ IGL_INLINE void igl::straighten_seams(
     // There might be an ear on one copy, so mark vertices on other copies, too
     // ears as they live on the 3D mesh
     Array<bool,Dynamic,1> earT = Array<bool,Dynamic,1>::Zero(VT.rows(),1);
-    for(int e = 0;e<ear.size();e++) earT(FT(ear(e),ear_opp(e))) = 1;
+    for(size_t e = 0;e<ear.size();e++) earT(FT(ear(e),ear_opp(e))) = 1;
     //std::cout<<"#earT: "<<earT.count()<<std::endl;
     // Even if ear-vertices are marked as sharp if it changes, e.g., from
     // convex to concave then it will _force_ a flip of the ear triangle. So,
@@ -178,7 +178,7 @@ IGL_INLINE void igl::straighten_seams(
     earT = (earT || (A*earT.matrix()).array()).eval();
     //std::cout<<"#earT: "<<earT.count()<<std::endl;
     assert(earT.size() == SV.size());
-    for(int e = 0;e<earT.size();e++) if(earT(e)) SV(e) = true;
+    for(size_t e = 0;e<earT.size();e++) if(earT(e)) SV(e) = true;
     //std::cout<<"#SV: "<<SV.count()<<std::endl;
   }
 
@@ -229,7 +229,7 @@ IGL_INLINE void igl::straighten_seams(
     sum(OEQIc,2,N);
     const int ncopies = N(0)+1;
     assert((N.array() == ncopies-1).all());
-    assert((ncopies == 1 || ncopies == 2) && 
+    assert((ncopies == 1 || ncopies == 2) &&
       "Not dealing with non-manifold meshes");
     Eigen::VectorXi vpath,epath,eend;
     typedef Eigen::Matrix<Scalar,Eigen::Dynamic,2> MatrixX2S;
@@ -243,12 +243,12 @@ IGL_INLINE void igl::straighten_seams(
           Array<bool,Dynamic,1> SVvpath;
           slice(SV,vpath,1,SVvpath);
           assert(
-            (vpath(0) != vpath(vpath.size()-1) || !SVvpath.any()) && 
+            (vpath(0) != vpath(vpath.size()-1) || !SVvpath.any()) &&
             "Not dealing with 1-loops touching 'sharp' corners");
           // simple open boundary
           MatrixX2S PI;
           slice(VT,vpath,1,PI);
-          const Scalar bbd = 
+          const Scalar bbd =
             (PI.colwise().maxCoeff() - PI.colwise().minCoeff()).norm();
           // Do not collapse boundaries to fewer than 3 vertices
           const bool allow_boundary_collapse = false;
@@ -287,7 +287,7 @@ IGL_INLINE void igl::straighten_seams(
             Array<bool,Dynamic,1> IV;
             SparseMatrix<bool> OEQIcT = OEQIc.transpose().eval();
             find(OEQIcT,Icc,II,IV);
-            assert(II.size() == Ic.size() && 
+            assert(II.size() == Ic.size() &&
               (II.array() ==
               igl::LinSpaced<VectorXi >(Ic.size(),0,Ic.size()-1).array()).all());
             assert(Icc.size() == Ic.size());
@@ -320,9 +320,9 @@ IGL_INLINE void igl::straighten_seams(
             slice(OT,Ic,1,OTIc);
             edges_to_path(OTIc,vpath,epath,eend);
             // Flip endpoints if needed
-            for(int e = 0;e<eend.size();e++)if(flipped(e))eend(e)=1-eend(e);
+            for(size_t e = 0;e<eend.size();e++)if(flipped(e))eend(e)=1-eend(e);
             VectorXi vpathc(epath.size()+1);
-            for(int e = 0;e<epath.size();e++)
+            for(size_t e = 0;e<epath.size();e++)
             {
               vpathc(e) = OT(Icc(epath(e)),eend(e));
             }
@@ -338,7 +338,7 @@ IGL_INLINE void igl::straighten_seams(
                 PI(p,VT.cols()+d) = VT(vpathc(p),d);
               }
             }
-            const Scalar bbd = 
+            const Scalar bbd =
               (PI.colwise().maxCoeff() - PI.colwise().minCoeff()).norm();
             Matrix<Scalar,Dynamic,Dynamic> UPI,SI;
             VectorXi UIc;

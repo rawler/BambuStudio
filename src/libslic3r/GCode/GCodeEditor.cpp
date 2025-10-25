@@ -43,7 +43,7 @@ void GCodeEditor::reset(const Vec3d &position)
 
 static void record_wall_lines(bool &flag, int &line_idx, PerExtruderAdjustments *adjustment, const std::pair<int, int> &node_pos)
 {
-    if (flag && line_idx < adjustment->lines.size()) {
+    if (flag && line_idx < (int)adjustment->lines.size()) {
         CoolingLine &ptr        = adjustment->lines[line_idx];
         ptr.outwall_smooth_mark = true;
         ptr.object_id           = node_pos.first;
@@ -463,14 +463,14 @@ std::string GCodeEditor::write_layer_gcode(
     float cumulative_time = 0.f;
     float search_time     = 0.f;
 
-    for (int i = 0,j = 0; i < lines.size(); i++) {
+    for (int i = 0,j = 0; i < (int)lines.size(); i++) {
         const CoolingLine *line = lines[i];
         if (pre_start_overhang_fan_time > 0.f && overhang_fan_speed > m_fan_speed) {
             cumulative_time += line->time;
             j = j<i ? i : j;
             search_time = search_time<cumulative_time ? cumulative_time : search_time;
             // bbs: search for the next overhang line in xx seconds
-            for (; search_time - cumulative_time < pre_start_overhang_fan_time && j < lines.size() && overhang_fan_control && m_current_fan_speed < overhang_fan_speed; j++) {
+            for (; search_time - cumulative_time < pre_start_overhang_fan_time && j < (int)lines.size() && overhang_fan_control && m_current_fan_speed < overhang_fan_speed; j++) {
                 const CoolingLine *line_iter = lines[j];
                 //do not change fan speed for changing filament gcode
                 if (line_iter->type & CoolingLine::TYPE_FORCE_RESUME_FAN) {

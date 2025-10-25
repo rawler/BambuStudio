@@ -293,7 +293,7 @@ void TriangleSelector::select_patch(int facet_start, std::unique_ptr<Cursor> &&c
     // Keep track of facets of the original mesh we already processed.
     std::vector<bool> visited(m_orig_size_indices, false);
 
-    for (int i = 0; i < start_facets.size(); i++) {
+    for (size_t i = 0; i < start_facets.size(); i++) {
         int start_facet_id = start_facets[i];
         if (visited[start_facet_id])
             continue;
@@ -502,7 +502,7 @@ void TriangleSelector::append_touching_its(int itriangle, indexed_triangle_set &
     its.indices.emplace_back(stl_triangle_vertex_indices(idxs[0], idxs[1], idxs[2]));
     if (its.vertices.empty()) {
         its.vertices.reserve(m_vertices.size());
-        for (int i = 0; i < m_vertices.size(); i++) {
+        for (size_t i = 0; i < m_vertices.size(); i++) {
             its.vertices.emplace_back(m_vertices[i].v);
         }
     }

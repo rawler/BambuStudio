@@ -209,7 +209,7 @@ Point projection_onto(const ExPolygons& polygons, const Point& from)
     double min_dist = std::numeric_limits<double>::max();
 
     for (const auto& poly : polygons) {
-        for (int i = 0; i < poly.num_contours(); i++) {
+        for (size_t i = 0; i < poly.num_contours(); i++) {
             Point p = from.projection_onto(poly.contour_or_hole(i));
             double dist = (from - p).cast<double>().squaredNorm();
             if (dist < min_dist) {
@@ -408,7 +408,7 @@ ExPolygons ExPolygon::split_expoly_with_holes(coord_t gap_width, const ExPolygon
                intersection_ex(ExPolygon(BoundingBox(Point(overhang_bbx.min(0), cent.y() + gap_width), Point(cent.x() - gap_width, overhang_bbx.max(1))).polygon()), *this));
         append(sub_overhangs,
                intersection_ex(ExPolygon(BoundingBox(Point(cent.x() + gap_width, overhang_bbx.min(1)), Point(overhang_bbx.max(0), cent.y() - gap_width)).polygon()), *this));
-    } 
+    }
     return sub_overhangs;
 }
 
@@ -440,7 +440,7 @@ Lines ExPolygon::lines() const
     return lines;
 }
 
-bool ExPolygon::remove_colinear_points() { 
+bool ExPolygon::remove_colinear_points() {
     bool removed = this->contour.remove_colinear_points();
     if (contour.size() < 3) {
         contour.points.clear();

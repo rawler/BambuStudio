@@ -309,7 +309,7 @@ void GLGizmoFdmSupports::on_render_input_window(float x, float y, float bottom_l
         icons = { ImGui::CircleButtonIcon, ImGui::SphereButtonIcon, ImGui::FillButtonIcon, ImGui::GapFillIcon };
 
     std::array<wxString, 4> tool_tips = { _L("Circle"), _L("Sphere"), _L("Fill"), _L("Gap Fill") };
-    for (int i = 0; i < tool_ids.size(); i++) {
+    for (size_t i = 0; i < tool_ids.size(); i++) {
         std::string  str_label = std::string("##");
         std::wstring btn_name = icons[i] + boost::nowide::widen(str_label);
 
@@ -494,7 +494,7 @@ void GLGizmoFdmSupports::on_render_input_window(float x, float y, float bottom_l
         if (m_imgui->button(m_desc.at("perform"))) {
             Plater::TakeSnapshot snapshot(wxGetApp().plater(), "Reset selection", UndoRedo::SnapshotType::GizmoAction);
 
-            for (int i = 0; i < m_triangle_selectors.size(); i++) {
+            for (size_t i = 0; i < m_triangle_selectors.size(); i++) {
                 TriangleSelectorPatch* ts_mm = dynamic_cast<TriangleSelectorPatch*>(m_triangle_selectors[i].get());
                 ts_mm->update_selector_triangles();
                 ts_mm->request_update_render_data(true);

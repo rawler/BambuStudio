@@ -507,7 +507,7 @@ protected:
             auto iy2 = item.boundingBox().maxCorner().y();
             auto ix1 = item.boundingBox().minCorner().x();
 
-            for (int i = 0; i < m_items.size(); i++) {
+            for (size_t i = 0; i < m_items.size(); i++) {
                 Item& p = m_items[i];
                 if (p.is_virt_object) continue;
                 auto px1 = p.boundingBox().minCorner().x();
@@ -528,7 +528,7 @@ protected:
 
             double lambda3 = LARGE_COST_TO_REJECT*1.1;
             double lambda4 = LARGE_COST_TO_REJECT*1.2;
-            for (int i = 0; i < m_items.size(); i++) {
+            for (size_t i = 0; i < m_items.size(); i++) {
                 Item& p = m_items[i];
                 if (p.is_virt_object) continue;
                 //score += lambda3 * (item.bed_temp - p.vitrify_temp > VITRIFY_TEMP_DIFF_THRSH);
@@ -541,7 +541,7 @@ protected:
         else {
             int valid_items_cnt = 0;
             double height_score = 0;
-            for (int i = 0; i < m_items.size(); i++) {
+            for (size_t i = 0; i < m_items.size(); i++) {
                 Item& p = m_items[i];
                 if (!p.is_virt_object) {
                     valid_items_cnt++;
@@ -561,7 +561,7 @@ protected:
 
         std::map<int, std::string> extruder_id_types;
         std::set<int> tpu_extruder_ids;
-        for (int i = 0; i < m_items.size(); i++) {
+        for (size_t i = 0; i < m_items.size(); i++) {
             Item& p = m_items[i];
             if (p.is_virt_object) continue;
             extruder_id_types.insert(p.extrude_id_filament_types.begin(), p.extrude_id_filament_types.end());

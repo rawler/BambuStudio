@@ -985,7 +985,7 @@ static int construct_assemble_list(std::vector<assemble_plate_info_t> &assemble_
 
         assemble_plate_info_t& assemble_plate_info = assemble_plate_info_list[index];
 
-        int object_count = assemble_plate_info.assemble_obj_list.size();
+        size_t object_count = assemble_plate_info.assemble_obj_list.size();
 
         BOOST_LOG_TRIVIAL(info) << __FUNCTION__ << boost::format(": Plate %1%, name %2%, obj count %3%, plate params count %4%") % (index + 1) %assemble_plate_info.plate_name %object_count %assemble_plate_info.plate_params.size();
         PlateData* plate_data = new PlateData();
@@ -1135,7 +1135,7 @@ static int construct_assemble_list(std::vector<assemble_plate_info_t> &assemble_
                     BOOST_LOG_TRIVIAL(error) << __FUNCTION__ << boost::format(": only normal part can have height ranges, file %1%, plate index %2%, object index %3%, subtype %4%") % assemble_object.path % (index + 1) % (obj_index + 1) %(int)(assemble_object.subtype);
                     return CLI_INVALID_PARAMS;
                 }
-                for (int range_index = 0; range_index < assemble_object.height_ranges.size(); range_index++)
+                for (size_t range_index = 0; range_index < assemble_object.height_ranges.size(); range_index++)
                 {
                     height_range_info_t& range = assemble_object.height_ranges[range_index];
                     DynamicPrintConfig range_config;
@@ -1238,7 +1238,7 @@ static int construct_assemble_list(std::vector<assemble_plate_info_t> &assemble_
 
                     if (!assembled_param.height_ranges.empty())
                     {
-                        for (int range_index = 0; range_index < assembled_param.height_ranges.size(); range_index++)
+                        for (size_t range_index = 0; range_index < assembled_param.height_ranges.size(); range_index++)
                         {
                             height_range_info_t& range = assembled_param.height_ranges[range_index];
                             DynamicPrintConfig range_config;
@@ -1595,7 +1595,7 @@ int CLI::run(int argc, char **argv)
     //skip model object map construct
     if (need_skip) {
         BOOST_LOG_TRIVIAL(info) << boost::format("need to skip objects, size %1%:")%skip_objects.size();
-        for (int index = 0; index < skip_objects.size(); index++)
+        for (size_t index = 0; index < skip_objects.size(); index++)
         {
             skip_maps[skip_objects[index]] = false;
             BOOST_LOG_TRIVIAL(info) << boost::format("object %1%, id %2%")%index %skip_objects[index];
@@ -1997,7 +1997,7 @@ int CLI::run(int argc, char **argv)
         ConfigOptionBool *enable_support_option = m_print_config.option<ConfigOptionBool>("enable_support", true);
         //traverse each object one by one
         size_t num_objects = m_models[0].objects.size();
-        for (int i = 0; i < num_objects; ++i) {
+        for (size_t i = 0; i < num_objects; ++i) {
             ModelObject* object = m_models[0].objects[i];
             DynamicPrintConfig object_config = object->config.get();
             ConfigOptionBool *obj_enable_support_option = object_config.option<ConfigOptionBool>("enable_support");
@@ -2571,7 +2571,7 @@ int CLI::run(int argc, char **argv)
             else
             {
                 current_index = 0;
-                for (int index = 0; index < current_filaments_system_name.size(); index++)
+                for (size_t index = 0; index < current_filaments_system_name.size(); index++)
                 {
                     std::string system_filament_path = resources_dir() + "/profiles/BBL/filament_full/"+current_filaments_system_name[index]+".json";
                     current_index++;
@@ -2657,18 +2657,18 @@ int CLI::run(int argc, char **argv)
     BOOST_LOG_TRIVIAL(info) << boost::format("current printer %1%, new printer %2%, current process %3%, new process %4%")%current_printer_name %new_printer_name %current_process_name %new_process_name;
     BOOST_LOG_TRIVIAL(info) << boost::format("current printer inherits %1%, new printer inherits %2%, current process inherits %3%, new process inherits %4%")
         %current_printer_system_name %new_printer_system_name %current_process_system_name %new_process_system_name;
-    for (int index = 0; index < current_print_compatible_printers.size(); index++) {
+    for (size_t index = 0; index < current_print_compatible_printers.size(); index++) {
         BOOST_LOG_TRIVIAL(info) << boost::format("index %1%, current print compatible printer %2%")%index %current_print_compatible_printers[index];
     }
-    for (int index = 0; index < new_print_compatible_printers.size(); index++) {
+    for (size_t index = 0; index < new_print_compatible_printers.size(); index++) {
         BOOST_LOG_TRIVIAL(info) << boost::format("index %1%, new print compatible printer %2%")%index %new_print_compatible_printers[index];
     }
-    for (int index = 0; index < upward_compatible_printers.size(); index++) {
+    for (size_t index = 0; index < upward_compatible_printers.size(); index++) {
         BOOST_LOG_TRIVIAL(info) << boost::format("index %1%, upward_compatible_printers %2%")%index %upward_compatible_printers[index];
     }
     if (!new_printer_name.empty()) {
         if (!new_process_name.empty()) {
-            for (int index = 0; index < new_print_compatible_printers.size(); index++) {
+            for (size_t index = 0; index < new_print_compatible_printers.size(); index++) {
                 if (new_print_compatible_printers[index] == new_printer_system_name) {
                     process_compatible = true;
                     break;
@@ -2678,7 +2678,7 @@ int CLI::run(int argc, char **argv)
                 %new_printer_name %new_printer_system_name %new_process_name %new_process_system_name %process_compatible;
         }
         else {
-            for (int index = 0; index < current_print_compatible_printers.size(); index++) {
+            for (size_t index = 0; index < current_print_compatible_printers.size(); index++) {
                 if (current_print_compatible_printers[index] == new_printer_system_name) {
                     process_compatible = true;
                     break;
@@ -2689,7 +2689,7 @@ int CLI::run(int argc, char **argv)
         }
     }
     else if (!new_process_name.empty()) {
-        for (int index = 0; index < new_print_compatible_printers.size(); index++) {
+        for (size_t index = 0; index < new_print_compatible_printers.size(); index++) {
             if (new_print_compatible_printers[index] == current_printer_system_name) {
                 process_compatible = true;
                 break;
@@ -2700,7 +2700,7 @@ int CLI::run(int argc, char **argv)
     }
     else {
         //check the compatible of old printer&&process
-        for (int index = 0; index < current_print_compatible_printers.size(); index++) {
+        for (size_t index = 0; index < current_print_compatible_printers.size(); index++) {
             if (current_print_compatible_printers[index] == current_printer_system_name) {
                 process_compatible = true;
                 break;
@@ -2721,7 +2721,7 @@ int CLI::run(int argc, char **argv)
         machine_switch = true;
         BOOST_LOG_TRIVIAL(info) << boost::format("switch to new printers, set to compatible");
         if (upward_compatible_printers.size() > 0) {
-            for (int index = 0; index < upward_compatible_printers.size(); index++) {
+            for (size_t index = 0; index < upward_compatible_printers.size(); index++) {
                 if (upward_compatible_printers[index] == new_printer_system_name) {
                     process_compatible = true;
                     machine_upwards = true;
@@ -2755,7 +2755,7 @@ int CLI::run(int argc, char **argv)
         //we need to update the compatible printer and create a new process here, or if we load the 3mf in studio, the process preset can not be loaded as not compatible
         Preset *current_preset = NULL;
         size_t project_presets_count = project_presets.size();
-        for (int index = 0; index < project_presets_count; index++)
+        for (size_t index = 0; index < project_presets_count; index++)
         {
             if (project_presets[index]->name == current_process_name) {
                 current_preset = project_presets[index];
@@ -2767,7 +2767,7 @@ int CLI::run(int argc, char **argv)
             *new_preset = *current_preset;
             std::vector<std::string>& compatible_printers = new_preset->config.option<ConfigOptionStrings>("compatible_printers", true)->values;
             bool need_insert = true;
-            for (int index = 0; index < compatible_printers.size(); index++) {
+            for (size_t index = 0; index < compatible_printers.size(); index++) {
                 if (compatible_printers[index] == new_printer_system_name) {
                     need_insert = false;
                     break;
@@ -3056,7 +3056,7 @@ int CLI::run(int argc, char **argv)
                 diff_settings = different_settings[0];
                 Slic3r::unescape_strings_cstyle(diff_settings, different_keys);
                 int remove_index = -1;
-                for (int index = 0; index < different_keys.size(); index++) {
+                for (size_t index = 0; index < different_keys.size(); index++) {
                     if (different_keys[index] == "compatible_printers") {
                         remove_index = index;
                         break;
@@ -3151,7 +3151,7 @@ int CLI::run(int argc, char **argv)
             std::vector<std::string> different_keys;
             Slic3r::unescape_strings_cstyle(old_setting, different_keys);
             bool need_insert = true;
-            for (int index = 0; index < different_keys.size(); index++) {
+            for (size_t index = 0; index < different_keys.size(); index++) {
                 if (different_keys[index] == "compatible_printers") {
                     need_insert = false;
                     break;
@@ -3236,7 +3236,7 @@ int CLI::run(int argc, char **argv)
         }
         new_variant_counts = old_variant_counts;
         //filament_variant_count = old_variant_counts;
-        for (int index = 0; index < load_filaments_config.size(); index++) {
+        for (size_t index = 0; index < load_filaments_config.size(); index++) {
             DynamicPrintConfig&  config = load_filaments_config[index];
             int filament_index = load_filaments_index[index];
             std::vector<std::string> different_keys;
@@ -3793,7 +3793,7 @@ int CLI::run(int argc, char **argv)
                 std::vector<std::string> different_keys;
                 Slic3r::unescape_strings_cstyle(diff_settings, different_keys);
                 bool need_insert = true;
-                for (int index = 0; index < different_keys.size(); index++) {
+                for (size_t index = 0; index < different_keys.size(); index++) {
                     if (different_keys[index] == "enable_prime_tower") {
                         need_insert = false;
                         break;
@@ -6164,7 +6164,7 @@ int CLI::run(int argc, char **argv)
 
                             std::vector<int> plate_filaments = part_plate->get_extruders_under_cli(true, m_print_config);
                             std::vector<int> used_tpu_filaments;
-                            for (int f_index = 0; f_index < plate_filaments.size(); f_index++) {
+                            for (size_t f_index = 0; f_index < plate_filaments.size(); f_index++) {
                                 if (plate_filaments[f_index] <= filament_count) {
                                     std::string filament_type;
                                     m_print_config.get_filament_type(filament_type, plate_filaments[f_index]-1);
@@ -6230,7 +6230,7 @@ int CLI::run(int argc, char **argv)
                                         filament_maps = m_extra_config.option<ConfigOptionInts>("filament_map")->values;
                                         int default_value = -1;
                                         bool has_invalid_value = false;
-                                        for (int f_index = 0; f_index < filament_maps.size(); f_index++)
+                                        for (size_t f_index = 0; f_index < filament_maps.size(); f_index++)
                                         {
                                             if (filament_maps[f_index] != -1)
                                             {
@@ -6249,7 +6249,7 @@ int CLI::run(int argc, char **argv)
 
                                         if (has_invalid_value)
                                         {
-                                            for (int f_index = 0; f_index < filament_maps.size(); f_index++)
+                                            for (size_t f_index = 0; f_index < filament_maps.size(); f_index++)
                                             {
                                                 if (filament_maps[f_index] == -1)
                                                 {
@@ -6270,7 +6270,7 @@ int CLI::run(int argc, char **argv)
                                     else
                                         filament_maps = part_plate->get_real_filament_maps(m_print_config);
 
-                                    for (int index = 0; index < filament_maps.size(); index++)
+                                    for (size_t index = 0; index < filament_maps.size(); index++)
                                     {
                                         int filament_extruder = filament_maps[index];
                                         if (unprintable_filament_ids[filament_extruder - 1].find(index + 1) != unprintable_filament_ids[filament_extruder - 1].end())
@@ -6281,8 +6281,8 @@ int CLI::run(int argc, char **argv)
                                         }
                                     }
 
-                                    for (int f_index = 0; f_index < plate_filaments.size(); f_index++) {
-                                        for (int f_index = 0; f_index < plate_filaments.size(); f_index++) {
+                                    for (size_t f_index = 0; f_index < plate_filaments.size(); f_index++) {
+                                        for (size_t f_index = 0; f_index < plate_filaments.size(); f_index++) {
                                             if (plate_filaments[f_index] <= filament_count) {
                                                 int filament_extruder = filament_maps[plate_filaments[f_index] - 1];
                                                 std::string filament_type;
@@ -6820,14 +6820,14 @@ int CLI::run(int argc, char **argv)
         partplate_list.store_to_3mf_structure(plate_data_list);
 
         if (sliced_plate == -1) {
-            for (int i = 0; i < plate_data_list.size(); i++) {
+            for (size_t i = 0; i < plate_data_list.size(); i++) {
                 Slic3r::GUI::PartPlate *part_plate      = partplate_list.get_plate(i);
                 plate_object_count[i] = part_plate->printable_instance_size();
             }
         }
         else if (sliced_plate == 0){
             //slicing all
-            for (int i = 0; i < plate_data_list.size(); i++) {
+            for (size_t i = 0; i < plate_data_list.size(); i++) {
                 if (skip_useless_pick && (plate_object_count[i] == 1)) {
                     BOOST_LOG_TRIVIAL(info) << boost::format("only has 1 object,  set plate %1%'s is_label_object_enabled from %2% to false")%(i+1) % (plate_data_list[i]->is_label_object_enabled);
                     plate_data_list[i]->is_label_object_enabled = false;
@@ -6866,7 +6866,7 @@ int CLI::run(int argc, char **argv)
         if (nozzle_diameter_option)
             nozzle_diameter_str = nozzle_diameter_option->serialize();
 
-        for (int i = 0; i < plate_data_list.size(); i++) {
+        for (size_t i = 0; i < plate_data_list.size(); i++) {
             PlateData *plate_data = plate_data_list[i];
             bool skip_this_plate = ((plate_to_slice != 0) && (plate_to_slice != (i + 1)))?true:false;
 
@@ -7479,7 +7479,7 @@ int CLI::run(int argc, char **argv)
         for (unsigned int i = 0; i < calibration_thumbnails.size(); i++)
             delete calibration_thumbnails[i];
 
-        for (int i = 0; i < plate_bboxes.size(); i++)
+        for (size_t i = 0; i < plate_bboxes.size(); i++)
             delete plate_bboxes[i];
     }
     else if (export_png >= 0)

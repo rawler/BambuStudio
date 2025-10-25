@@ -58,7 +58,7 @@ void stl_generate_shared_vertices(stl_file *stl, indexed_triangle_set &its)
 			bool edge_direction 	= false;
 			bool traversal_reversed = false;
 			int  vnot      			= (j + 2) % 3;
-			// Increase the 
+			// Increase the
 			++ fan_traversal_stamp;
 			for (;;) {
 				// Next edge on facet_in_fan_idx to be traversed. The edge is indexed by its starting vertex index.
@@ -70,7 +70,7 @@ void stl_generate_shared_vertices(stl_file *stl, indexed_triangle_set &its)
 					// the neighboring facet is flipped.
 			  		if (! edge_direction) {
 			    		pivot_vertex = (vnot + 2) % 3;
-			    		next_edge    = pivot_vertex;			    		
+			    		next_edge    = pivot_vertex;
 			  		} else {
 			    		pivot_vertex = (vnot + 1) % 3;
 			    		next_edge    = vnot % 3;
@@ -139,7 +139,7 @@ bool its_write_off(const indexed_triangle_set &its, const char *file)
 
 	fprintf(fp, "OFF\n");
 	fprintf(fp, "%d %d 0\n", (int)its.vertices.size(), (int)its.indices.size());
-	for (int i = 0; i < its.vertices.size(); ++ i)
+	for (size_t i = 0; i < its.vertices.size(); ++ i)
 		fprintf(fp, "\t%f %f %f\n", its.vertices[i](0), its.vertices[i](1), its.vertices[i](2));
 	for (uint32_t i = 0; i < its.indices.size(); ++ i)
 		fprintf(fp, "\t3 %d %d %d\n", its.indices[i][0], its.indices[i][1], its.indices[i][2]);

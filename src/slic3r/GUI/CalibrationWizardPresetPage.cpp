@@ -193,7 +193,7 @@ CaliComboBox::CaliComboBox(wxWindow* parent,
     m_top_sizer->Fit(this);
 
     // set values
-    for (int i = 0; i < values.size(); ++i) {
+    for (size_t i = 0; i < values.size(); ++i) {
         m_combo_box->AppendString(values[i]);
     }
     m_combo_box->SetSelection(default_index);
@@ -222,7 +222,7 @@ wxString CaliComboBox::get_value() const
 void CaliComboBox::set_values(const wxArrayString &values)
 {
     if (m_combo_box) {
-        for (int i = 0; i < values.size(); ++i) {
+        for (size_t i = 0; i < values.size(); ++i) {
             m_combo_box->AppendString(values[i]);
         }
         m_combo_box->SetSelection(0);
@@ -1632,7 +1632,7 @@ void CalibrationPresetPage::update_plate_type_collection(CalibrationMethod metho
     m_comboBox_bed_type->Clear();
     const ConfigOptionDef* bed_type_def = print_config_def.get("curr_bed_type");
     if (bed_type_def && bed_type_def->enum_keys_map) {
-        for (int i = 0; i < bed_type_def->enum_labels.size(); i++) {
+        for (size_t i = 0; i < bed_type_def->enum_labels.size(); i++) {
             m_comboBox_bed_type->AppendString(_L(bed_type_def->enum_labels[i]));
         }
         m_comboBox_bed_type->SetSelection(0);
@@ -2025,7 +2025,7 @@ void CalibrationPresetPage::set_cali_filament_mode(CalibrationFilamentMode mode)
 {
     CalibrationWizardPage::set_cali_filament_mode(mode);
 
-    for (int i = 0; i < m_filament_comboBox_list.size(); i++) {
+    for (size_t i = 0; i < m_filament_comboBox_list.size(); i++) {
         m_filament_comboBox_list[i]->set_select_mode(mode);
     }
 
@@ -2563,7 +2563,7 @@ std::map<int, Preset*> CalibrationPresetPage::get_selected_filaments()
     std::map<int, Preset*> out;
     std::vector<FilamentComboBox*> fcb_list = get_selected_filament_combobox();
 
-    for (int i = 0; i < fcb_list.size(); i++) {
+    for (size_t i = 0; i < fcb_list.size(); i++) {
         Preset* preset = const_cast<Preset*>(fcb_list[i]->GetComboBox()->get_selected_preset());
         // valid tray id
         if (fcb_list[i]->get_tray_id() >= 0) {

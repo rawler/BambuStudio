@@ -472,7 +472,7 @@ LOD_LEVEL calc_volume_box_in_screen_bigger_than_threshold(const BoundingBoxf3 &v
     src_vertices[6] = _max;
     src_vertices[7] = Vec3d(_min.x(), _max.y(), _max.z());
     BoundingBoxf box2d;
-    for (int i = 0; i < src_vertices.size(); i++) {
+    for (size_t i = 0; i < src_vertices.size(); i++) {
         box2d.merge(calc_pt_in_screen(src_vertices[i], view_proj_mat, window_width, window_height).cast<double>());
     }
     auto size_x = box2d.size().x();
@@ -891,7 +891,7 @@ void GLVolume::render(const GUI::Camera &camera, const std::vector<std::array<fl
                 mv->mmu_segmentation_facets.get_facets(*mv, its_per_color);
                 mmuseg_ivas.resize(its_per_color.size());
 
-                for (int idx = 0; idx < its_per_color.size(); idx++) {
+                for (size_t idx = 0; idx < its_per_color.size(); idx++) {
                     if (its_per_color[idx].indices.size() > 0) {
                         mmuseg_ivas[idx].load_its_flat_shading(its_per_color[idx]);
                         mmuseg_ivas[idx].finalize_geometry(true);
@@ -908,10 +908,10 @@ void GLVolume::render(const GUI::Camera &camera, const std::vector<std::array<fl
             //when force_transparent, we need to keep the alpha
             auto cp_colors = colors;
             if (force_native_color && (render_color[3] < 1.0)) {
-                for (int index = 0; index < colors.size(); index ++)
+                for (size_t index = 0; index < colors.size(); index ++)
                     cp_colors[index][3] = render_color[3];
             }
-            for (int idx = 0; idx < mmuseg_ivas.size(); idx++) {
+            for (size_t idx = 0; idx < mmuseg_ivas.size(); idx++) {
                 GLIndexedVertexArray* iva = &mmuseg_ivas[idx];
                 if (iva->triangle_indices_size == 0 && iva->quad_indices_size == 0)
                     continue;
@@ -1150,7 +1150,7 @@ void GLVolume::simple_render(const std::shared_ptr<GLShaderProgram>& shader, Mod
             std::vector<indexed_triangle_set> its_per_color;
             model_volume->mmu_segmentation_facets.get_facets(*model_volume, its_per_color);
             mmuseg_ivas.resize(its_per_color.size());
-            for (int idx = 0; idx < its_per_color.size(); idx++) {
+            for (size_t idx = 0; idx < its_per_color.size(); idx++) {
                 mmuseg_ivas[idx].load_its_flat_shading(its_per_color[idx]);
                 mmuseg_ivas[idx].finalize_geometry(true);
             }
@@ -1160,7 +1160,7 @@ void GLVolume::simple_render(const std::shared_ptr<GLShaderProgram>& shader, Mod
     } while (0);
 
     if (color_volume && !picking) {
-        for (int idx = 0; idx < mmuseg_ivas.size(); idx++) {
+        for (size_t idx = 0; idx < mmuseg_ivas.size(); idx++) {
             GLIndexedVertexArray& iva = mmuseg_ivas[idx];
             if (iva.triangle_indices_size == 0 && iva.quad_indices_size == 0)
                 continue;
@@ -1263,7 +1263,7 @@ void GLWipeTowerVolume::render(const GUI::Camera &camera,
         glFrontFace(GL_CW);
     glsafe(::glCullFace(GL_BACK));
 
-    for (int i = 0; i < m_colors.size(); i++) {
+    for (size_t i = 0; i < m_colors.size(); i++) {
         if (!picking) {
             ColorRGBA new_color = adjust_color_for_rendering(m_colors[i]);
             std::array<float, 4> final_color;
@@ -1508,7 +1508,7 @@ int GLVolumeCollection::load_wipe_tower_preview(
     volumes.emplace_back(new GLWipeTowerVolume(colors));
     GLWipeTowerVolume& v = *dynamic_cast<GLWipeTowerVolume*>(volumes.back());
     v.iva_per_colors.resize(colors.size());
-    for (int i = 0; i < colors.size(); i++) {
+    for (size_t i = 0; i < colors.size(); i++) {
         TriangleMesh color_part = make_cube(width, depth / colors.size(), height);
         color_part.translate({ 0.f, depth * i / colors.size(), 0. });
         v.iva_per_colors[i].load_mesh(color_part);

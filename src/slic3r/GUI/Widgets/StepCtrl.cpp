@@ -94,7 +94,7 @@ wxString StepCtrlBase::GetItemText(unsigned int item) const
 
 int StepCtrlBase::GetItemUseText(wxString txt) const
 {
-    for(int i = 0; i < steps.size(); i++){
+    for( size_t i = 0; i < steps.size(); i++){
         if (steps[i] == txt) {
             return i;
         }
@@ -228,7 +228,7 @@ void StepCtrl::doRender(wxDC &dc)
         wxSize sz = dc.GetTextExtent(hint);
         dc.DrawText(hint, dc.GetCharWidth(), circleY - FromDIP(20) - sz.y);
     }
-    for (int i = 0; i < steps.size(); ++i) {
+    for (size_t i = 0; i < steps.size(); ++i) {
         bool check = (pos_thumb == wxPoint{0, 0} ? step : pos_thumb.y) == i;
         dc.DrawEllipse(circleX - radius, circleY - radius, radius * 2, radius * 2);
         dc.SetFont(GetFont());
@@ -317,7 +317,7 @@ void StepIndicator::doRender(wxDC &dc)
     int circleY = radius * 3 + firstPadding;
     dc.SetPen(wxPen(clr_step.colorForStates(states)));
     dc.SetBrush(wxBrush(clr_step.colorForStates(states)));
-    for (int i = 0; i < steps.size(); ++i) {
+    for (size_t i = 0; i < steps.size(); ++i) {
         bool disabled = step > i;
         bool checked = step == i;
         // Draw circle point & texts in it
@@ -439,7 +439,7 @@ void FilamentStepIndicator::doRender(wxDC& dc)
     circleY += radius * 3 + firstPadding;
     dc.SetPen(wxPen(clr_step.colorForStates(states)));
     dc.SetBrush(wxBrush(clr_step.colorForStates(states)));
-    for (int i = 0; i < steps.size(); ++i) {
+    for (size_t i = 0; i < steps.size(); ++i) {
         bool disabled = step > i;
         bool checked = step == i;
         // Draw circle point & texts in it

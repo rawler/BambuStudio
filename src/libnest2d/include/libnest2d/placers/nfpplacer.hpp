@@ -1019,9 +1019,9 @@ private:
         svgwriter.conf_.x0 = binbb.width();
         svgwriter.conf_.y0 = -binbb.height() / 2; // origin is top left corner
         svgwriter.writeShape(box2RawShape(binbb), "bed", "none", "black");
-        for (int i = 0; i < nfps.size(); i++) svgwriter.writeShape(nfps[i], "nfp_" + std::to_string(i), "none", "blue", 0.2);
-        for (int i = 0; i < items_.size(); i++) { svgwriter.writeItem(items_[i], items_[i].get().name, "none", "black", 0.2); }
-        for (int i = 0; i < merged_pile_.size(); i++) svgwriter.writeShape(merged_pile_[i], "merged_pile_" + std::to_string(i), "none", "yellow", 0.2);
+        for (size_t i = 0; i < nfps.size(); i++) svgwriter.writeShape(nfps[i], "nfp_" + std::to_string(i), "none", "blue", 0.2);
+        for (size_t i = 0; i < items_.size(); i++) { svgwriter.writeItem(items_[i], items_[i].get().name, "none", "black", 0.2); }
+        for (size_t i = 0; i < merged_pile_.size(); i++) svgwriter.writeShape(merged_pile_[i], "merged_pile_" + std::to_string(i), "none", "yellow", 0.2);
         svgwriter.writeItem(item, item.name, "red", "red", 0.3);
 
         std::stringstream ss;

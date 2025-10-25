@@ -498,7 +498,7 @@ HintData* HintDatabase::get_hint(HintDataNavigation nav, bool is_helio)
 			return nullptr;
 		}
 	}
-	
+
 	try
 	{
 		if (nav == HintDataNavigation::Next) {
@@ -573,7 +573,7 @@ HintData* HintDatabase::get_hint(HintDataNavigation nav, bool is_helio)
 
 static int get_utf8_seq_length(const char* seq, size_t size)
 {
-	int length = 0;
+	size_t length = 0;
 	unsigned char c = seq[0];
 	if (c < 0x80) { // 0x00-0x7F
 		// is ASCII letter

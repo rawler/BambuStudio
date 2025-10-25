@@ -218,7 +218,7 @@ public:
     DynamicPrintConfig          full_config_secure(std::optional<std::vector<int>>filament_maps = std::nullopt) const;
 
     //BBS: add some functions for multiple extruders
-    int get_printer_extruder_count() const;
+    size_t get_printer_extruder_count() const;
     bool support_different_extruders();
 
     // Load user configuration and store it into the user profiles.

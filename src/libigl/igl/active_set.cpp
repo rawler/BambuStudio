@@ -177,7 +177,7 @@ IGL_INLINE igl::SolverStatus igl::active_set(
 #ifndef NDEBUG
     {
       int count = 0;
-      for(int a = 0;a<as_ieq.size();a++)
+      for(size_t a = 0;a<as_ieq.size();a++)
       {
         if(as_ieq(a))
         {
@@ -230,7 +230,7 @@ IGL_INLINE igl::SolverStatus igl::active_set(
     Beq_i.head(Beq.rows()) = Beq;
     {
       int k =0;
-      for(int a=0;a<as_ieq.size();a++)
+      for(size_t a=0;a<as_ieq.size();a++)
       {
         if(as_ieq(a))
         {
@@ -254,7 +254,7 @@ IGL_INLINE igl::SolverStatus igl::active_set(
     {
       // NO DUPES!
       Matrix<BOOL,Dynamic,1> fixed = Matrix<BOOL,Dynamic,1>::Constant(n,1,FALSE);
-      for(int k = 0;k<known_i.size();k++)
+      for(size_t k = 0;k<known_i.size();k++)
       {
         assert(!fixed[known_i(k)]);
         fixed[known_i(k)] = TRUE;

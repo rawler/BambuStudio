@@ -208,7 +208,7 @@ Model Model::read_from_step(const std::string&                                  
             goto _finished;
         }
     }
-    
+
     status = step_file.mesh(&model, is_cb_cancel, is_split_compound, linear_defletion, angle_defletion);
 
 _finished:
@@ -985,7 +985,7 @@ std::string Model::get_backup_path()
     }
     boost::filesystem::path temp_path(backup_path);
     std::string temp_path_safe = PathSanitizer::sanitize(temp_path);
-    try {    
+    try {
         if (!boost::filesystem::exists(temp_path))
         {
             BOOST_LOG_TRIVIAL(info) << "create /3D/Objects in " << temp_path_safe;
@@ -1747,7 +1747,7 @@ void ModelObject::rotate(double angle, const Vec3d& axis)
     }
 
     //BBS update assemble transformation when modify volume rotation
-    for (int i = 0; i < instances.size(); i++) {
+    for (size_t i = 0; i < instances.size(); i++) {
         instances[i]->rotate_assemble(-angle, axis);
     }
 
@@ -2448,7 +2448,7 @@ ModelObjectPtrs ModelObject::segment(size_t instance, unsigned int max_extruders
             volume->set_offset(offset);
 
             unsigned int extruder_counter = 0;
-            for (int idx=0;idx<mesh_segments.size();idx++)
+            for (size_t idx=0;idx<mesh_segments.size();idx++)
             {
                 auto& mesh_segment = mesh_segments[idx];
 
@@ -2503,7 +2503,7 @@ void ModelObject::split(ModelObjectPtrs* new_objects)
     all_meshes.reserve(this->volumes.size() * 5);
     bool is_multi_volume_object = (this->volumes.size() > 1);
 
-    for (int volume_idx = 0; volume_idx < this->volumes.size(); volume_idx++) {
+    for (size_t volume_idx = 0; volume_idx < this->volumes.size(); volume_idx++) {
         ModelVolume* volume = this->volumes[volume_idx];
         if (volume->type() != ModelVolumeType::MODEL_PART)
             continue;
@@ -2536,7 +2536,7 @@ void ModelObject::split(ModelObjectPtrs* new_objects)
     face_detector.detect_exterior_face();
 
     int volume_mesh_begin = 0;
-    for (int i = 0; i < volume_mesh_counts.size(); i++) {
+    for (size_t i = 0; i < volume_mesh_counts.size(); i++) {
         std::pair<int, int> mesh_info = volume_mesh_counts[i];
         ModelVolume* volume = this->volumes[mesh_info.first];
 
@@ -2672,7 +2672,7 @@ ModelObjectPtrs ModelObject::merge_volumes(std::vector<int>& vol_indeces)
 #endif
 
     ModelVolume* vol = upper->add_volume(mesh);
-    for (int i = 0; i < volumes.size();i++) {
+    for (size_t i = 0; i < volumes.size();i++) {
         if (std::find(vol_indeces.begin(), vol_indeces.end(), i) != vol_indeces.end()) {
             vol->name = volumes[i]->name + "_merged";
             vol->config.assign_config(volumes[i]->config);
@@ -3668,7 +3668,7 @@ void Model::setPrintSpeedTable(const DynamicPrintConfig& config, const PrintConf
     Pointfs excluse_area_points = print_config.bed_exclude_area.values;
     Polygons exclude_polys;
     Polygon exclude_poly;
-    for (int i = 0; i < excluse_area_points.size(); i++) {
+    for (size_t i = 0; i < excluse_area_points.size(); i++) {
         auto pt = excluse_area_points[i];
         exclude_poly.points.emplace_back(scale_(pt.x()), scale_(pt.y()));
         if (i % 4 == 3) {  // exclude areas are always rectangle

@@ -889,11 +889,9 @@ namespace Slic3r
         if (cost)
             *cost = reorder_filaments_for_minimum_flush_volume(used_filaments, filament_labels, ctx.model_info.layer_filaments, ctx.model_info.flush_matrix, std::nullopt, nullptr);
 
-        for (int i = 0; i < filament_labels.size(); ++i)
+        for (size_t i = 0; i < filament_labels.size(); ++i)
             filament_labels_ret[used_filaments[i]] = filament_labels[i];
         return filament_labels_ret;
     }
 
 }
-
-

@@ -119,7 +119,7 @@ bool load_obj(const char *path, TriangleMesh *meshptr, ObjInfo &obj_info, std::s
             if (gamma_correct) {
                 ColorRGBA::gamma_correct(color);
             }
-            for (int i = 0; i < color.size(); i++) {
+            for (size_t i = 0; i < color.size(); i++) {
                 color[i] = std::clamp(color[i], 0.f, 1.f);
             }
             obj_info.vertex_colors.emplace_back(color);

@@ -55,7 +55,7 @@ IGL_INLINE void igl::setdiff(
   // loop over sA
   bool past = false;
   bool sBempty = sB.size()==0;
-  for(int a = 0;a<sA.size();a++)
+  for(size_t a = 0;a<sA.size();a++)
   {
     while(!sBempty && !past && sA(a)>sB(bi))
     {

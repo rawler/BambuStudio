@@ -625,7 +625,7 @@ void SendToPrinterDialog::update_storage_list(const std::vector<std::string> &st
     m_storage_radioBox.clear();
     m_storage_panel->DestroyChildren();
 
-    for (int i=0; i < storages.size(); i++) {
+    for (size_t i=0; i < storages.size(); i++) {
         RadioBox* radiobox = new RadioBox(m_storage_panel);
         Label    *storage_text = new Label(m_storage_panel);
 
@@ -1212,7 +1212,7 @@ void SendToPrinterDialog::on_selection_changed(wxCommandEvent &event)
     Reset();
 
     MachineObject* obj = nullptr;
-    for (int i = 0; i < m_list.size(); i++) {
+    for (size_t i = 0; i < m_list.size(); i++) {
         if (i == selection) {
             m_printer_last_select = m_list[i]->get_dev_id();
             obj = m_list[i];

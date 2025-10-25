@@ -30,7 +30,7 @@ IGL_INLINE void igl::unique(
   igl::sort(A,true,sortA,IM);
   // Original unsorted index map
   IA.resize(sortA.size());
-  for(int i=0;i<(int)sortA.size();i++)
+  for(size_t i=0;i<(int)sortA.size();i++)
   {
     IA[i] = i;
   }
@@ -43,7 +43,7 @@ IGL_INLINE void igl::unique(
   IC.resize(A.size());
   {
     int j = 0;
-    for(int i = 0;i<(int)sortA.size();i++)
+    for( size_t i = 0;i<(int)sortA.size();i++)
     {
       if(sortA[IA[j]] != sortA[i])
       {
@@ -54,7 +54,7 @@ IGL_INLINE void igl::unique(
   }
   C.resize(IA.size());
   // Reindex IA according to IM
-  for(int i = 0;i<(int)IA.size();i++)
+  for( size_t i = 0;i<(int)IA.size();i++)
   {
     IA[i] = IM[IA[i]];
     C[i] = A[IA[i]];

@@ -107,7 +107,7 @@ std::map<std::string, std::vector<SimpleSettingData>>  SettingsFactory::PART_CAT
                     }},
     { L("Speed"), {{"outer_wall_speed", "",1},{"inner_wall_speed", "",2},{"sparse_infill_speed", "",3},{"top_surface_speed", "",4}, {"internal_solid_infill_speed", "",5},
                     {"enable_overhang_speed", "",6}, {"overhang_1_4_speed", "",7}, {"overhang_2_4_speed", "",8}, {"overhang_3_4_speed", "",9}, {"overhang_4_4_speed", "",10}, {"overhang_totally_speed", "",11},
-                    {"bridge_speed", "",12}, {"gap_infill_speed", "",13}, {"enable_height_slowdown", "", 14}, {"slowdown_start_height", "", 15}, {"slowdown_start_speed", "", 16}, {"slowdown_start_acc", "", 17}, 
+                    {"bridge_speed", "",12}, {"gap_infill_speed", "",13}, {"enable_height_slowdown", "", 14}, {"slowdown_start_height", "", 15}, {"slowdown_start_speed", "", 16}, {"slowdown_start_acc", "", 17},
                     {"slowdown_end_height", "", 18}, {"slowdown_end_speed", "", 19}, {"slowdown_end_acc", "", 20}
                     }}
 };
@@ -893,7 +893,7 @@ void MenuFactory::append_menu_item_change_extruder(wxMenu* menu)
     for (int i = 0; i <= filaments_cnt; i++)
     {
         bool is_active_extruder = i == initial_extruder;
-        int icon_idx = i == 0 ? 0 : i - 1;
+        size_t icon_idx = i == 0 ? 0 : i - 1;
 
         wxString item_name = _L("Default");
 
@@ -1670,7 +1670,7 @@ wxMenu* MenuFactory::multi_selection_menu()
     else {
         append_menu_item_center(menu);
         auto mo = (*obj_list()->objects())[obj_idx];
-        if (count < mo->volumes.size()) {
+        if (count < (int)mo->volumes.size()) {
             append_menu_item_sub_merge(menu);
         }
         append_menu_item_fix_through_netfabb(menu);
@@ -1935,7 +1935,7 @@ void MenuFactory::append_menu_item_change_filament(wxMenu* menu)
     }
 
     std::vector<wxBitmap*> icons = get_extruder_color_icons(true);
-    if (icons.size() < filaments_cnt) {
+    if ((int)icons.size() < filaments_cnt) {
         BOOST_LOG_TRIVIAL(warning) << boost::format("Warning: icons size %1%, filaments_cnt=%2%")%icons.size()%filaments_cnt;
         if (icons.size() <= 1)
             return;

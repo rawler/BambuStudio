@@ -495,9 +495,9 @@ bool groupingVolumes(std::vector<VolumeSlices> objSliceByVolume, std::vector<gro
     std::vector<int> groupIndex(objSliceByVolume.size(), -1);
     double offsetValue = 0.05 / SCALING_FACTOR;
 
-    std::vector<std::vector<int>> osvIndex;
-    for (int i = 0; i != objSliceByVolume.size(); ++i) {
-        for (int j = 0; j != objSliceByVolume[i].slices.size(); ++j) {
+    std::vector<std::vector<size_t>> osvIndex;
+    for (size_t i = 0; i != objSliceByVolume.size(); ++i) {
+        for (size_t j = 0; j != objSliceByVolume[i].slices.size(); ++j) {
             osvIndex.push_back({ i,j });
         }
     }
@@ -517,17 +517,17 @@ bool groupingVolumes(std::vector<VolumeSlices> objSliceByVolume, std::vector<gro
             }
         });
 
-    for (int i = 0; i != objSliceByVolume.size(); ++i) {
+    for (size_t i = 0; i != objSliceByVolume.size(); ++i) {
         if (groupIndex[i] < 0) {
             groupIndex[i] = i;
         }
-        for (int j = i + 1; j != objSliceByVolume.size(); ++j) {
+        for (size_t j = i + 1; j != objSliceByVolume.size(); ++j) {
             if (doesVolumeIntersect(objSliceByVolume[i], objSliceByVolume[j])) {
                 if (groupIndex[j] < 0) groupIndex[j] = groupIndex[i];
                 if (groupIndex[j] != groupIndex[i]) {
                     int retain = std::min(groupIndex[i], groupIndex[j]);
                     int cover = std::max(groupIndex[i], groupIndex[j]);
-                    for (int k = 0; k != objSliceByVolume.size(); ++k) {
+                    for (size_t k = 0; k != objSliceByVolume.size(); ++k) {
                         if (groupIndex[k] == cover) groupIndex[k] = retain;
                     }
                 }
@@ -554,7 +554,7 @@ bool groupingVolumes(std::vector<VolumeSlices> objSliceByVolume, std::vector<gro
     for (int gv : groupVector) {
         groupedVolumeSlices gvs;
         gvs.groupId = gv;
-        for (int i = 0; i != objSliceByVolume.size(); ++i) {
+        for (size_t i = 0; i != objSliceByVolume.size(); ++i) {
             if (groupIndex[i] == gv) {
                 gvs.volume_ids.push_back(objSliceByVolume[i].volume_id);
                 append(gvs.slices, objSliceByVolume[i].slices[firstLayerReplacedBy]);
@@ -612,7 +612,7 @@ void reGroupingLayerPolygons(std::vector<groupedVolumeSlices>& gvss, ExPolygons 
     for (ExPolygon& poly_ex : epsc)
         poly_ex.douglas_peucker(resolution);
 
-    for (int i = 0; i != gvssc.size(); ++i) {
+    for (size_t i = 0; i != gvssc.size(); ++i) {
         for (ExPolygon& poly_ex : gvssc[i].slices)
             poly_ex.douglas_peucker(resolution);
     }
@@ -624,7 +624,7 @@ void reGroupingLayerPolygons(std::vector<groupedVolumeSlices>& gvss, ExPolygons 
                     continue;
 
                 double minArea = epsc[ie].area();
-                for (int iv = 0; iv != gvssc.size(); iv++) {
+                for (size_t iv = 0; iv != gvssc.size(); iv++) {
                     auto clipedExPolys = diff_ex(epsc[ie], gvssc[iv].slices);
                     double area = 0;
                     for (const auto& ce : clipedExPolys) {
@@ -638,10 +638,10 @@ void reGroupingLayerPolygons(std::vector<groupedVolumeSlices>& gvss, ExPolygons 
             }
         });
 
-    for (int iv = 0; iv != gvss.size(); iv++)
+    for (size_t iv = 0; iv != gvss.size(); iv++)
         gvss[iv].slices.clear();
 
-    for (int ie = 0; ie != eps.size(); ie++) {
+    for (size_t ie = 0; ie != eps.size(); ie++) {
         if (epsIndex[ie] >= 0)
             gvss[epsIndex[ie]].slices.push_back(eps[ie]);
     }

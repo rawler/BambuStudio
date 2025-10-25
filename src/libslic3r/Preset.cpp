@@ -82,7 +82,7 @@ int get_values_from_json(std::string file_path, std::vector<std::string>& keys, 
         json j;
         ifs >> j;
 
-        for (int i=0; i < keys.size(); i++)
+        for (size_t i=0; i < keys.size(); i++)
         {
             if (j.contains(keys[i])) {
                 std::string value = j.at(keys[i]);

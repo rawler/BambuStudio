@@ -152,14 +152,14 @@ void CalibrationWizard::update(MachineObject* obj)
     }
     */
     if (!obj) {
-        for (int i = 0; i < m_page_steps.size(); i++) {
+        for (size_t i = 0; i < m_page_steps.size(); i++) {
             if (m_page_steps[i]->page)
                 m_page_steps[i]->page->on_reset_page();
         }
     }
 
     // update all page steps
-    for (int i = 0; i < m_page_steps.size(); i++) {
+    for (size_t i = 0; i < m_page_steps.size(); i++) {
         if (m_page_steps[i]->page)
             m_page_steps[i]->page->update(obj);
     }
@@ -191,7 +191,7 @@ void CalibrationWizard::on_device_connected(MachineObject* obj)
                                  << ", name = " << preset_info.name;
     }
 
-    for (int i = 0; i < m_page_steps.size(); i++) {
+    for (size_t i = 0; i < m_page_steps.size(); i++) {
         if (m_page_steps[i]->page)
             m_page_steps[i]->page->on_device_connected(obj);
     }
@@ -200,7 +200,7 @@ void CalibrationWizard::on_device_connected(MachineObject* obj)
 void CalibrationWizard::set_cali_method(CalibrationMethod method)
 {
     m_cali_method = method;
-    for (int i = 0; i < m_page_steps.size(); i++) {
+    for (size_t i = 0; i < m_page_steps.size(); i++) {
         if (m_page_steps[i]->page)
             m_page_steps[i]->page->set_cali_method(method);
     }
@@ -432,7 +432,7 @@ void CalibrationWizard::back_preset_info(MachineObject *obj, bool cali_finish, b
 
 void CalibrationWizard::msw_rescale()
 {
-    for (int i = 0; i < m_page_steps.size(); i++) {
+    for (size_t i = 0; i < m_page_steps.size(); i++) {
         if (m_page_steps[i]->page)
             m_page_steps[i]->page->msw_rescale();
     }
@@ -440,7 +440,7 @@ void CalibrationWizard::msw_rescale()
 
 void CalibrationWizard::on_sys_color_changed()
 {
-    for (int i = 0; i < m_page_steps.size(); i++) {
+    for (size_t i = 0; i < m_page_steps.size(); i++) {
         if (m_page_steps[i]->page)
             m_page_steps[i]->page->on_sys_color_changed();
     }
@@ -528,7 +528,7 @@ void PressureAdvanceWizard::create_pages()
         m_page_steps[i]->chain(m_page_steps[i+1]);
     }
 
-    for (int i = 0; i < m_page_steps.size(); i++) {
+    for (size_t i = 0; i < m_page_steps.size(); i++) {
         m_page_steps[i]->page->Hide();
         m_page_steps[i]->page->Bind(EVT_CALI_ACTION, &PressureAdvanceWizard::on_cali_action, this);
     }
@@ -1084,7 +1084,7 @@ void FlowRateWizard::create_pages()
     // hide all pages
     cali_step->page->Hide();
     save_step->page->Hide();
-    for (int i = 0; i < m_page_steps.size(); i++) {
+    for (size_t i = 0; i < m_page_steps.size(); i++) {
         m_page_steps[i]->page->Hide();
         m_page_steps[i]->page->Bind(EVT_CALI_ACTION, &FlowRateWizard::on_cali_action, this);
     }
@@ -1385,7 +1385,7 @@ void FlowRateWizard::on_cali_save()
             if (!selected_filaments.empty()) {
                 old_preset_name = selected_filaments.begin()->second->name;
             }
-            for (int i = 0; i < new_results.size(); i++) {
+            for (size_t i = 0; i < new_results.size(); i++) {
                 std::map<std::string, ConfigOption*> key_value_map;
                 key_value_map.insert(std::make_pair("filament_flow_ratio", new ConfigOptionFloatsNullable{ new_results[i].second }));
                 wxString message;
@@ -1616,7 +1616,7 @@ void MaxVolumetricSpeedWizard::create_pages()
         m_page_steps[i]->chain(m_page_steps[i + 1]);
     }
 
-    for (int i = 0; i < m_page_steps.size(); i++) {
+    for (size_t i = 0; i < m_page_steps.size(); i++) {
         m_page_steps[i]->page->Hide();
         m_page_steps[i]->page->Bind(EVT_CALI_ACTION, &MaxVolumetricSpeedWizard::on_cali_action, this);
     }

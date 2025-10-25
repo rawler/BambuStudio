@@ -74,16 +74,16 @@ bool is_two_lines_interaction(gp_Pnt pL1, gp_Pnt pL2, gp_Pnt pR1, gp_Pnt pR2) {
     Vec3d point2(pL2.X(), pL2.Y(), 0);
     Vec3d point3(pR1.X(), pR1.Y(), 0);
     Vec3d point4(pR2.X(), pR2.Y(), 0);
-  
+
     Vec3d line1 = point2 - point1;
     Vec3d line2 = point4 - point3;
 
     Vec3d line_pos1 = point1 - point3;
     Vec3d line_pos2 = point2 - point3;
-    
+
     Vec3d line_pos3 = point3 - point1;
     Vec3d line_pos4 = point4 - point1;
-    
+
     Vec3d cross_1 = line2.cross(line_pos1);
     Vec3d cross_2 = line2.cross(line_pos2);
 
@@ -94,9 +94,9 @@ bool is_two_lines_interaction(gp_Pnt pL1, gp_Pnt pL2, gp_Pnt pR1, gp_Pnt pR2) {
 }
 
 bool is_profile_self_interaction(std::vector<std::pair<gp_Pnt, gp_Pnt>> profile_line_points)
-{ 
-    for (int i = 0; i < profile_line_points.size(); ++i) {
-        for (int j = i + 2; j < profile_line_points.size(); ++j)
+{
+    for (size_t i = 0; i < profile_line_points.size(); ++i) {
+        for (size_t j = i + 2; j < profile_line_points.size(); ++j)
             if (is_two_lines_interaction(profile_line_points[i].first, profile_line_points[i].second, profile_line_points[j].first, profile_line_points[j].second))
                 return true;
     }
@@ -162,7 +162,7 @@ bool get_svg_profile(const char *path, std::vector<Element_Info> &element_infos,
                     a += step;
                 }
 
-                profile_points.push_back(curve_points);   
+                profile_points.push_back(curve_points);
 
                 // keep the adjacent curves end-to-end
                 if (profile_points.size() > 1) {
@@ -180,8 +180,8 @@ bool get_svg_profile(const char *path, std::vector<Element_Info> &element_infos,
         std::vector<std::vector<std::pair<gp_Pnt, gp_Pnt>>> path_line_points;
         for (auto profile_points : all_path_points) {
             std::vector<std::pair<gp_Pnt, gp_Pnt>> profile_line_points;
-            for (int i = 0; i < profile_points.size(); ++i) {
-                for (int j = 0; j + 1 < profile_points[i].size(); j++) {
+            for (size_t i = 0; i < profile_points.size(); ++i) {
+                for (size_t j = 0; j + 1 < profile_points[i].size(); j++) {
                     gp_Pnt pt1(profile_points[i][j].x, profile_points[i][j].y, 0);
                     gp_Pnt pt2(profile_points[i][j + 1].x, profile_points[i][j + 1].y, 0);
                     if (is_same_points(pt1, pt2))
@@ -197,7 +197,7 @@ bool get_svg_profile(const char *path, std::vector<Element_Info> &element_infos,
             // keep the start and end points of profile connected
             if (shape->fill.gradient != nullptr)
                 profile_line_points.back().second = profile_line_points[0].first;
-            
+
             if (is_profile_self_interaction(profile_line_points))
                 BOOST_LOG_TRIVIAL(warning) << "the profile is self interaction.";
 
@@ -210,9 +210,9 @@ bool get_svg_profile(const char *path, std::vector<Element_Info> &element_infos,
             float stroke_width = shape->strokeWidth * scale_size;
             Polygons polygons;
             bool close_polygon = false;
-            for (int i = 0; i < path_line_points.size(); ++i) {
+            for (size_t i = 0; i < path_line_points.size(); ++i) {
                 ClipperLib::Path pt_path;
-                for (auto line_point : path_line_points[i]) { 
+                for (auto line_point : path_line_points[i]) {
                     pt_path.push_back(ClipperLib::IntPoint(line_point.first.X() * scale_size, line_point.first.Y() * scale_size));
                 }
                 pt_path.push_back(ClipperLib::IntPoint(path_line_points[i].back().second.X() * scale_size, path_line_points[i].back().second.Y() * scale_size));
@@ -239,7 +239,7 @@ bool get_svg_profile(const char *path, std::vector<Element_Info> &element_infos,
             std::vector<std::pair<gp_Pnt, gp_Pnt>> profile_line_points;
             for (auto polygon : polygons) {
                 profile_line_points.clear();
-                for (int i = 0; i < polygon.size() - 1; ++i) {
+                for (size_t i = 0; i < polygon.size() - 1; ++i) {
                     gp_Pnt pt1(double(polygon[i][0] / scale_size), double(polygon[i][1] / scale_size), 0);
                     gp_Pnt pt2(double(polygon[i + 1][0] / scale_size), double(polygon[i + 1][1] / scale_size), 0);
                     profile_line_points.push_back({pt1, pt2});
@@ -256,9 +256,9 @@ bool get_svg_profile(const char *path, std::vector<Element_Info> &element_infos,
 
         // generate all profile curves
         std::vector<TopoDS_Wire> wires;
-        int index = 0;
+        size_t index = 0;
         double                   max_area = 0;
-        for (int i = 0; i < path_line_points.size(); ++i) {
+        for (size_t i = 0; i < path_line_points.size(); ++i) {
             BRepBuilderAPI_MakeWire wire_build;
             for (auto point_item : path_line_points[i]) {
                 TopoDS_Edge edge_build = BRepBuilderAPI_MakeEdge(point_item.first, point_item.second);
@@ -278,7 +278,7 @@ bool get_svg_profile(const char *path, std::vector<Element_Info> &element_infos,
 
         gp_Vec      dir(0, 0, 10);
         BRepBuilderAPI_MakeFace face_make(wires[index]);
-        for (int i = 0; i < wires.size(); ++i) {
+        for (size_t i = 0; i < wires.size(); ++i) {
             if (index == i)
                 continue;
             face_make.Add(wires[i]);
@@ -308,7 +308,7 @@ bool load_svg(const char *path, Model *model, std::string &message)
 
     std::vector<stl_file> stl;
     stl.resize(namedSolids.size());
-    // todo: zhimin, Can be accelerated in parallel with tbb 
+    // todo: zhimin, Can be accelerated in parallel with tbb
     for (size_t i = 0 ; i < namedSolids.size(); i++) {
         BRepMesh_IncrementalMesh mesh(namedSolids[i].shape, STEP_TRANS_CHORD_ERROR, false, STEP_TRANS_ANGLE_RES, true);
         // BBS: calculate total number of the nodes and triangles

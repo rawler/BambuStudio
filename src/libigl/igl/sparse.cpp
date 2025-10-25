@@ -62,7 +62,7 @@ IGL_INLINE void igl::sparse(
   //X = Eigen::SparseMatrix<T>(dyn_X);
   vector<Triplet<T> > IJV;
   IJV.reserve(I.size());
-  for(int x = 0;x<I.size();x++)
+  for(size_t x = 0;x<I.size();x++)
   {
     IJV.push_back(Triplet<T >(I(x),J(x),V(x)));
   }

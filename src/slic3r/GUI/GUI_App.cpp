@@ -178,27 +178,27 @@ void start_ping_test()
     wxString output_i;
     std::string output_temp;
 
-    for (int i = 0; i < output.size(); i++) {
+    for (size_t i = 0; i < output.size(); i++) {
         output_i = output[i].To8BitData();
         output_temp = output_i.ToStdString(wxConvUTF8);
         BOOST_LOG_TRIVIAL(info) << "ping amazon:" << output_temp;
 
     }
     wxExecute("ping www.apple.com", output, wxEXEC_NODISABLE);
-    for (int i = 0; i < output.size(); i++) {
+    for (size_t i = 0; i < output.size(); i++) {
         output_i = output[i].To8BitData();
         output_temp = output_i.ToStdString(wxConvUTF8);
         BOOST_LOG_TRIVIAL(info) << "ping www.apple.com:" << output_temp;
     }
     wxExecute("ping www.bambulab.com", output, wxEXEC_NODISABLE);
-    for (int i = 0; i < output.size(); i++) {
+    for (size_t i = 0; i < output.size(); i++) {
         output_i = output[i].To8BitData();
         output_temp = output_i.ToStdString(wxConvUTF8);
         BOOST_LOG_TRIVIAL(info) << "ping bambulab:" << output_temp;
     }
     //Get GateWay IP
     wxExecute("ping 192.168.0.1", output, wxEXEC_NODISABLE);
-    for (int i = 0; i < output.size(); i++) {
+    for (size_t i = 0; i < output.size(); i++) {
         output_i = output[i].To8BitData();
         output_temp = output_i.ToStdString(wxConvUTF8);
         BOOST_LOG_TRIVIAL(info) << "ping 192.168.0.1:" << output_temp;
@@ -1058,7 +1058,7 @@ std::vector<std::string> GUI_App::split_str(std::string src, std::string separat
     std::string::size_type pos;
     std::vector<std::string> result;
     src += separator;
-    int size = src.size();
+    std::string::size_type size = src.size();
 
     for (int i = 0; i < size; i++)
     {
@@ -1086,8 +1086,8 @@ void GUI_App::post_init()
         BOOST_LOG_TRIVIAL(info) << __FUNCTION__ << " sync_user_preset: false";
     }
 
-    
-    
+
+
     wxGetApp().report_consent_common(app_config->get("firstguide", "privacyuse") == "true"? true : false, "studio_improvement_policy_enable", "StudioImprovementPolicy");
 
     /*request helio config*/
@@ -4837,7 +4837,7 @@ void GUI_App::on_http_error(wxCommandEvent &evt)
         try {
             wxString body_str = evt.GetString();
             bool found_json = false;
-            for (int i = 0; i < body_str.size(); i++) {
+            for (size_t i = 0; i < body_str.size(); i++) {
                 if (body_str[i] == '{') {
                     found_json = true;
                     break;
@@ -7748,7 +7748,7 @@ void GUI_App::report_consent_common(bool agree, std::string scene, std::string f
     if (app_config->get("region") == "China") {
         formID += "-CN";
     }
-    
+
     formItem["formID"] = formID;
     formItem["op"] = agree? "Opt-in" : "Withdraw";
     formItemArray.push_back(formItem);
@@ -7921,7 +7921,7 @@ bool is_soluble_filament(int extruder_id)
     auto &filament_presets = Slic3r::GUI::wxGetApp().preset_bundle->filament_presets;
     auto &filaments        = Slic3r::GUI::wxGetApp().preset_bundle->filaments;
 
-    if (extruder_id >= filament_presets.size()) return false;
+    if (extruder_id >= (int)filament_presets.size()) return false;
 
     Slic3r::Preset *filament = filaments.find_preset(filament_presets[extruder_id]);
     if (filament == nullptr) return false;
@@ -7957,7 +7957,7 @@ bool is_support_filament(int extruder_id, bool strict_check)
     auto &filament_presets = Slic3r::GUI::wxGetApp().preset_bundle->filament_presets;
     auto &filaments        = Slic3r::GUI::wxGetApp().preset_bundle->filaments;
 
-    if (extruder_id >= filament_presets.size()) return false;
+    if (extruder_id >= (int)filament_presets.size()) return false;
 
     Slic3r::Preset *filament = filaments.find_preset(filament_presets[extruder_id]);
     if (filament == nullptr) return false;

@@ -690,9 +690,9 @@ hmesh_t extract_connected_components(
                 // check if we need to save vertex as being a seam vertex
                 // std::vector<bool>::const_iterator fiter = mesh_vertex_to_seam_flag.find(*face_vertex_iter);
                 bool is_seam_vertex = (size_t)(*face_vertex_iter) < mesh_vertex_to_seam_flag.size() && SAFE_ACCESS(mesh_vertex_to_seam_flag, *face_vertex_iter); //(size_t)(*face_vertex_iter) < mesh_vertex_to_seam_flag.size(); //fiter != mesh_vertex_to_seam_flag.cend() && fiter->second == true;
-                
+
                 if (is_seam_vertex) {
-                    
+
                     cc_seam_vertices.push_back(cc_descriptor);
 #ifdef EXTRACT_SEAM_HALFEDGES
                     const uint32_t face_vertex_idx = std::distance(vertices_around_face.cbegin(), face_vertex_iter);
@@ -705,7 +705,7 @@ hmesh_t extract_connected_components(
                         bool last_vertex_is_seam_vertex = (size_t)(last_vtx_descr) < mesh_vertex_to_seam_flag.size() && SAFE_ACCESS(mesh_vertex_to_seam_flag, last_vtx_descr); //(size_t)(*face_vertex_iter) < mesh_vertex_to_seam_flag.size(); //fiter != mesh_vertex_to_seam_flag.cend() && fiter->second == true;
                         have_seam_halfedge = (last_vertex_is_seam_vertex);
                     }
-                    
+
                     if (have_seam_halfedge) {
                         const halfedge_descriptor_t seam_he = SAFE_ACCESS(halfedges_on_face, face_vertex_idx); // number of halfedge == number of vertices in face
                         cc_seam_halfedges.push_back(seam_he);
@@ -1792,7 +1792,7 @@ void dispatch(output_t& output, const input_t& input)
     ///////////////////////////////////////////////////////////////////////////
 
     std::unordered_map<ed_t, std::vector<fd_t>> ps_edge_face_intersection_pairs;
-    
+
     TIMESTACK_PUSH("Prepare edge-to-face pairs");
 
 #if defined(MCUT_WITH_COMPUTE_HELPER_THREADPOOL)
@@ -3051,7 +3051,7 @@ void dispatch(output_t& output, const input_t& input)
                     // add vertex if it does not exist.
                     // --------------------------------
 
-                   
+
                     const bool pq_is_indicent_on_pqr_and_pqs = (face_pqs != hmesh_t::null_face()); // pq is common to faces pqr and pqs
                     std::vector<fd_t> new_vertex_incident_ps_faces; // the list of faces which are incident to our intersection point
                     // NOTE: Two intersection vertices are same if they are incident on the same faces AND their registry halfedges are opposites
@@ -3076,9 +3076,9 @@ void dispatch(output_t& output, const input_t& input)
 #if 0
                     int fv_count = 0;
                     const bool on_face  = point_on_face_plane(ps, tested_face, intersection_point, fv_count);
-                    
+
                     if (!on_face)
-                    { 
+                    {
                         const vec3 normal = normalize(tested_face_plane_normal);
                         const double length = length(normal) ;
 
@@ -3100,7 +3100,7 @@ void dispatch(output_t& output, const input_t& input)
                     //
                     //
                     //
-                    
+
                     //
 
 #endif
@@ -3261,11 +3261,11 @@ void dispatch(output_t& output, const input_t& input)
         // ---------------------------------------------------------------------------
 
         /*for each intersection cs face
-        for each halfedge of face        
+        for each halfedge of face
             if halfedge intersects an im face and halfedge is a border halfedge
                 1) find all other border halfedges of faces which also intersect im face
                 if (1) > 0
-                    check to ensure that at least one halfedge of the im face intersects the cs face 
+                    check to ensure that at least one halfedge of the im face intersects the cs face
     */
 
         // This check prevents malformed configurations where a cut-mesh face might stab/pierce
@@ -3349,7 +3349,7 @@ void dispatch(output_t& output, const input_t& input)
                     for(auto f : fv)
                     {
                         file << "f ";
-                        std::vector<vd_t> verts = ps.get_vertices_around_face(f); 
+                        std::vector<vd_t> verts = ps.get_vertices_around_face(f);
                         for(auto v : verts)
                         {
                             file << v+1 << " ";
@@ -4161,7 +4161,7 @@ void dispatch(output_t& output, const input_t& input)
         // Gather/map intersection points on each intersecting faces
         ///////////////////////////////////////////////////////////////////////////
 
-        
+
 
         // TODO: build this data structure during polygon intersection tests!
         std::map<
@@ -4221,19 +4221,19 @@ void dispatch(output_t& output, const input_t& input)
 
         for (std::map<fd_t, std::vector<vd_t>>::const_iterator i = ps_iface_to_ivtx_list.cbegin(); i != ps_iface_to_ivtx_list.cend(); ++i)
         {
-            
-            
+
+
 
             // log
-            
+
             for (std::vector<vd_t>::const_iterator j = i->second.cbegin(); j != i->second.cend(); ++j)
             {
-                
-            }
-            
-            
 
-            
+            }
+
+
+
+
         }
 #endif
 
@@ -6417,7 +6417,7 @@ void dispatch(output_t& output, const input_t& input)
 
             const hd_t& traced_polygon_halfedge = *traced_polygon_halfedge_iter;
 #if 0
-                
+
 
                 std::pair<std::map<hd_t, std::vector<int>>::iterator, bool> pair = m0_h_to_ply.insert(std::make_pair(traced_polygon_halfedge, std::vector<int>()));
 
@@ -6439,13 +6439,13 @@ void dispatch(output_t& output, const input_t& input)
 #if 0
     // dump
     for (std::map<hd_t, std::vector<int>>::const_iterator i = m0_h_to_ply.cbegin(); i != m0_h_to_ply.cend(); ++i) {
-        
+
         for (std::vector<int>::const_iterator j = i->second.cbegin(); j != i->second.cend(); ++j) {
-            
-            
-            
+
+
+
         }
-        
+
     }
 #endif
 
@@ -7562,10 +7562,10 @@ void dispatch(output_t& output, const input_t& input)
 
 #if 0
     // dump
-    
+
 
     for (std::map<hd_t, hd_t>::const_iterator i = m0_to_m1_ihe.cbegin(); i != m0_to_m1_ihe.cend(); ++i) {
-        
+
     }
 #endif
 
@@ -8673,14 +8673,14 @@ void dispatch(output_t& output, const input_t& input)
     // m0_cm_poly_to_patch_idx.clear();
 #if 0
         // dump
-        
-        
+
+
         for (std::map<char, std::vector<int>>::const_iterator color_to_ccw_patches_iter = color_to_patch.cbegin(); color_to_ccw_patches_iter != color_to_patch.cend(); ++color_to_ccw_patches_iter)
         {
             const char color_label = color_to_ccw_patches_iter->first;
             //const cm_patch_location_t color_label_dye = SAFE_ACCESS(patch_color_label_to_location, color_label);
 
-            
+
         }
 
 #endif

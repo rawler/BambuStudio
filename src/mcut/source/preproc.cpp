@@ -961,7 +961,7 @@ void resolve_floating_polygons(
                     //     (int)origin_face_vertices_2d.size());
 
                     bool aOnEdge = (double(.0) <= a.second.second && double(1.) >= a.second.second);
-                    // for (int i = 0; i < (int)origin_face_vertices_2d.size(); ++i) {
+                    // for (size_t i = 0; i < (int)origin_face_vertices_2d.size(); ++i) {
                     //     int i0 = i;
                     //     int i1 = (i0 + 1) % (int)origin_face_vertices_2d.size();
                     //     if (collinear(origin_face_vertices_2d[i0], origin_face_vertices_2d[i1], a.second.first)) {
@@ -982,7 +982,7 @@ void resolve_floating_polygons(
                     //     (int)origin_face_vertices_2d.size());
                     bool bOnEdge = (double(.0) <= b.second.second && double(1.) >= b.second.second);
 
-                    // for (int i = 0; i < (int)origin_face_vertices_2d.size(); ++i) {
+                    // for (size_t i = 0; i < (int)origin_face_vertices_2d.size(); ++i) {
                     //     int i0 = i;
                     //     int i1 = (i0 + 1) % (int)origin_face_vertices_2d.size();
                     //     if (collinear(origin_face_vertices_2d[i0], origin_face_vertices_2d[i1], b.second.first)) {

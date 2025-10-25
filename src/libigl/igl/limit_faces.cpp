@@ -1,9 +1,9 @@
 // This file is part of libigl, a simple c++ geometry processing library.
-// 
+//
 // Copyright (C) 2013 Alec Jacobson <alecjacobson@gmail.com>
-// 
-// This Source Code Form is subject to the terms of the Mozilla Public License 
-// v. 2.0. If a copy of the MPL was not distributed with this file, You can 
+//
+// This Source Code Form is subject to the terms of the Mozilla Public License
+// v. 2.0. If a copy of the MPL was not distributed with this file, You can
 // obtain one at http://mozilla.org/MPL/2.0/.
 #include "limit_faces.h"
 
@@ -12,8 +12,8 @@
 
 template <typename MatF, typename VecL>
 IGL_INLINE void igl::limit_faces(
-  const MatF & F, 
-  const VecL & L, 
+  const MatF & F,
+  const VecL & L,
   const bool exclusive,
   MatF & LF)
 {
@@ -30,7 +30,7 @@ IGL_INLINE void igl::limit_faces(
     {
       bool found = false;
       // loop over L
-      for(int l = 0;l<L.size();l++)
+      for(size_t l = 0;l<L.size();l++)
       {
         if(F(i,j) == L(l))
         {

@@ -8,7 +8,7 @@ ExtrusionMultiPath thick_polyline_to_multi_path(const ThickPolyline& thick_polyl
     ExtrusionPath      path(role);
     ThickLines         lines = thick_polyline.thicklines();
 
-    for (int i = 0; i < (int)lines.size(); ++i) {
+    for (size_t i = 0; i < (int)lines.size(); ++i) {
         const ThickLine& line = lines[i];
         assert(line.a_width >= SCALED_EPSILON && line.b_width >= SCALED_EPSILON);
 
@@ -107,7 +107,7 @@ static ExtrusionPaths thick_polyline_to_extrusion_paths_2(const ThickPolyline& t
     size_t start_index = 0;
     double max_width, min_width;
 
-    for (int i = 0; i < (int)lines.size(); ++i) {
+    for (size_t i = 0; i < (int)lines.size(); ++i) {
         const ThickLine& line = lines[i];
 
         if (i == 0) {

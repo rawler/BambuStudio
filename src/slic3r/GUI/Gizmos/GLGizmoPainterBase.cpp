@@ -431,7 +431,7 @@ void GLGizmoPainterBase::render_cursor_height_range(const Transform3d& trafo) co
     const ModelObject* model_object = wxGetApp().model().objects[selection.get_object_idx()];
     const ModelInstance* mi = model_object->instances[selection.get_instance_idx()];
 
-    int volumes_count = model_object->volumes.size();
+    size_t volumes_count = model_object->volumes.size();
     if (m_cut_contours.size() != volumes_count * 2) {
         m_cut_contours.resize(volumes_count * 2);
     }
@@ -456,7 +456,7 @@ void GLGizmoPainterBase::render_cursor_height_range(const Transform3d& trafo) co
             vol_mesh.transform(mi->get_transformation().get_matrix() * mv->get_matrix());
         }
 
-        for (int i = 0; i < zs.size(); i++) {
+        for (size_t i = 0; i < zs.size(); i++) {
             update_contours(m_volumes_index, vol_mesh, zs[i], max_z, min_z, m_is_cursor_in_imgui ? false : (i == 0 ? true : false));
 
             const Camera& camera = wxGetApp().plater()->get_camera();
@@ -738,7 +738,7 @@ std::vector<GLGizmoPainterBase::ProjectedHeightRange> GLGizmoPainterBase::get_pr
         mi->get_assemble_transformation().get_matrix(true) :
         mi->get_transformation().get_matrix(true);
 
-    for (int mesh_idx = 0; mesh_idx < part_volumes.size(); mesh_idx++) {
+    for (size_t mesh_idx = 0; mesh_idx < part_volumes.size(); mesh_idx++) {
         if (mesh_idx == m_rr.mesh_id)
             continue;
 
@@ -746,7 +746,7 @@ std::vector<GLGizmoPainterBase::ProjectedHeightRange> GLGizmoPainterBase::get_pr
         const indexed_triangle_set& its = part_volumes[mesh_idx]->mesh().its;
 
         int first_hit_facet_idx = -1;
-        for (int facet_idx = 0; facet_idx < its.indices.size(); facet_idx++) {
+        for (size_t facet_idx = 0; facet_idx < its.indices.size(); facet_idx++) {
             stl_vertex v0 = its.vertices[its.indices[facet_idx].x()];
             stl_vertex v1 = its.vertices[its.indices[facet_idx].y()];
             stl_vertex v2 = its.vertices[its.indices[facet_idx].z()];
@@ -905,7 +905,7 @@ bool GLGizmoPainterBase::gizmo_event(SLAGizmoEventType action, const Vec2d& mous
             std::vector<ProjectedHeightRange> projected_height_range_by_mesh = get_projected_height_range(_mouse_position, 1., part_volumes, trafo_matrices);
             m_last_mouse_click = Vec2d::Zero();
 
-            for (int i = 0; i < projected_height_range_by_mesh.size(); i++) {
+            for (size_t i = 0; i < projected_height_range_by_mesh.size(); i++) {
                 const ProjectedHeightRange& phr = projected_height_range_by_mesh[i];
                 int mesh_idx = phr.mesh_idx;
 
@@ -1513,7 +1513,7 @@ void TriangleSelectorPatch::update_triangles_per_type()
 {
     //BOOST_LOG_TRIVIAL(info) << __FUNCTION__ << boost::format(", enter");
     m_triangle_patches.resize((int)EnforcerBlockerType::ExtruderMax + 1);
-    for (int i = 0; i < m_triangle_patches.size(); i++) {
+    for (size_t i = 0; i < m_triangle_patches.size(); i++) {
         auto& patch = m_triangle_patches[i];
         patch.type = (EnforcerBlockerType)i;
         patch.triangle_indices.reserve(m_triangles.size() / 3);
@@ -1611,7 +1611,7 @@ void TriangleSelectorPatch::update_triangles_per_patch()
         return total_area;
     };
 
-    int start_facet_idx = 0;
+    size_t start_facet_idx = 0;
     while (1) {
         for (; start_facet_idx < visited.size(); start_facet_idx++) {
             if (!visited[start_facet_idx] && m_triangles[start_facet_idx].valid() && !m_triangles[start_facet_idx].is_split())

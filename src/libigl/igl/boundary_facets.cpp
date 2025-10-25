@@ -35,7 +35,7 @@ IGL_INLINE void igl::boundary_facets(
     vector<IntegerF>(simplex_size-1));
 
   // Gather faces, loop over tets
-  for(int i = 0; i< (int)T.size();i++)
+  for( size_t i = 0; i< (int)T.size();i++)
   {
     assert((int)T[i].size() == simplex_size);
     switch(simplex_size)
@@ -81,7 +81,7 @@ IGL_INLINE void igl::boundary_facets(
   F.resize(allF.size() - twos);
   //F.resize(ones);
   int k = 0;
-  for(int i = 0;i< (int)allF.size();i++)
+  for( size_t i = 0;i< (int)allF.size();i++)
   {
     if(C[i] != 2)
     {

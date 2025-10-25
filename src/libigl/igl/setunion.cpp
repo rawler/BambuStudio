@@ -51,7 +51,7 @@ IGL_INLINE void igl::setunion(
   {
     int ka = 0;
     int kb = 0;
-    for(int i = 0;i<IAC.size();i++)
+    for( size_t i = 0;i<IAC.size();i++)
     {
       if(IAC(i)<A.size())
       {

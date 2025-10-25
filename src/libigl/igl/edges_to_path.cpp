@@ -38,7 +38,7 @@ IGL_INLINE void igl::edges_to_path(
   }
 
   Eigen::VectorXi V = Eigen::VectorXi::Zero(vE.maxCoeff()+1);
-  for(int e = 0;e<vE.size();e++)
+  for(size_t e = 0;e<vE.size();e++)
   {
     V(vE(e))++;
     assert(V(vE(e))<=2);
@@ -46,7 +46,7 @@ IGL_INLINE void igl::edges_to_path(
   // Try to find a vertex with valence = 1
   int c = 2;
   int s = vE(0);
-  for(int v = 0;v<V.size();v++)
+  for(size_t v = 0;v<V.size();v++)
   {
     if(V(v) == 1)
     {
@@ -87,7 +87,7 @@ IGL_INLINE void igl::edges_to_path(
     ismember_rows(sEI,sE,F,J);
   }
   K.resize(I.size()-1);
-  for(int k = 0;k<K.size();k++)
+  for(size_t k = 0;k<K.size();k++)
   {
     K(k) = (E(J(k),0) != I(k) ? 1 : 0);
   }

@@ -19,13 +19,13 @@ IGL_INLINE void igl::map_vertices_to_circle(
   map_ij.resize(V.rows());
 
   std::vector<bool> isOnBnd(V.rows(),false);
-  for (int i = 0; i < bnd.size(); i++)
+  for (size_t i = 0; i < bnd.size(); i++)
   {
     isOnBnd[bnd[i]] = true;
     map_ij[bnd[i]] = i;
   }
 
-  for (int i = 0; i < (int)isOnBnd.size(); i++)
+  for (size_t i = 0; i < (int)isOnBnd.size(); i++)
   {
     if (!isOnBnd[i])
     {
@@ -45,7 +45,7 @@ IGL_INLINE void igl::map_vertices_to_circle(
   double total_len = len[len.size()-1] + (V.row(bnd[0]) - V.row(bnd[bnd.size()-1])).norm();
 
   UV.resize(bnd.size(),2);
-  for (int i = 0; i < bnd.size(); i++)
+  for (size_t i = 0; i < bnd.size(); i++)
   {
     double frac = len[i] * 2. * igl::PI / total_len;
     UV.row(map_ij[bnd[i]]) << cos(frac), sin(frac);

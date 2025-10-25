@@ -309,7 +309,7 @@ void GLGizmoMmuSegmentation::render_triangles(const Selection &selection) const
                     auto colors =temp_patch->get_ebt_colors();
                     auto triangles = temp_patch->get_triangles();
                     if (triangles.size() > 0 && state >= 0) {
-                        if (state < colors.size()) {
+                        if (state < (int)colors.size()) {
                             auto color = colors[state];
                             m_parent.get_paint_outline_volumes().volumes.emplace_back(new GLVolume(color));
                             auto& v = m_parent.get_paint_outline_volumes().volumes.back();
@@ -359,7 +359,7 @@ void GLGizmoMmuSegmentation::render_triangles(const Selection &selection) const
 bool GLGizmoMmuSegmentation::on_number_key_down(int number)
 {
     int extruder_idx = number - 1;
-    if (extruder_idx < m_extruders_colors.size() && extruder_idx >= 0)
+    if (extruder_idx < (int)m_extruders_colors.size() && extruder_idx >= 0)
         m_selected_extruder_idx = extruder_idx;
 
     return true;
@@ -614,7 +614,7 @@ void GLGizmoMmuSegmentation::on_render_input_window(float x, float y, float bott
     const ImVec2 max_label_size = ImGui::CalcTextSize("99", NULL, true);
     const float item_spacing = m_imgui->scaled(0.8f);
     size_t n_extruder_colors = std::min((size_t)EnforcerBlockerType::ExtruderMax, m_extruders_colors.size());
-    for (int extruder_idx = 0; extruder_idx < n_extruder_colors; extruder_idx++) {
+    for (size_t extruder_idx = 0; extruder_idx < n_extruder_colors; extruder_idx++) {
         const std::array<float, 4> &extruder_color = m_extruders_colors[extruder_idx];
         ImVec4 color_vec(extruder_color[0], extruder_color[1], extruder_color[2], extruder_color[3]);
         std::string color_label = std::string("##extruder color ") + std::to_string(extruder_idx);
@@ -681,7 +681,7 @@ void GLGizmoMmuSegmentation::on_render_input_window(float x, float y, float bott
     else
         icons = { ImGui::CircleButtonIcon, ImGui::SphereButtonIcon, ImGui::TriangleButtonIcon, ImGui::HeightRangeIcon, ImGui::FillButtonIcon, ImGui::GapFillIcon };
     std::array<wxString, 6> tool_tips = { _L("Circle"), _L("Sphere"), _L("Triangle"), _L("Height Range"), _L("Fill"), _L("Gap Fill") };
-    for (int i = 0; i < tool_ids.size(); i++) {
+    for (size_t i = 0; i < tool_ids.size(); i++) {
         std::string  str_label = std::string("");
         std::wstring btn_name  = icons[i] + boost::nowide::widen(str_label);
 
@@ -962,7 +962,7 @@ void GLGizmoMmuSegmentation::on_render_input_window(float x, float y, float bott
         if (m_imgui->button(m_desc.at("perform"))) {
             Plater::TakeSnapshot snapshot(wxGetApp().plater(), "Gap fill", UndoRedo::SnapshotType::GizmoAction);
 
-            for (int i = 0; i < m_triangle_selectors.size(); i++) {
+            for (size_t i = 0; i < m_triangle_selectors.size(); i++) {
                 TriangleSelectorPatch* ts_mm = dynamic_cast<TriangleSelectorPatch*>(m_triangle_selectors[i].get());
                 ts_mm->update_selector_triangles();
                 ts_mm->request_update_render_data(true);
@@ -1057,7 +1057,7 @@ void GLGizmoMmuSegmentation::init_model_triangle_selectors()
 
 void GLGizmoMmuSegmentation::update_triangle_selectors_colors()
 {
-    for (int i = 0; i < m_triangle_selectors.size(); i++) {
+    for (size_t i = 0; i < m_triangle_selectors.size(); i++) {
         TriangleSelectorPatch* selector = dynamic_cast<TriangleSelectorPatch*>(m_triangle_selectors[i].get());
         int extruder_idx = m_volumes_extruder_idxs[i];
         int extruder_color_idx = std::max(0, extruder_idx - 1);

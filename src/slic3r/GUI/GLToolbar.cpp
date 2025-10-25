@@ -1184,12 +1184,12 @@ bool GLToolbar::on_mouse(wxMouseEvent& evt, GLCanvas3D& parent)
                 (m_pressed_toggable_id == -1
                     || m_items[item_id]->get_last_action_type() == GLToolbarItem::Left);
             if (!rt) {
-                if (item_id >= 0 && item_id < m_items.size()) {
+                if (item_id >= 0 && item_id < (int)m_items.size()) {
                     rt = !m_items[item_id]->toggle_affectable();
                 }
             }
             if (!rt) {
-                if (m_pressed_toggable_id >= 0 && m_pressed_toggable_id < m_items.size()) {
+                if (m_pressed_toggable_id >= 0 && m_pressed_toggable_id < (int)m_items.size()) {
                     rt = !m_items[m_pressed_toggable_id]->toggle_disable_others();
                 }
             }
@@ -2081,9 +2081,9 @@ void ToolbarKeepSizeRenderer::recalculate_item_pos(const GLToolbar& t_toolbar, c
         current_item->set_collapsed(false);
         m_indices_to_draw.emplace_back(i);
     }
-    
+
     float collapse_button_width = 0.0f;
-    
+
     if (final_canvas_width - toolbar_width < 1e-6f) {
         float current_width = 2.0f * t_layout.border;
         float uncollapsible_width = 2.0f * t_layout.border;
@@ -2126,12 +2126,12 @@ void ToolbarKeepSizeRenderer::recalculate_item_pos(const GLToolbar& t_toolbar, c
                 if (i < m_indices_to_draw.size() - 1) {
                     item_width += t_layout.gap_size;
                 }
-                
+
                 if (current_item->is_collapse_button()) {
                     collapse_button_width = item_width;
                     continue;
                 }
-                
+
                 uncollapsible_width += item_width;
             }
         }
@@ -2197,7 +2197,7 @@ void ToolbarKeepSizeRenderer::recalculate_item_pos(const GLToolbar& t_toolbar, c
                         item_width += t_layout.text_size;
                     item_width += t_layout.gap_size;
                 }
-                
+
                 final_toolbar_width = final_toolbar_width - (item_width * t_layout.scale);
 
                 --final_index;

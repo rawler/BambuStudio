@@ -1008,7 +1008,7 @@ void print_ams_mapping_result(std::vector<FilamentInfo>& result)
     }
 
     char buffer[256];
-    for (int i = 0; i < result.size(); i++) {
+    for (size_t i = 0; i < result.size(); i++) {
         ::sprintf(buffer, "print_ams_mapping: F(%02d) -> A(%02d)", result[i].id+1, result[i].tray_id+1);
         BOOST_LOG_TRIVIAL(info) << std::string(buffer);
     }
@@ -1150,7 +1150,7 @@ bool SelectMachineDialog::do_ams_mapping(MachineObject *obj_,bool use_ams)
         bool is_valid = DevMappingUtil::is_valid_mapping_result(obj_, m_ams_mapping_result);
         if (filament_result != 1 && !is_valid) {
             //reset invalid result
-            for (int i = 0; i < m_ams_mapping_result.size(); i++) {
+            for (size_t i = 0; i < m_ams_mapping_result.size(); i++) {
                 m_ams_mapping_result[i].tray_id = -1;
                 m_ams_mapping_result[i].distance = 99999;
             }
@@ -1169,7 +1169,7 @@ bool SelectMachineDialog::get_ams_mapping_result(std::string &mapping_array_str,
 
     bool valid_mapping_result = true;
     int invalid_count = 0;
-    for (int i = 0; i < m_ams_mapping_result.size(); i++) {
+    for (size_t i = 0; i < m_ams_mapping_result.size(); i++) {
         if (m_ams_mapping_result[i].tray_id == -1) {
             valid_mapping_result = false;
             invalid_count++;
@@ -1198,7 +1198,7 @@ bool SelectMachineDialog::get_ams_mapping_result(std::string &mapping_array_str,
                 BOOST_LOG_TRIVIAL(error) << "get_ams_mapping_result, plater is nullptr";
             }
 
-            for (int i = 0; i < wxGetApp().preset_bundle->filament_presets.size(); i++) {
+            for (size_t i = 0; i < wxGetApp().preset_bundle->filament_presets.size(); i++) {
                 int  tray_id = -1;
                 json mapping_item_v1;
                 mapping_item_v1["ams_id"]  = 0xff;
@@ -1208,7 +1208,7 @@ bool SelectMachineDialog::get_ams_mapping_result(std::string &mapping_array_str,
                 mapping_item["targetColor"]  = "";
                 mapping_item["filamentId"]   = "";
                 mapping_item["filamentType"] = "";
-                for (int k = 0; k < m_ams_mapping_result.size(); k++) {
+                for (size_t k = 0; k < m_ams_mapping_result.size(); k++) {
                     if (m_ams_mapping_result[k].id == i) {
                         tray_id                      = m_ams_mapping_result[k].tray_id;
                         mapping_item["ams"]          = tray_id;
@@ -1256,7 +1256,7 @@ bool SelectMachineDialog::get_ams_mapping_result(std::string &mapping_array_str,
                 mapping_item_v1["slot_id"] = 0xff;
 
                 try {
-                    for (int k = 0; k < m_ams_mapping_result.size(); k++) {
+                    for (size_t k = 0; k < m_ams_mapping_result.size(); k++) {
                         if (m_ams_mapping_result[k].id == i) {
                             mapping_result = m_ams_mapping_result[k].tray_id;
                             mapping_item_v1["ams_id"]  = std::stoi(m_ams_mapping_result[k].ams_id);
@@ -1353,7 +1353,7 @@ bool SelectMachineDialog::can_hybrid_mapping(DevExtderSystem data) {
 
     //Only when all preset nozzle types and machine nozzle types are exactly the same, return true.
     auto type = flow_types[0];
-    for (int i = 0; i < flow_types.size(); i++){
+    for (size_t i = 0; i < flow_types.size(); i++){
         if (flow_types[i] != type || flow_type_of_machine[i] != type)
             return false;
     }
@@ -1364,7 +1364,7 @@ bool SelectMachineDialog::can_hybrid_mapping(DevExtderSystem data) {
 void SelectMachineDialog::auto_supply_with_ext(std::vector<DevAmsTray> slots) {
     if (slots.size() <= 0) return;
 
-    for (int i = 0; i < m_ams_mapping_result.size(); i++) {
+    for (size_t i = 0; i < m_ams_mapping_result.size(); i++) {
         auto it = m_ams_mapping_result[i];
         if (it.ams_id == "") {
             DevAmsTray slot("");
@@ -3022,7 +3022,7 @@ void SelectMachineDialog::on_selection_changed(wxCommandEvent &event)
     if (!dev) return;
 
     MachineObject* obj = nullptr;
-    for (int i = 0; i < m_list.size(); i++) {
+    for (size_t i = 0; i < m_list.size(); i++) {
         if (i == selection) {
 
             //check lan mode machine
@@ -3331,7 +3331,7 @@ void SelectMachineDialog::update_show_status(MachineObject* obj_)
         show_status(PrintDialogStatus::PrintStatusNoSdcard);
         return;
     }
-    if (wxGetApp().preset_bundle->filament_presets.size() > 16 && m_print_type != PrintFromType::FROM_SDCARD_VIEW) { 
+    if (wxGetApp().preset_bundle->filament_presets.size() > 16 && m_print_type != PrintFromType::FROM_SDCARD_VIEW) {
         if (!obj_->is_enable_ams_np && !obj_->is_enable_np)
         {
             show_status(PrintDialogStatus::PrintStatusColorQuantityExceed);
@@ -3833,7 +3833,7 @@ void SelectMachineDialog::reset_and_sync_ams_list()
     auto                     preset_bundle = wxGetApp().preset_bundle;
 
     for (auto filament_name : preset_bundle->filament_presets) {
-        for (int f_index = 0; f_index < preset_bundle->filaments.size(); f_index++) {
+        for (size_t f_index = 0; f_index < preset_bundle->filaments.size(); f_index++) {
             PresetCollection *filament_presets = &wxGetApp().preset_bundle->filaments;
             Preset *          preset           = &filament_presets->preset(f_index);
             int size = preset_bundle->filaments.size();

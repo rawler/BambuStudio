@@ -538,7 +538,7 @@ bool PresetComboBox::add_ams_filaments(std::string selected, bool alias_name)
                 DynamicPrintConfig *cfg    = &wxGetApp().preset_bundle->project_config;
                 if (cfg) {
                     auto colors = static_cast<ConfigOptionStrings *>(cfg->option("filament_colour")->clone());
-                    if (m_filament_idx < colors->values.size()) {
+                    if (m_filament_idx < (int)colors->values.size()) {
                         auto cur_color = colors->values[m_filament_idx];
                         if (color == cur_color) {
                             selected_in_ams = true;
@@ -1447,9 +1447,9 @@ void PlaterPresetComboBox::sync_colour_config(const std::vector<std::string> &cl
     auto colour_type_opt = static_cast<ConfigOptionStrings *>(cfg->option("filament_colour_type")->clone());
     auto colour_opt = static_cast<ConfigOptionStrings *>(cfg->option("filament_colour")->clone());
 
-    if (m_filament_idx >= multi_colour_opt->values.size()) multi_colour_opt->values.resize(m_filament_idx + 1);
-    if (m_filament_idx >= colour_type_opt->values.size()) colour_type_opt->values.resize(m_filament_idx + 1);
-    if (m_filament_idx >= colour_opt->values.size()) colour_opt->values.resize(m_filament_idx + 1);
+    if (m_filament_idx >= (int)multi_colour_opt->values.size()) multi_colour_opt->values.resize(m_filament_idx + 1);
+    if (m_filament_idx >= (int)colour_type_opt->values.size()) colour_type_opt->values.resize(m_filament_idx + 1);
+    if (m_filament_idx >= (int)colour_opt->values.size()) colour_opt->values.resize(m_filament_idx + 1);
 
     std::string clr_str = "";
     for(auto &clr : clrs) {

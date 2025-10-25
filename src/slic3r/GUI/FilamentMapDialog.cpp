@@ -82,7 +82,7 @@ bool try_pop_up_before_slice(bool is_slice_all, Plater* plater_ref, PartPlate* p
         if (sync_plate) {
             if (is_slice_all) {
                 auto plate_list = plater_ref->get_partplate_list().get_plate_list();
-                for (int i = 0; i < plate_list.size(); ++i) {
+                for (size_t i = 0; i < plate_list.size(); ++i) {
                     plate_list[i]->set_filament_map_mode(new_mode);
                     if(new_mode == fmmManual)
                         plate_list[i]->set_filament_maps(new_maps);
@@ -283,7 +283,7 @@ void FilamentMapDialog::on_ok(wxCommandEvent &event)
         std::vector<int> left_filaments  = m_manual_map_panel->GetLeftFilaments();
         std::vector<int> right_filaments = m_manual_map_panel->GetRightFilaments();
 
-        for (int i = 0; i < m_filament_map.size(); ++i) {
+        for (size_t i = 0; i < m_filament_map.size(); ++i) {
             if (std::find(left_filaments.begin(), left_filaments.end(), i + 1) != left_filaments.end()) {
                 m_filament_map[i] = 1;
             } else if (std::find(right_filaments.begin(), right_filaments.end(), i + 1) != right_filaments.end()) {

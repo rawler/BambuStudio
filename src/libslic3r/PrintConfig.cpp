@@ -7079,7 +7079,7 @@ int DynamicPrintConfig::update_values_from_multi_to_multi_2(const std::vector<st
 
     auto get_same_variant_indices = [](const std::vector<std::string>& extruder_variants, const std::string& variant){
         std::vector<int> indices;
-        for(int i=0;i<extruder_variants.size();++i)
+        for(size_t i=0;i<extruder_variants.size();++i)
             if(extruder_variants[i] == variant)
                 indices.push_back(i);
         return indices;
@@ -7217,7 +7217,7 @@ int DynamicPrintConfig::update_values_from_multi_to_multi_2(const std::vector<st
                 double min = 9999.0;
                 bool has_value = false;
 
-                for (int index = 0; index < opt->values.size(); index++)
+                for (size_t index = 0; index < opt->values.size(); index++)
                 {
                     if (!opt->is_nil(index) && (opt->values[index] < min)) {
                         min = opt->values[index];
@@ -7236,7 +7236,7 @@ int DynamicPrintConfig::update_values_from_multi_to_multi_2(const std::vector<st
                 FloatOrPercent min(9999.f, true);
                 bool has_value = false;
 
-                for (int index = 0; index < opt->values.size(); index++)
+                for (size_t index = 0; index < opt->values.size(); index++)
                 {
                     if (!opt->is_nil(index) && (opt->values[index].value < min.value)) {
                         min = opt->values[index];
@@ -7254,7 +7254,7 @@ int DynamicPrintConfig::update_values_from_multi_to_multi_2(const std::vector<st
                 ConfigOptionBoolsNullable* opt = this->option<ConfigOptionBoolsNullable>(key);
 
                 bool min, has_value = false;
-                for (int index = 0; index < opt->values.size(); index++)
+                for (size_t index = 0; index < opt->values.size(); index++)
                 {
                     if (!opt->is_nil(index)) {
                         min = opt->values[index];
@@ -7510,7 +7510,7 @@ void DynamicPrintConfig::update_values_to_printer_extruders_for_multiple_filamen
                 //we need to avoid crash
                 variant_index[f_index] = 0;
                 if (opt_ids) {
-                    for (int i = 0; i < opt_ids->values.size(); i++)
+                    for (size_t i = 0; i < opt_ids->values.size(); i++)
                         if (opt_ids->values[i] == (f_index+1)) {
                             variant_index[f_index] = i;
                             break;
@@ -8613,7 +8613,7 @@ static Points to_points(const std::vector<Vec2d> &dpts)
 Polygon get_shared_poly(const std::vector<Pointfs>& extruder_polys)
 {
     Polygon result;
-    for (int index = 0; index < extruder_polys.size(); index++)
+    for (size_t index = 0; index < extruder_polys.size(); index++)
     {
         const Pointfs& extruder_area = extruder_polys[index];
         if (index == 0)
@@ -8683,7 +8683,7 @@ Polygon get_bed_shape_with_excluded_area(const PrintConfig& cfg, bool use_share)
     Points excluse_area_points = to_points(cfg.bed_exclude_area.values);
     Polygons exclude_polys;
     Polygon exclude_poly;
-    for (int i = 0; i < excluse_area_points.size(); i++) {
+    for (size_t i = 0; i < excluse_area_points.size(); i++) {
         auto pt = excluse_area_points[i];
         exclude_poly.points.emplace_back(pt);
         if (i % 4 == 3) {  // exclude areas are always rectangle

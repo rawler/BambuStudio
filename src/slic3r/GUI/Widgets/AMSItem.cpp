@@ -65,7 +65,7 @@ bool AMSinfo::parse_ams_info(MachineObject *obj, DevAms *ams, bool remain_flag, 
 
     nozzle_id = ams->GetExtruderId();
     cans.clear();
-    for (int i = 0; i < ams->GetTrays().size(); i++) {
+    for (size_t i = 0; i < ams->GetTrays().size(); i++) {
         auto    it = ams->GetTrays().find(std::to_string(i));
         Caninfo info;
         // tray is exists
@@ -1511,7 +1511,7 @@ void AMSLib::render_generic_lib(wxDC &dc)
             else {
                 //multicolour
                 gwidth = std::round(total_width / m_info.material_cols.size());
-                for (int i = 0; i < m_info.material_cols.size(); i++) {
+                for (size_t i = 0; i < m_info.material_cols.size(); i++) {
                     dc.SetPen(wxPen(*wxTRANSPARENT_PEN));
                     dc.SetBrush(wxBrush(m_info.material_cols[i]));
                     if (i == 0 || i == m_info.material_cols.size() - 1) {
@@ -3323,7 +3323,7 @@ void AmsItem::Update(AMSinfo info)
         }
     }
 
-    for (int i = 0; i < m_can_lib_list.size(); i++) {
+    for (size_t i = 0; i < m_can_lib_list.size(); i++) {
         AMSLib* lib = m_can_lib_list[std::to_string(i)];
         if (lib != nullptr){
             if (i < m_can_count){

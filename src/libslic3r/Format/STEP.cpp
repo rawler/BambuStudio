@@ -111,13 +111,13 @@ bool StepPreProcessor::isUtf8File(const char* path)
 bool StepPreProcessor::isUtf8(const std::string str)
 {
     size_t num = 0;
-    int i = 0;
+    size_t i = 0;
     while (i < str.length()) {
         if ((str[i] & 0x80) == 0x00) {
             i++;
         } else if ((num = preNum(str[i])) > 2) {
             i++;
-            for (int j = 0; j < num - 1; j++) {
+            for (size_t j = 0; j < num - 1; j++) {
                 if ((str[i] & 0xc0) != 0x80)
                     return false;
                 i++;
@@ -502,7 +502,7 @@ Step::Step_Status Step::load()
     }else {
         return Step_Status::LOAD_ERROR;
     }
-    
+
 }
 
 Step::Step_Status Step::mesh(Model* model,
@@ -528,7 +528,7 @@ Step::Step_Status Step::mesh(Model* model,
         m_shape_tool->GetFreeShapes(topLevelShapes);
         unsigned int id{ 1 };
         Standard_Integer topShapeLength = topLevelShapes.Length() + 1;
-        
+
         for (Standard_Integer iLabel = 1; iLabel < topShapeLength; ++iLabel) {
             progress = static_cast<double>(iLabel) / (topShapeLength-1);
             if (cb_cancel) {
@@ -652,8 +652,8 @@ Step::Step_Status Step::mesh(Model* model,
                 }
             }
         }
-        
-        
+
+
         if (cb_cancel) {
             if (task) {
                 if (task->joinable()) {
@@ -696,7 +696,7 @@ unsigned int Step::get_triangle_num(double linear_defletion, double angle_deflet
         param.Deflection = linear_defletion;
         param.Angle = angle_defletion;
         param.InParallel = true;
-        for (int i = 0; i < m_name_solids.size(); ++i) {
+        for (size_t i = 0; i < m_name_solids.size(); ++i) {
             BRepMesh_IncrementalMesh mesh(m_name_solids[i].solid, param, progress->Start());
             for (TopExp_Explorer anExpSF(m_name_solids[i].solid, TopAbs_FACE); anExpSF.More(); anExpSF.Next()) {
                 TopLoc_Location aLoc;
@@ -712,7 +712,7 @@ unsigned int Step::get_triangle_num(double linear_defletion, double angle_deflet
     } catch(Exception e) {
         return 0;
     }
-    
+
     return tri_num;
 }
 
@@ -736,7 +736,7 @@ unsigned int Step::get_triangle_num_tbb(double linear_defletion, double angle_de
         }
 
     });
-    for (int i = 0; i < m_name_solids.size(); ++i) {
+    for (size_t i = 0; i < m_name_solids.size(); ++i) {
         tri_num += m_name_solids[i].tri_face_cout;
     }
     return tri_num;

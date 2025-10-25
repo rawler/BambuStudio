@@ -223,7 +223,7 @@ std::optional<LineRegionRange> create_line_region_range(ClipperLib_Z::Path &&int
 
             if (!prev_z.is_clip_point && !curr_z.is_clip_point) {
                 // There may be repeated intersections on different line segments
-                int max_point_idx = subject.size() - 1;
+                size_t max_point_idx = subject.size() - 1;
                 bool is_valid_order = prev_z.point_index <= curr_z.point_index;
                 if ((curr_z.point_index == max_point_idx) && (prev_z.point_index == 0))
                     is_valid_order = false;

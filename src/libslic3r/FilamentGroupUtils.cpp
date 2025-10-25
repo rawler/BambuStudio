@@ -190,8 +190,8 @@ namespace FilamentGroupUtils
 
         std::map<int, int>filament_unprintable_exts;
         for (auto& ext_unprintables : { resized_physical_unprintables,resized_geometric_unprintables }) {
-            for (int eid = 0; eid < ext_unprintables.size(); ++eid) {
-                for (int fid : ext_unprintables[eid]) {
+            for (size_t eid = 0; eid < ext_unprintables.size(); ++eid) {
+                for (size_t fid : ext_unprintables[eid]) {
                     if (auto iter = filament_unprintable_exts.find(fid); iter != filament_unprintable_exts.end() && iter->second != eid)
                         conflict = true;
                     else

@@ -326,7 +326,7 @@ bool Print::invalidate_state_by_config_options(const ConfigOptionResolver & /* n
                 || opt_key == "filament_scarf_gap"
                 || opt_key == "filament_scarf_length"
                 || opt_key == "filament_change_length"
-                || opt_key == "independent_support_layer_height" 
+                || opt_key == "independent_support_layer_height"
                 || opt_key == "top_z_overrides_xy_distance") {
             steps.emplace_back(psWipeTower);
             // Soluble support interface / non-soluble base interface produces non-soluble interface layers below soluble interface layers.
@@ -567,7 +567,7 @@ StringObjectException Print::sequential_print_clearance_valid(const Print &print
     Polygons exclude_polys;
     Polygon exclude_poly;
     const Vec3d print_origin = print.get_plate_origin();
-    for (int i = 0; i < excluse_area_points.size(); i++) {
+    for (size_t i = 0; i < excluse_area_points.size(); i++) {
         auto pt = excluse_area_points[i];
         exclude_poly.points.emplace_back(scale_(pt.x() + print_origin.x()), scale_(pt.y() + print_origin.y()));
         if (i % 4 == 3) {  // exclude areas are always rectangle
@@ -587,7 +587,7 @@ StringObjectException Print::sequential_print_clearance_valid(const Print &print
         double               height;
     };
     auto find_object_index = [](const Model& model, const ModelObject* obj) {
-        for (int index = 0; index < model.objects.size(); index++)
+        for (int index = 0; index < (int)model.objects.size(); index++)
         {
             if (model.objects[index] == obj)
                 return index;
@@ -910,7 +910,7 @@ static StringObjectException layered_print_cleareance_valid(const Print &print, 
     Polygons exclude_polys;
     Polygon exclude_poly;
     const Vec3d print_origin = print.get_plate_origin();
-    for (int i = 0; i < excluse_area_points.size(); i++) {
+    for (size_t i = 0; i < excluse_area_points.size(); i++) {
         auto pt = excluse_area_points[i];
         exclude_poly.points.emplace_back(scale_(pt.x() + print_origin.x()), scale_(pt.y() + print_origin.y()));
         if (i % 4 == 3) {  // exclude areas are always rectangle
@@ -1782,7 +1782,7 @@ void Print::process(std::unordered_map<std::string, long long>* slice_time, bool
         if ((has_extruder1 != has_extruder2)
             || (has_extruder1 && model_obj1->config.extruder() != model_obj2->config.extruder()))
             return false;
-        for (int index = 0; index < model_obj1->volumes.size(); index++) {
+        for (size_t index = 0; index < model_obj1->volumes.size(); index++) {
             const ModelVolume &model_volume1 = *model_obj1->volumes[index];
             const ModelVolume &model_volume2 = *model_obj2->volumes[index];
             if (model_volume1.type() != model_volume2.type())
@@ -3934,7 +3934,7 @@ int Print::export_cached_data(const std::string& directory, bool with_space)
                     }
                 }
             );
-            for (int l_index = 0; l_index < layers_json_vector.size(); l_index++) {
+            for (size_t l_index = 0; l_index < layers_json_vector.size(); l_index++) {
                 layers_json.push_back(std::move(layers_json_vector[l_index]));
             }
             layers_json_vector.clear();
@@ -3987,7 +3987,7 @@ int Print::export_cached_data(const std::string& directory, bool with_space)
                     }
                 }
             );
-            for (int s_index = 0; s_index < support_layers_json_vector.size(); s_index++) {
+            for (size_t s_index = 0; s_index < support_layers_json_vector.size(); s_index++) {
                 support_layers_json.push_back(std::move(support_layers_json_vector[s_index]));
             }
             support_layers_json_vector.clear();
@@ -4174,7 +4174,7 @@ int Print::load_cached_data(const std::string& directory)
         return ret;
     }
 
-    for (int obj_index = 0; obj_index < object_jsons.size(); obj_index++) {
+    for (size_t obj_index = 0; obj_index < object_jsons.size(); obj_index++) {
         json& root_json = object_jsons[obj_index];
         PrintObject *obj = object_filenames[obj_index].second;
 

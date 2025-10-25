@@ -72,8 +72,8 @@ IGL_INLINE void igl::ramer_douglas_peucker(
 }
 
 template <
-  typename DerivedP, 
-  typename DerivedS, 
+  typename DerivedP,
+  typename DerivedS,
   typename DerivedJ,
   typename DerivedQ>
 IGL_INLINE void igl::ramer_douglas_peucker(
@@ -116,7 +116,7 @@ IGL_INLINE void igl::ramer_douglas_peucker(
   slice(T,s,Ts);
   slice(T,d,Td);
   T = ((T.head(T.size()-1)-Ts).array()/(Td-Ts).array()).eval();
-  for(int t =0;t<T.size();t++)
+  for(size_t t =0;t<T.size();t++)
   {
     if(!std::isfinite(T(t)) || T(t)!=T(t))
     {
@@ -126,7 +126,7 @@ IGL_INLINE void igl::ramer_douglas_peucker(
   DerivedS SB;
   slice(S,B,1,SB);
   Eigen::VectorXi MB = B.array()+1;
-  for(int b = 0;b<MB.size();b++)
+  for(size_t b = 0;b<MB.size();b++)
   {
     if(MB(b) >= S.rows())
     {

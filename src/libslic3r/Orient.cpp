@@ -134,7 +134,7 @@ public:
         std::unordered_map<Vec3f, CostItems, VecHash> results;
         BOOST_LOG_TRIVIAL(info) << CostItems::field_names();
         std::cout << CostItems::field_names() << std::endl;
-        for (int i = 0; i < orientations.size();i++) {
+        for (size_t i = 0; i < orientations.size();i++) {
             auto orientation = -orientations[i];
 
             project_vertices(orientation);
@@ -371,7 +371,7 @@ public:
         return ind;
 
         //sorted_vec.resize(vec.size());
-        //for (int i = 0; i < vec.size(); i++) {
+        //for (size_t i = 0; i < vec.size(); i++) {
         //    sorted_vec(i) = vec(ind(i));
         //}
     }

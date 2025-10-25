@@ -28,9 +28,9 @@ IGL_INLINE void igl::per_corner_normals(
 }
 
 template <
-  typename DerivedV, 
-  typename DerivedF, 
-  typename DerivedFN, 
+  typename DerivedV,
+  typename DerivedF,
+  typename DerivedFN,
   typename DerivedCN>
 IGL_INLINE void igl::per_corner_normals(
   const Eigen::PlainObjectBase<DerivedV>& V,
@@ -47,9 +47,9 @@ IGL_INLINE void igl::per_corner_normals(
 }
 
 template <
-  typename DerivedV, 
-  typename DerivedF, 
-  typename DerivedFN, 
+  typename DerivedV,
+  typename DerivedF,
+  typename DerivedFN,
   typename IndexType,
   typename DerivedCN>
 IGL_INLINE void igl::per_corner_normals(
@@ -81,7 +81,7 @@ IGL_INLINE void igl::per_corner_normals(
     {
       const std::vector<IndexType> &incident_faces = VF[F(i,j)];
       // loop over faces sharing vertex of this corner
-      for(int k = 0;k<(int)incident_faces.size();k++)
+      for(size_t k = 0;k<(int)incident_faces.size();k++)
       {
         Eigen::Matrix<typename DerivedV::Scalar,3,1> ifn = FN.row(incident_faces[k]);
         // dot product between face's normal and other face's normal

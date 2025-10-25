@@ -405,7 +405,7 @@ struct ExtruderGroup : StaticGroup
     std::vector<AMSinfo> ams_1;
     wxString          diameter;
 
-    void set_ams_count(int n4, int n1)
+    void set_ams_count(size_t n4, size_t n1)
     {
         if (n4 == ams_n4 && n1 == ams_n1)
             return;
@@ -819,7 +819,7 @@ static struct DynamicFilamentList : DynamicList
     int index_of(wxString value) override
     {
         long n = 0;
-        return (value.ToLong(&n) && n <= items.size()) ? int(n) : -1;
+        return (value.ToLong(&n) && n <= (int)items.size()) ? int(n) : -1;
     }
     void update(bool force = false)
     {
@@ -828,7 +828,7 @@ static struct DynamicFilamentList : DynamicList
             return;
         auto icons = get_extruder_color_icons(true);
         auto presets = wxGetApp().preset_bundle->filament_presets;
-        for (int i = 0; i < presets.size(); ++i) {
+        for (size_t i = 0; i < presets.size(); ++i) {
             wxString str;
             std::string type;
             wxGetApp().preset_bundle->filaments.find_preset(presets[i])->get_filament_type(type);
@@ -1256,7 +1256,7 @@ bool Sidebar::priv::sync_extruder_list(bool &only_external_material)
     }
     BOOST_LOG_TRIVIAL(info) << __FUNCTION__ << __LINE__ << " go on sync_extruder_list";
     const Preset &cur_preset  = preset_bundle->printers.get_selected_preset();
-    int extruder_nums = preset_bundle->get_printer_extruder_count();
+    size_t extruder_nums = preset_bundle->get_printer_extruder_count();
     std::vector<int> extruder_map(extruder_nums);
     std::iota(extruder_map.begin(), extruder_map.end(), 0);
     const ConfigOptionInts *physical_extruder_map = cur_preset.config.option<ConfigOptionInts>("physical_extruder_map");
@@ -1401,7 +1401,7 @@ void Sidebar::priv::update_sync_status(const MachineObject *obj)
     };
 
     // 2. update extruder status
-    int extruder_nums = preset_bundle->get_printer_extruder_count();
+    size_t extruder_nums = preset_bundle->get_printer_extruder_count();
     if (extruder_nums != obj->GetExtderSystem()->GetTotalExtderCount())
         return;
 
@@ -1446,7 +1446,7 @@ void Sidebar::priv::update_sync_status(const MachineObject *obj)
         machine_extruder_infos[extruder.GetExtId()].diameter          = extruder.GetNozzleDiameter();
     }
     for (auto &item : obj->GetFilaSystem()->GetAmsList()) {
-        if (item.second->GetExtruderId() >= machine_extruder_infos.size())
+        if (item.second->GetExtruderId() >= (int)machine_extruder_infos.size())
             continue;
 
         if (item.second->GetAmsType() == DevAms::N3S)
@@ -2069,7 +2069,7 @@ void Sidebar::on_leave_image_printer_bed(wxMouseEvent &evt) {
 }
 void Sidebar::on_change_color_mode(bool is_dark) {
     const ModelObjectPtrs &mos = wxGetApp().model().objects;
-    for (int i = 0; i < mos.size(); i++) {
+    for (size_t i = 0; i < mos.size(); i++) {
         wxGetApp().obj_list()->update_info_items(i,nullptr,false,true);
     }
 
@@ -2389,7 +2389,7 @@ void Sidebar::update_presets(Preset::Type preset_type)
                 if (boost::algorithm::contains(extruder_variants->values[index], type + " " + nozzle_volumes_def->enum_labels[i])) {
                     if ((diameter == "0.2" || is_skip_high_flow_printer(printer_model))&& nozzle_volumes_def->enum_keys_map->at(nozzle_volumes_def->enum_values[i]) == NozzleVolumeType::nvtHighFlow)
                         continue;
-                    if (nozzle_volumes->values[index] == i)
+                    if (nozzle_volumes->values[index] == (int)i)
                         select = extruder.combo_flow->GetCount();
                     extruder.combo_flow->Append(_L(nozzle_volumes_def->enum_labels[i]), {}, (void*)i);
                 }
@@ -2513,7 +2513,7 @@ void Sidebar::save_bed_type_to_config(const std::string &bed_type_name)
 
 BedType Sidebar::get_cur_select_bed_type() {
     int selection = p->combo_printer_bed->GetSelection();
-    if (selection < 0 && selection >= m_cur_combox_bed_types.size()) {
+    if (selection < 0 && selection >= (int)m_cur_combox_bed_types.size()) {
         p->combo_printer_bed->SetSelection(0);
         selection = 0;
     }
@@ -2921,7 +2921,7 @@ void Sidebar::delete_filament(size_t filament_id, int replace_filament_id) {
         wxGetApp().get_tab(Preset::TYPE_FILAMENT)->select_preset(wxGetApp().preset_bundle->filament_presets[0], false, "", true);
     }
 
-    if (p->editing_filament == filament_id || p->editing_filament >= filament_count) {
+    if (p->editing_filament == (int)filament_id || p->editing_filament >= (int)filament_count) {
         p->editing_filament = -1;
     }
 
@@ -2942,7 +2942,7 @@ void Sidebar::change_filament(size_t from_id, size_t to_id)
 void Sidebar::edit_filament()
 {
     p->editing_filament = -1;
-    if (p->m_menu_filament_id >= 0 && p->m_menu_filament_id < p->combos_filament.size()
+    if (p->m_menu_filament_id >= 0 && p->m_menu_filament_id < (int)p->combos_filament.size()
             && p->combos_filament[p->m_menu_filament_id]->switch_to_tab())
         p->editing_filament = p->m_menu_filament_id; // sync with TabPresetComboxBox's m_filament_idx
 }
@@ -3006,7 +3006,7 @@ std::map<int, DynamicPrintConfig> Sidebar::build_filament_ams_list(MachineObject
             info = wxGetApp().preset_bundle->get_filament_by_filament_id(tray.setting_id);
         }
         tray_config.set_key_value("filament_is_support", new ConfigOptionBools{ info.has_value() ? info->is_support : false});
-        for (int i = 0; i < tray.cols.size(); ++i) {
+        for (size_t i = 0; i < tray.cols.size(); ++i) {
             tray_config.opt<ConfigOptionStrings>("filament_multi_colour")->values.push_back(into_u8(wxColour("#" + tray.cols[i]).GetAsString(wxC2S_HTML_SYNTAX)));
         }
         return tray_config;
@@ -3206,7 +3206,7 @@ void Sidebar::sync_ams_list(bool is_from_big_sync_btn)
     }
     list2.resize(list.size());
     auto iter = list.begin();
-    for (int i = 0; i < list.size(); ++i, ++iter) {
+    for (size_t i = 0; i < list.size(); ++i, ++iter) {
         auto & ams = iter->second;
         auto filament_id = ams.opt_string("filament_id", 0u);
         ams.set_key_value("filament_changed", new ConfigOptionBool{dlg_res == wxID_YES || list2[i] != filament_id});
@@ -3218,7 +3218,7 @@ void Sidebar::sync_ams_list(bool is_from_big_sync_btn)
     std::vector<int> is_support_before;
     DynamicPrintConfig& project_config = wxGetApp().preset_bundle->project_config;
     ConfigOptionStrings* color_opt = project_config.option<ConfigOptionStrings>("filament_colour");
-    for (int i = 0; i < p->combos_filament.size(); ++i) {
+    for (size_t i = 0; i < p->combos_filament.size(); ++i) {
         is_support_before.push_back(is_support_filament(i));
         color_before_sync.push_back(color_opt->values[i]);
     }
@@ -3260,7 +3260,7 @@ void Sidebar::sync_ams_list(bool is_from_big_sync_btn)
     p->m_panel_filament_content->SetMinSize({-1, min_size.y});
     // BBS:Synchronized consumables information
     // auto calculation of flushing volumes
-    for (int i = 0; i < p->combos_filament.size(); ++i) {
+    for (size_t i = 0; i < p->combos_filament.size(); ++i) {
         if (i >= color_before_sync.size()) {
             auto_calc_flushing_volumes(i);
         }
@@ -3331,7 +3331,7 @@ void Sidebar::sync_ams_list(bool is_from_big_sync_btn)
                 continue;
             }
             auto temp_index = iter.first;
-            if (temp_index < p->combos_filament.size() && temp_index >= 0) {
+            if (temp_index < (int)p->combos_filament.size() && temp_index >= 0) {
                 auto &c        = p->combos_filament[temp_index];
                 badge_combox_filament(c);
             }
@@ -3710,12 +3710,12 @@ void Sidebar::auto_calc_flushing_volumes_internal(const int modify_id, const int
     std::vector<std::vector<wxColour>> multi_colours;
 
     // Support for multi-color filament
-    for (int i = 0; i < extruder_colours.size(); ++i) {
+    for (size_t i = 0; i < extruder_colours.size(); ++i) {
         std::vector<wxColour> single_filament;
         if (i < ams_multi_color_filament.size()) {
             if (!ams_multi_color_filament[i].empty()) {
                 std::vector<std::string> colors = ams_multi_color_filament[i];
-                for (int j = 0; j < colors.size(); ++j) {
+                for (size_t j = 0; j < colors.size(); ++j) {
                     single_filament.push_back(wxColour(colors[j]));
                 }
                 multi_colours.push_back(single_filament);
@@ -3727,8 +3727,8 @@ void Sidebar::auto_calc_flushing_volumes_internal(const int modify_id, const int
         multi_colours.push_back(single_filament);
     }
 
-    if (modify_id >= 0 && modify_id < multi_colours.size()) {
-        for (int i = 0; i < multi_colours.size(); ++i) {
+    if (modify_id >= 0 && modify_id < (int)multi_colours.size()) {
+        for (size_t i = 0; i < multi_colours.size(); ++i) {
             // from to modify
             int from_idx = i;
             if (from_idx != modify_id) {
@@ -3740,9 +3740,9 @@ void Sidebar::auto_calc_flushing_volumes_internal(const int modify_id, const int
                     flushing_volume = Slic3r::g_flush_volume_to_support;
                 }
                 else {
-                    for (int j = 0; j < multi_colours[from_idx].size(); ++j) {
+                    for (size_t j = 0; j < multi_colours[from_idx].size(); ++j) {
                         const wxColour& from = multi_colours[from_idx][j];
-                        for (int k = 0; k < multi_colours[modify_id].size(); ++k) {
+                        for (size_t k = 0; k < multi_colours[modify_id].size(); ++k) {
                             const wxColour& to = multi_colours[modify_id][k];
                             int volume = calculator.calc_flush_vol(from.Alpha(), from.Red(), from.Green(), from.Blue(), to.Alpha(), to.Red(), to.Green(), to.Blue());
                             flushing_volume = std::max(flushing_volume, volume);
@@ -3765,9 +3765,9 @@ void Sidebar::auto_calc_flushing_volumes_internal(const int modify_id, const int
                     flushing_volume = Slic3r::g_flush_volume_to_support;
                 }
                 else {
-                    for (int j = 0; j < multi_colours[modify_id].size(); ++j) {
+                    for (size_t j = 0; j < multi_colours[modify_id].size(); ++j) {
                         const wxColour& from = multi_colours[modify_id][j];
-                        for (int k = 0; k < multi_colours[to_idx].size(); ++k) {
+                        for (size_t k = 0; k < multi_colours[to_idx].size(); ++k) {
                             const wxColour& to = multi_colours[to_idx][k];
                             int volume = calculator.calc_flush_vol(from.Alpha(), from.Red(), from.Green(), from.Blue(), to.Alpha(), to.Red(), to.Green(), to.Blue());
                             flushing_volume = std::max(flushing_volume, volume);
@@ -5140,7 +5140,7 @@ int Plater::get_right_icon_offset_bed(int i)
         boost::split(parts, pm->right_icon_offset_bed, boost::is_any_of(";"));
         if (parts.size() == 1 && i == 0) {
             return std::stoi(pm->right_icon_offset_bed);
-        } else if (i < parts.size()) {
+        } else if (i < (int)parts.size()) {
             return std::stoi(parts[i]);
         }
     }
@@ -6360,7 +6360,7 @@ std::vector<size_t> Plater::priv::load_files(const std::vector<fs::path>& input_
             auto loaded_idxs = load_model_objects(model.objects, is_project_file);
             obj_idxs.insert(obj_idxs.end(), loaded_idxs.begin(), loaded_idxs.end());
             if (import_obj_or_stl) {
-                for (int i = 0; i < loaded_idxs.size(); i++) {
+                for (size_t i = 0; i < loaded_idxs.size(); i++) {
                     q->model().set_assembly_pos(q->model().objects[q->model().objects.size() - 1 - i]);
                 }
             }
@@ -6399,7 +6399,7 @@ std::vector<size_t> Plater::priv::load_files(const std::vector<fs::path>& input_
         auto loaded_idxs = load_model_objects(new_model->objects);
         obj_idxs.insert(obj_idxs.end(), loaded_idxs.begin(), loaded_idxs.end());
         if (import_obj_or_stl) {
-            for (int i = 0; i < loaded_idxs.size(); i++) {
+            for (size_t i = 0; i < loaded_idxs.size(); i++) {
                 q->model().set_assembly_pos(q->model().objects[q->model().objects.size() - 1 - i]);
             }
         }
@@ -6613,7 +6613,7 @@ std::vector<size_t> Plater::priv::load_model_objects(const ModelObjectPtrs& mode
             //BBS initial assemble transformation
             for (ModelObject* model_object : model.objects) {
                 //BBS initialize assemble transformation
-                for (int i = 0; i < model_object->instances.size(); i++) {
+                for (size_t i = 0; i < model_object->instances.size(); i++) {
                     if (!model_object->instances[i]->is_assemble_initialized()) {
                         model_object->instances[i]->set_assemble_transformation(model_object->instances[i]->get_transformation());
                     }
@@ -6714,7 +6714,7 @@ fs::path Plater::priv::get_export_file_path(GUI::FileType file_type)
         // for 3mf take the path from the project filename, if any
         output_file = into_path(get_project_filename(".3mf"));
     else if (file_type == FT_STL) {
-        if (obj_idx > 0 && obj_idx < this->model.objects.size() && selection.is_single_full_object()) {
+        if (obj_idx > 0 && obj_idx < (int)this->model.objects.size() && selection.is_single_full_object()) {
             output_file = this->model.objects[obj_idx]->get_export_filename();
         }
         else {
@@ -9334,7 +9334,7 @@ int Plater::priv::update_helio_background_process(std::string& printer_id, std::
 
     /*Check the materials supported by helio*/
     auto preset_filaments = q->get_current_filaments_preset_names();
-    if (extruders.front() > preset_filaments.size()) {
+    if (extruders.front() > (int)preset_filaments.size()) {
         return -1;
     }
 
@@ -9422,9 +9422,9 @@ void Plater::priv::on_helio_processing_complete(HelioCompletionEvent &a)
         auto       aprint_stats = wxGetApp().plater()->get_partplate_list().get_current_fff_print().print_statistics();
         PartPlate* plate = wxGetApp().plater()->get_partplate_list().get_curr_plate();
         if (plate) {
-            if (plate->get_slice_result()) { 
+            if (plate->get_slice_result()) {
                 time_origin_value = plate->get_slice_result()->print_statistics.modes[0].time;
-                //time_origin = wxString::Format("%s", short_time(get_time_dhms(plate->get_slice_result()->print_statistics.modes[0].time))); 
+                //time_origin = wxString::Format("%s", short_time(get_time_dhms(plate->get_slice_result()->print_statistics.modes[0].time)));
             }
         }
 
@@ -9448,7 +9448,7 @@ void Plater::priv::on_helio_processing_complete(HelioCompletionEvent &a)
             if (plate1) {
                 if (plate->get_slice_result()) {
                     time_optimized_value = plate->get_slice_result()->print_statistics.modes[0].time;
-                    //time_optimized = wxString::Format("%s", short_time(get_time_dhms(plate->get_slice_result()->print_statistics.modes[0].time))); 
+                    //time_optimized = wxString::Format("%s", short_time(get_time_dhms(plate->get_slice_result()->print_statistics.modes[0].time)));
                 }
             }
 
@@ -9872,7 +9872,7 @@ void Plater::priv::on_filament_color_changed(wxCommandEvent &event)
     int modify_id = event.GetInt();
 
     auto& ams_multi_color_filment = wxGetApp().preset_bundle->ams_multi_color_filment;
-    if (modify_id >= 0 && modify_id < ams_multi_color_filment.size())
+    if (modify_id >= 0 && modify_id < (int)ams_multi_color_filment.size())
         ams_multi_color_filment[modify_id].clear();
 
     if (wxGetApp().app_config->get("auto_calculate_flush") != "disabled") {
@@ -10341,7 +10341,7 @@ void Plater::priv::update_objects_position_when_select_preset(const std::functio
     // BBS: Save the model in the current platelist
     std::vector<vector<int>> plate_object;
     std::set<int>            all_plate_object;
-    for (size_t i = 0; i < old_plate_list.get_plate_count(); ++i) {
+    for (int i = 0; i < old_plate_list.get_plate_count(); ++i) {
         PartPlate                    *plate   = old_plate_list.get_plate(i);
         std::set<std::pair<int, int>> obj_set = plate->get_obj_and_inst_set();
 
@@ -10356,7 +10356,7 @@ void Plater::priv::update_objects_position_when_select_preset(const std::functio
 #if 0
     BoundingBoxf3      platelist_bbox = old_plate_list.get_bounding_box();
     std::map<int, int> outside_plate_object;
-    for (int i = 0; i < model.objects.size(); ++i) {
+    for (size_t i = 0; i < model.objects.size(); ++i) {
         ModelObject   *object   = model.objects[i];
         ModelInstance *obj_inst = object->instances[0];
 
@@ -10415,7 +10415,7 @@ void Plater::priv::update_objects_position_when_select_preset(const std::functio
 
     bool plate_not_empty = std::any_of(plate_object.begin(), plate_object.end(), [](const std::vector<int> &obj_idxs) { return !obj_idxs.empty(); });
     if (old_plate_pos.x() != cur_plate_pos.x() || old_plate_pos.y() != cur_plate_pos.y() || cur_plate_is_smaller) {
-        for (int i = 0; i < plate_object.size(); ++i) {
+        for (size_t i = 0; i < plate_object.size(); ++i) {
             view3D->select_object_from_idx(plate_object[i]);
             this->sidebar->obj_list()->update_selections();
             view3D->center_selected_plate(i);
@@ -10434,7 +10434,7 @@ void Plater::priv::update_objects_position_when_select_preset(const std::functio
             }
             std::set<std::pair<int, int>>& obj_set = cur_plate->get_obj_and_inst_set();
             std::set<std::pair<int, int>>& obj_out_set = cur_plate->get_obj_and_inst_outside_set();
-            for (int i = 0; i < model.objects.size(); ++i) {
+            for (size_t i = 0; i < model.objects.size(); ++i) {
                 ModelObject* object = model.objects[i];
                 if (new_all_plate_object.find(object) == new_all_plate_object.end()) {
                     //need to arrange
@@ -11258,7 +11258,7 @@ void Plater::priv::take_snapshot(const std::string& snapshot_name, const UndoRed
         assert(tower_x_opt->values.size() == tower_y_opt->values.size());
         model.wipe_tower.positions.clear();
         model.wipe_tower.positions.resize(tower_x_opt->values.size());
-        for (int plate_idx = 0; plate_idx < tower_x_opt->values.size(); plate_idx++) {
+        for (size_t plate_idx = 0; plate_idx < tower_x_opt->values.size(); plate_idx++) {
             ModelWipeTower& tower = model.wipe_tower;
 
             tower.positions[plate_idx] = Vec2d(tower_x_opt->get_at(plate_idx), tower_y_opt->get_at(plate_idx));
@@ -11369,7 +11369,7 @@ void Plater::priv::undo_redo_to(std::vector<UndoRedo::Snapshot>::const_iterator 
         assert(tower_x_opt->values.size() == tower_y_opt->values.size());
         model.wipe_tower.positions.clear();
         model.wipe_tower.positions.resize(tower_x_opt->values.size());
-        for (int plate_idx = 0; plate_idx < tower_x_opt->values.size(); plate_idx++) {
+        for (size_t plate_idx = 0; plate_idx < tower_x_opt->values.size(); plate_idx++) {
             ModelWipeTower& tower = model.wipe_tower;
 
             tower.positions[plate_idx] = Vec2d(tower_x_opt->get_at(plate_idx), tower_y_opt->get_at(plate_idx));
@@ -11450,7 +11450,7 @@ void Plater::priv::undo_redo_to(std::vector<UndoRedo::Snapshot>::const_iterator 
                 need_update = true;
             }
 
-            for (int plate_idx = 0; plate_idx < model.wipe_tower.positions.size(); plate_idx++) {
+            for (size_t plate_idx = 0; plate_idx < model.wipe_tower.positions.size(); plate_idx++) {
                 if (Vec2d(tower_x_opt->get_at(plate_idx), tower_y_opt->get_at(plate_idx)) != model.wipe_tower.positions[plate_idx]) {
                     ConfigOptionFloat tower_x_new(model.wipe_tower.positions[plate_idx].x());
                     ConfigOptionFloat tower_y_new(model.wipe_tower.positions[plate_idx].y());
@@ -11646,7 +11646,7 @@ void Plater::priv::record_start_print_preset(std::string action) {
             j["printer_preset_name"] = printer_preset.config.opt_string("inherits");
         }
         auto filament_presets = wxGetApp().preset_bundle->filament_presets;
-        for (int i = 0; i < filament_presets.size(); ++i) {
+        for (size_t i = 0; i < filament_presets.size(); ++i) {
             auto filament_preset = wxGetApp().preset_bundle->filaments.find_preset(filament_presets[i]);
             if (filament_preset->is_system) {
                 j["filament_preset_" + std::to_string(i)] = filament_preset->name;
@@ -11670,11 +11670,11 @@ void Plater::priv::record_start_print_preset(std::string action) {
             if (full_config.has("different_settings_to_system")) {
                 std::vector<std::string> different_values = full_config.option<ConfigOptionStrings>("different_settings_to_system")->values;
                 std::vector<std::string> values;
-                for (int i = 0; i < different_values.size(); ++i) {
+                for (size_t i = 0; i < different_values.size(); ++i) {
                     if (different_values[i] == "")
                         continue;
                     boost::split(values, different_values[i], boost::is_any_of(";"));
-                    for (int k = 0; k < values.size(); ++k) {
+                    for (size_t k = 0; k < values.size(); ++k) {
                         std::string str = values[k];
                         const ConfigOption* config = full_config.option(str);
                         auto serialized = config->serialize();
@@ -11699,7 +11699,7 @@ void Plater::priv::record_start_print_preset(std::string action) {
             }
         }
         else {
-            for (int i = 0; i < model.objects.size(); ++i) {
+            for (size_t i = 0; i < model.objects.size(); ++i) {
                 const ModelConfigObject& diff_object_config = model.objects[i]->config;
                 for (auto it = diff_object_config.cbegin(); it != diff_object_config.cend(); ++it) {
                     std::string config_name = it->first;
@@ -12475,8 +12475,8 @@ void Plater::add_model(bool imperial_units, std::string fname)
     auto loadfiles_type  = LoadFilesType::NoFile;
     auto amf_files_count = get_3mf_file_count(paths);
 
-    if (paths.size() > 1 && amf_files_count < paths.size()) { loadfiles_type = LoadFilesType::Multiple3MFOther; }
-    if (paths.size() > 1 && amf_files_count == paths.size()) { loadfiles_type = LoadFilesType::Multiple3MF; }
+    if (paths.size() > 1 && amf_files_count < (int)paths.size()) { loadfiles_type = LoadFilesType::Multiple3MFOther; }
+    if (paths.size() > 1 && amf_files_count == (int)paths.size()) { loadfiles_type = LoadFilesType::Multiple3MF; }
     if (paths.size() > 1 && amf_files_count == 0) { loadfiles_type = LoadFilesType::MultipleOther; }
     if (paths.size() == 1 && amf_files_count == 1) { loadfiles_type = LoadFilesType::Single3MF; };
     if (paths.size() == 1 && amf_files_count == 0) { loadfiles_type = LoadFilesType::SingleOther; };
@@ -13460,7 +13460,7 @@ ProjectDropDialog::ProjectDropDialog(const std::string &filename)
 
     //auto file_name = from_u8(filename.c_str());
     auto file_name = wxString(filename);
-    for (int x = 0; x < file_name.length(); x++) {
+    for (size_t x = 0; x < file_name.length(); x++) {
         current_width += m_fname_s->GetTextExtent(file_name[x]).GetWidth();
         cut_index = x;
 
@@ -13783,8 +13783,8 @@ bool Plater::load_files(const wxArrayString& filenames)
     auto loadfiles_type  = LoadFilesType::NoFile;
     auto amf_files_count = get_3mf_file_count(normal_paths);
 
-    if (normal_paths.size() > 1 && amf_files_count < normal_paths.size()) { loadfiles_type = LoadFilesType::Multiple3MFOther; }
-    if (normal_paths.size() > 1 && amf_files_count == normal_paths.size()) { loadfiles_type = LoadFilesType::Multiple3MF; }
+    if (normal_paths.size() > 1 && amf_files_count < (int)normal_paths.size()) { loadfiles_type = LoadFilesType::Multiple3MFOther; }
+    if (normal_paths.size() > 1 && amf_files_count == (int)normal_paths.size()) { loadfiles_type = LoadFilesType::Multiple3MF; }
     if (normal_paths.size() > 1 && amf_files_count == 0) { loadfiles_type = LoadFilesType::MultipleOther; }
     if (normal_paths.size() == 1 && amf_files_count == 1) { loadfiles_type = LoadFilesType::Single3MF; };
     if (normal_paths.size() == 1 && amf_files_count == 0) { loadfiles_type = LoadFilesType::SingleOther; };
@@ -13818,7 +13818,7 @@ bool Plater::load_files(const wxArrayString& filenames)
     }
     case LoadFilesType::Multiple3MF:
         first_file = std::vector<fs::path>{normal_paths[0]};
-        for (auto i = 0; i < normal_paths.size(); i++) {
+        for (size_t i = 0; i < normal_paths.size(); i++) {
             if (i > 0) { other_file.push_back(normal_paths[i]); }
         };
 
@@ -14004,8 +14004,8 @@ void Plater::add_file()
     auto loadfiles_type  = LoadFilesType::NoFile;
     auto amf_files_count = get_3mf_file_count(paths);
 
-    if (paths.size() > 1 && amf_files_count < paths.size()) { loadfiles_type = LoadFilesType::Multiple3MFOther; }
-    if (paths.size() > 1 && amf_files_count == paths.size()) { loadfiles_type = LoadFilesType::Multiple3MF; }
+    if (paths.size() > 1 && amf_files_count < (int)paths.size()) { loadfiles_type = LoadFilesType::Multiple3MFOther; }
+    if (paths.size() > 1 && amf_files_count == (int)paths.size()) { loadfiles_type = LoadFilesType::Multiple3MF; }
     if (paths.size() > 1 && amf_files_count == 0) { loadfiles_type = LoadFilesType::MultipleOther; }
     if (paths.size() == 1 && amf_files_count == 1) { loadfiles_type = LoadFilesType::Single3MF; };
     if (paths.size() == 1 && amf_files_count == 0) { loadfiles_type = LoadFilesType::SingleOther; };
@@ -14039,7 +14039,7 @@ void Plater::add_file()
     }
     case LoadFilesType::Multiple3MF:{
         first_file = std::vector<fs::path>{paths[0]};
-        for (auto i = 0; i < paths.size(); i++) {
+        for (size_t i = 0; i < paths.size(); i++) {
             if (i > 0) { other_file.push_back(paths[i]); }
         };
 
@@ -15356,7 +15356,7 @@ int Plater::export_3mf(const boost::filesystem::path& output_path, SaveStrategy 
 
     std::string printer_model_id = preset_bundle.printers.get_edited_preset().get_printer_type(&preset_bundle);
 
-    for (int i = 0; i < plate_data_list.size(); i++) {
+    for (size_t i = 0; i < plate_data_list.size(); i++) {
         PlateData *plate_data = plate_data_list[i];
         plate_data->printer_model_id = printer_model_id;
         plate_data->nozzle_diameters = nozzle_diameter_str;
@@ -15367,7 +15367,7 @@ int Plater::export_3mf(const boost::filesystem::path& output_path, SaveStrategy 
             it->color = filament_color ? filament_color->get_at(it->id) : "#FFFFFF";
             // save filament info used in curr plate
             int index = p->partplate_list.get_curr_plate_index();
-            if (store_params.id_bboxes.size() > index) {
+            if ((int)store_params.id_bboxes.size() > index) {
                 store_params.id_bboxes[index]->filament_ids.push_back(it->id);
                 store_params.id_bboxes[index]->filament_colors.push_back(it->color);
             }
@@ -15667,7 +15667,7 @@ void Plater::record_slice_preset(std::string action)
             }
         }
         auto filament_presets = wxGetApp().preset_bundle->filament_presets;
-        for (int i = 0; i < filament_presets.size(); ++i) {
+        for (size_t i = 0; i < filament_presets.size(); ++i) {
             auto filament_preset = wxGetApp().preset_bundle->filaments.find_preset(filament_presets[i]);
             if (filament_preset->is_system) {
                 j["filament_preset_" + std::to_string(i)] = filament_preset->name;
@@ -16746,7 +16746,7 @@ void Plater::clear_before_change_mesh(int obj_idx, int vol_idx)
     bool        paint_removed = false;
     std::string model_name    = "";
     for (size_t i = 0; i < mo->volumes.size(); i++) {
-        if (vol_idx != i) { continue; }
+        if (vol_idx != (int)i) { continue; }
         auto mv    = mo->volumes[i];
         model_name = mv->name;
         paint_removed |= !mv->supported_facets.empty() || !mv->fuzzy_skin_facets.empty() || !mv->seam_facets.empty() || !mv->mmu_segmentation_facets.empty();
@@ -17849,7 +17849,7 @@ void Plater::show_object_info()
         notify_manager->bbl_show_objectsinfo_notification(info_text, false, !(p->current_panel == p->view3D));
         return;
     }
-    if (objects.empty() || (obj_idx < 0) || (obj_idx >= objects.size()) ||
+    if (objects.empty() || (obj_idx < 0) || (obj_idx >= (int)objects.size()) ||
         objects[obj_idx]->volumes.empty() ||// hack to avoid crash when deleting the last object on the bed
         (selection.is_single_full_object() && objects[obj_idx]->instances.size()> 1) ||
         !(selection.is_single_full_instance() || selection.is_single_volume()))
@@ -17860,7 +17860,7 @@ void Plater::show_object_info()
 
     const ModelObject* model_object = objects[obj_idx];
     int inst_idx = selection.get_instance_idx();
-    if ((inst_idx < 0) || (inst_idx >= model_object->instances.size()))
+    if ((inst_idx < 0) || (inst_idx >= (int)model_object->instances.size()))
     {
         notify_manager->bbl_close_objectsinfo_notification();
         return;
@@ -18009,7 +18009,7 @@ std::vector<std::string> Plater::get_current_filaments_preset_names()
     std::vector<std::string> filaments_names;
     PresetBundle* preset_bundle = wxGetApp().preset_bundle;
     for (auto filament_name : preset_bundle->filament_presets) {
-        for (int f_index = 0; f_index < preset_bundle->filaments.size(); f_index++) {
+        for (size_t f_index = 0; f_index < preset_bundle->filaments.size(); f_index++) {
             PresetCollection *filament_presets = &wxGetApp().preset_bundle->filaments;
             Preset *          preset           = &filament_presets->preset(f_index);
             int               size             = preset_bundle->filaments.size();
@@ -18041,7 +18041,7 @@ void Plater::post_process_string_object_exception(StringObjectException &err)
     if (err.type == StringExceptionType::STRING_EXCEPT_FILAMENT_NOT_MATCH_BED_TYPE) {
         try {
             int extruder_id = atoi(err.params[2].c_str()) - 1;
-            if (extruder_id < preset_bundle->filament_presets.size()) {
+            if (extruder_id < (int)preset_bundle->filament_presets.size()) {
                 std::string filament_name = preset_bundle->filament_presets[extruder_id];
                 for (auto filament_it = preset_bundle->filaments.begin(); filament_it != preset_bundle->filaments.end(); filament_it++) {
                     if (filament_it->name == filament_name) {

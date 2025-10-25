@@ -530,7 +530,7 @@ MultiMachineManagerPage::MultiMachineManagerPage(wxWindow* parent)
 
 void MultiMachineManagerPage::update_page()
 {
-    for (int i = 0; i < m_device_items.size(); i++) {
+    for (size_t i = 0; i < m_device_items.size(); i++) {
         m_device_items[i]->sync_state();
         m_device_items[i]->Refresh();
     }

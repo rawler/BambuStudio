@@ -1294,7 +1294,7 @@ void create_all_char_mesh(DataBase &input, std::vector<TriangleMesh> &result, st
     if (input_text.size() != shape.shapes_with_ids.size()) {
         BOOST_LOG_TRIVIAL(info) <<__FUNCTION__<< "error: input_text.size() != shape.shapes_with_ids.size()";
     }
-    for (int i = 0; i < shape.shapes_with_ids.size(); i++) {
+    for (size_t i = 0; i < shape.shapes_with_ids.size(); i++) {
         auto &temp_shape = shape.shapes_with_ids[i];
         if (input_text[i] == ' ') {
             result.emplace_back(TriangleMesh());
@@ -1323,7 +1323,7 @@ void create_all_char_mesh(DataBase &input, std::vector<TriangleMesh> &result, st
 
 float get_single_char_width(const std::vector<TriangleMesh> &chars_mesh_result)
 {
-    for (int i = 0; i < chars_mesh_result.size(); ++i) {
+    for (size_t i = 0; i < chars_mesh_result.size(); ++i) {
         auto box           = chars_mesh_result[i].bounding_box();
         auto box_size      = box.size();
         auto half_x_length = box_size[0] / 2.0f;
@@ -1337,7 +1337,7 @@ float get_single_char_width(const std::vector<TriangleMesh> &chars_mesh_result)
 bool calc_text_lengths(std::vector<double> &text_lengths, const std::vector<float> &text_cursors)
 {
     text_lengths.clear();
-    for (int i = 0; i < text_cursors.size(); i++) {
+    for (size_t i = 0; i < text_cursors.size(); i++) {
         text_lengths.emplace_back(text_cursors[i]/2.f);
     }
     return true;
@@ -1506,7 +1506,7 @@ bool GenerateTextJob::generate_text_points(InputInfo &input_info)
     //calc
     TriangleMesh slice_meshs;
     int          mesh_index   = 0;
-    for (int i = 0; i < mo->volumes.size(); ++i) {
+    for (size_t i = 0; i < mo->volumes.size(); ++i) {
         ModelVolume *mv = mo->volumes[i];
         if (m_volume_idx == i) {
             continue;
@@ -1548,7 +1548,7 @@ bool GenerateTextJob::generate_text_points(InputInfo &input_info)
         if (poly.points.size() == 0)
             continue;
         Lines lines = poly.lines();
-        for (int i = 0; i < lines.size(); ++i) {
+        for (size_t i = 0; i < lines.size(); ++i) {
             Line   line     = lines[i];
             double distance = min_distance;
             if (point_in_line_rectange(line, Point(scale_click_pt.x(), scale_click_pt.y()), distance)) {
@@ -1574,7 +1574,7 @@ bool GenerateTextJob::generate_text_points(InputInfo &input_info)
     m_cut_points_in_world.reserve(hit_ploy.points.size());
     m_cut_points_in_local.clear();
     m_cut_points_in_local.reserve(hit_ploy.points.size());
-    for (int i = 0; i < hit_ploy.points.size(); ++i) {
+    for (size_t i = 0; i < hit_ploy.points.size(); ++i) {
         m_cut_points_in_local.emplace_back(rotate_tran * Vec3d(unscale_(hit_ploy.points[i].x()), unscale_(hit_ploy.points[i].y()), 0)); // m_text_cs_to_world_tran *
         m_cut_points_in_world.emplace_back(world_tran.get_matrix() * m_cut_points_in_local.back());
     }
@@ -1587,7 +1587,7 @@ bool GenerateTextJob::generate_text_points(InputInfo &input_info)
         Line_3D              line  = lines[index];
         auto                 min_dist   = 1e6;
         {// Find the nearest tangent point
-            for (int i = 0; i < lines.size(); i++) {
+            for (size_t i = 0; i < lines.size(); i++) {
                 Line_3D temp_line = lines[i];
                 Vec3d   intersection_pt;
                 float   proj_length;
@@ -1773,7 +1773,7 @@ bool GenerateTextJob::generate_text_points(InputInfo &input_info)
     TriangleMesh& mesh = slice_meshs;
     std::vector<int> debug_incides;
     debug_incides.resize(m_position_points.size());
-    for (int i = 0; i < m_position_points.size(); ++i) {
+    for (size_t i = 0; i < m_position_points.size(); ++i) {
         int debug_index = 0;
         for (auto indice : mesh.its.indices) {
             stl_vertex stl_point0 = mesh.its.vertices[indice[0]];
@@ -1922,7 +1922,7 @@ void GenerateTextJob::generate_mesh_according_points(InputInfo &input_info)
         input_db.shape.scale            = input_info.shape_scale;
     }
     auto cut_plane_dir = inv_text_cs_in_object_no_offset * m_cut_plane_dir_in_world;
-    for (int i = 0; i < m_position_points.size(); ++i) {
+    for (size_t i = 0; i < m_position_points.size(); ++i) {
         auto         position      = m_position_points[i];
         auto         normal        = m_normal_points[i];
         TriangleMesh sub_mesh;
@@ -1960,7 +1960,7 @@ void CreateObjectTextJob::finalize(bool canceled, std::exception_ptr &eptr) {
         return create_message("Can't create empty object.");
 
     TriangleMesh final_mesh;
-    for (int i = 0; i < m_input.m_position_points.size();i++) {
+    for (size_t i = 0; i < m_input.m_position_points.size();i++) {
         TriangleMesh sub_mesh;
         auto         position   = m_input.m_position_points[i];
         auto         local_tran = GenerateTextJob::get_sub_mesh_tran(position, Vec3d::UnitZ(), Vec3d(0, 1, 0), m_input.text_info.m_embeded_depth);

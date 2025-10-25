@@ -2778,7 +2778,7 @@ std::vector<double> GLCanvas3D::get_gcode_layers_zs() const
     const auto& t_layers = t_gcode_viewer.get_layers_zs();
     std::vector<double> layer_z_list;
     layer_z_list.reserve(t_layers.size());
-    for (int i = 0; i < t_layers.size(); ++i) {
+    for (size_t i = 0; i < t_layers.size(); ++i) {
         layer_z_list.emplace_back(t_layers[i]);
     }
     return layer_z_list;
@@ -3111,7 +3111,7 @@ void GLCanvas3D::reload_scene(bool refresh_immediately, bool force_full_scene_re
             // slow thing of seeing if they were in the deleted list, and if
             // so, if they were a wipe tower.
             bool was_deleted_wipe_tower = false;
-            for (int del_idx = 0; del_idx < deleted_wipe_towers.size(); del_idx++) {
+            for (size_t del_idx = 0; del_idx < deleted_wipe_towers.size(); del_idx++) {
                 if (deleted_wipe_towers[del_idx].volume_idx == temp_idx) {
                     was_deleted_wipe_tower = true;
                     break;
@@ -5504,7 +5504,7 @@ void GLCanvas3D::do_move(const std::string &snapshot_type)
         post_event(SimpleEvent(EVT_GLCANVAS_INSTANCE_MOVED));
 
     // BBS: support wipe-tower for multi-plates
-    for (int plate_id = 0; plate_id < wipe_tower_origins.size(); plate_id++) {
+    for (size_t plate_id = 0; plate_id < wipe_tower_origins.size(); plate_id++) {
         Vec3d& wipe_tower_origin = wipe_tower_origins[plate_id];
         if (wipe_tower_origin == Vec3d::Zero())
             continue;
@@ -8417,7 +8417,7 @@ void GLCanvas3D::_render_imgui_select_plate_toolbar()
         if (ImGui::ImageButton2(btn_texture_id, size, {0,0}, {1,1}, frame_padding, bg_col, tint_col, margin)) {
             if (all_plates_stats_item->slice_state != IMToolbarItem::SliceState::SLICE_FAILED) {
                 if (m_process && !m_process->running()) {
-                    for (int i = 0; i < m_sel_plate_toolbar.m_items.size(); i++) {
+                    for (size_t i = 0; i < m_sel_plate_toolbar.m_items.size(); i++) {
                         m_sel_plate_toolbar.m_items[i]->selected = false;
                     }
                     all_plates_stats_item->selected = true;
@@ -8472,7 +8472,7 @@ void GLCanvas3D::_render_imgui_select_plate_toolbar()
     }
 
     ImVec4 error_text_clr = ImVec4(1, 0, 0, 1);
-    for (int i = 0; i < m_sel_plate_toolbar.m_items.size(); i++) {
+    for (size_t i = 0; i < m_sel_plate_toolbar.m_items.size(); i++) {
         IMToolbarItem* item = m_sel_plate_toolbar.m_items[i];
 
         // draw image
@@ -10483,7 +10483,7 @@ void GLCanvas3D::_debug_draw_aabb()
     std::vector<BoundingBoxf3> bbox_list;
 
     const auto& partplate_list = wxGetApp().plater()->get_partplate_list().get_plate_list();
-    for (int i = 0; i < partplate_list.size(); ++i) {
+    for (size_t i = 0; i < partplate_list.size(); ++i) {
         const auto& bbox = partplate_list[i]->get_bounding_box(true);
         bbox_list.emplace_back(bbox);
     }
@@ -10507,7 +10507,7 @@ void GLCanvas3D::_debug_draw_aabb()
         p_flat_shader->set_uniform("projection_matrix", proj_matrix);
         m_unit_cube.set_color({ 1.0f, 0.0f, 0.0f, 1.0f });
 
-        for (int i = 0; i < bbox_list.size(); ++i) {
+        for (size_t i = 0; i < bbox_list.size(); ++i) {
             const auto& bbox = bbox_list[i];
             Vec3f b_min = bbox.min.cast<float>();
             Vec3f b_max = bbox.max.cast<float>();
@@ -10617,9 +10617,9 @@ void GLCanvas3D::_render_thumbnail_internal(ThumbnailData& thumbnail_data, const
         plate_build_volume      = plate->get_build_volume();
 
         for (GLVolume* vol : volumes.volumes) {
-            if (!vol->is_modifier  
-                && !vol->is_wipe_tower  
-                && (!thumbnail_params.parts_only || vol->composite_id.volume_id >= 0) 
+            if (!vol->is_modifier
+                && !vol->is_wipe_tower
+                && (!thumbnail_params.parts_only || vol->composite_id.volume_id >= 0)
                 && (vol->partly_inside || is_volume_in_plate_boundingbox(*vol, plate_idx, plate_build_volume))) {
                     visible_volumes.emplace_back(vol);
             }
@@ -11186,7 +11186,7 @@ bool GLCanvas3D::is_flushing_matrix_error() {
 
     int  matrix_len = config_matrix.size() / config_multiplier.size();
     int  row_len    = std::sqrt(matrix_len);
-    for (int i = 0; i < config_matrix.size(); i++)
+    for (size_t i = 0; i < config_matrix.size(); i++)
     {
         int relative_id = i % matrix_len;
         int row_id      = relative_id / row_len;

@@ -282,7 +282,7 @@ void GLGizmoScale3D::update_grabbers_data()
 
     Transform3d t_model_matrix{ Transform3d::Identity() };
     const auto t_fullsize = get_grabber_size();
-    for (int i = 0; i < m_grabbers.size(); ++i) {
+    for (size_t i = 0; i < m_grabbers.size(); ++i) {
         if (i < 6) {
             m_grabbers[i].hover_color = AXES_HOVER_COLOR[i / 2];
         }

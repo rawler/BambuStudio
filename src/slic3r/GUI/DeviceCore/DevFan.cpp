@@ -182,7 +182,7 @@ void Slic3r::DevFan::ParseV3_0(const json &device)
         if (airduct.contains("modeList") && airduct["modeList"].is_array()) {
             auto list = airduct["modeList"].get<std::vector<json>>();
 
-            for (int i = 0; i < list.size(); ++i) {
+            for (size_t i = 0; i < list.size(); ++i) {
                 // only show 2 mode for o
                 if (m_owner->is_series_o() && i >= 2) { break; }
 

@@ -1410,7 +1410,7 @@ HealedExPolygons Slic3r::Emboss::text2shapes(EmbossShape &                emboss
     float delta   = static_cast<float>(1. / SHAPE_SCALE);
     if (bfc_fn && standard_scale > 0) {
         int32_t char_space = 0, char_width = 0, offset = 0;
-        for (int i = 0; i < vshapes.size(); i++) {
+        for (size_t i = 0; i < vshapes.size(); i++) {
             if (!vshapes[i].expoly.empty()) {
                 auto box = get_extents(vshapes[i].expoly);
                 if (box.size()[0] > 0) {
@@ -1419,16 +1419,16 @@ HealedExPolygons Slic3r::Emboss::text2shapes(EmbossShape &                emboss
                 }
             }
         }
-        for (int i = 0; i < vshapes.size(); i++) {
+        for (size_t i = 0; i < vshapes.size(); i++) {
             if (emboss_shape.text_scales[i] > 0) {
                 double temp_scale = emboss_shape.text_scales[i] / standard_scale;
-                for (int j = 0; j < vshapes[i].expoly.size(); j++) { vshapes[i].expoly[j].scale(temp_scale); }
+                for (size_t j = 0; j < vshapes[i].expoly.size(); j++) { vshapes[i].expoly[j].scale(temp_scale); }
             }
             BoundingBox temp_box;
             if (!vshapes[i].expoly.empty()) {
                 temp_box = get_extents(vshapes[i].expoly);
                 if (char_space == 0) { char_space = temp_box.size().x() / 5; }
-                for (int j = 0; j < vshapes[i].expoly.size(); j++) { // son
+                for (size_t j = 0; j < vshapes[i].expoly.size(); j++) { // son
                     vshapes[i].expoly[j].translate(-temp_box.min + Point(offset, 0));
                 }
                 offset += (get_extents(vshapes[i].expoly).size()[0] + char_space);
@@ -1499,7 +1499,7 @@ void Slic3r::Emboss::text2vshapes(EmbossShape &                emboss_shape,
     }
     emboss_shape.text_scales = text_scales;
     emboss_shape.text_cursors    = text_cursors;
-    for (int i = 0; i < result.size(); i++) {
+    for (size_t i = 0; i < result.size(); i++) {
         if (text[i] == wchar_t(' ')) {
             result[i].expoly.clear();
         }
@@ -1622,7 +1622,7 @@ std::string Slic3r::Emboss::create_range_text(std::string &text, std::vector<std
     std::sort(not_dup_text.begin(), not_dup_text.end());
     std::vector<std::string> results;
     results.reserve(fonts.size());
-    for (int i = 0; i < fonts.size(); i++) {
+    for (size_t i = 0; i < fonts.size(); i++) {
         auto temp_text = create_range_text(text, *fonts[i], font_index, &temp_exist_unknown);
         results.emplace_back(temp_text);
         auto valid_text = boost::nowide::widen(temp_text);
@@ -1634,7 +1634,7 @@ std::string Slic3r::Emboss::create_range_text(std::string &text, std::vector<std
         }
     }
     *exist_unknown = true;
-    for (int i = 0; i < results.size(); i++) {
+    for (size_t i = 0; i < results.size(); i++) {
         if (boost::nowide::widen(results[i]).size() == not_dup_text.size()) {
             return results[i];
         }

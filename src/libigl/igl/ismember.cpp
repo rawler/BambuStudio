@@ -58,7 +58,7 @@ IGL_INLINE void igl::ismember(
   sort(uA,1,true,sA,sIA);
   sort(uB,1,true,sB,sIB);
 
-  Eigen::Matrix<bool,Eigen::Dynamic,1> uF = 
+  Eigen::Matrix<bool,Eigen::Dynamic,1> uF =
     Eigen::Matrix<bool,Eigen::Dynamic,1>::Zero(sA.size(),1);
   Eigen::Matrix<typename DerivedLOCB::Scalar, Eigen::Dynamic,1> uLOCB =
     Eigen::Matrix<typename DerivedLOCB::Scalar,Eigen::Dynamic,1>::
@@ -67,7 +67,7 @@ IGL_INLINE void igl::ismember(
     int bi = 0;
     // loop over sA
     bool past = false;
-    for(int a = 0;a<sA.size();a++)
+    for(size_t a = 0;a<sA.size();a++)
     {
       while(!past && sA(a)>sB(bi))
       {
@@ -82,11 +82,11 @@ IGL_INLINE void igl::ismember(
     }
   }
 
-  Map< Matrix<typename DerivedIA::Scalar,Dynamic,1> > 
+  Map< Matrix<typename DerivedIA::Scalar,Dynamic,1> >
     vIA(IA.data(),IA.cols()*IA.rows(),1);
-  Map< Matrix<typename DerivedLOCB::Scalar,Dynamic,1> > 
+  Map< Matrix<typename DerivedLOCB::Scalar,Dynamic,1> >
     vLOCB(LOCB.data(),LOCB.cols()*LOCB.rows(),1);
-  for(int a = 0;a<A.size();a++)
+  for(size_t a = 0;a<A.size();a++)
   {
     vIA(a) = uF(uIuA(a));
     vLOCB(a) = uLOCB(uIuA(a));
@@ -134,7 +134,7 @@ IGL_INLINE void igl::ismember_rows(
   sortrows(uA,true,sA,sIA);
   sortrows(uB,true,sB,sIB);
 
-  Eigen::Matrix<bool,Eigen::Dynamic,1> uF = 
+  Eigen::Matrix<bool,Eigen::Dynamic,1> uF =
     Eigen::Matrix<bool,Eigen::Dynamic,1>::Zero(sA.size(),1);
   Eigen::Matrix<typename DerivedLOCB::Scalar, Eigen::Dynamic,1> uLOCB =
     Eigen::Matrix<typename DerivedLOCB::Scalar,Eigen::Dynamic,1>::

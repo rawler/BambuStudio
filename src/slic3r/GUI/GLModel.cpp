@@ -460,14 +460,14 @@ GLModel::~GLModel()
 }
 
 size_t GLModel::get_vertices_count(int i) const {
-    if (m_render_data.empty() || i >= m_render_data.size()) {
+    if (m_render_data.empty() || i >= (int)m_render_data.size()) {
         return 0;
     }
     return m_render_data[i].vertices_count > 0 ? m_render_data[i].vertices_count : m_render_data[i].geometry.vertices_count();
 }
 
 size_t GLModel::get_indices_count(int i) const {
-    if (m_render_data.empty() || i >= m_render_data.size()) {
+    if (m_render_data.empty() || i >= (int)m_render_data.size()) {
         return 0;
     }
     return m_render_data[i].indices_count > 0 ? m_render_data[i].indices_count : m_render_data[i].geometry.indices_count();

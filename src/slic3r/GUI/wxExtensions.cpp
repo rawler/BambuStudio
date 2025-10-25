@@ -611,7 +611,7 @@ wxColourData show_sys_picker_dialog(wxWindow *parent, const wxColourData &clr_da
 
     // Load custom colors from config (support both "r,g,b,a" and "#RRGGBB" formats)
     std::vector<std::string> colors = Slic3r::GUI::wxGetApp().app_config->get_custom_color_from_config();
-    for (int i = 0; i < (int)colors.size(); i++) {
+    for (size_t i = 0; i < (int)colors.size(); i++) {
         wxColour c;
         if (colors[i].find(',') != std::string::npos)
             c = string_to_wxColor(colors[i]);
@@ -1380,7 +1380,3 @@ void ImageTransientPopup::OnMouse(wxMouseEvent &event)
 {
     event.Skip();
 }
-
-
-
-

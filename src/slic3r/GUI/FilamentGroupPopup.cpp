@@ -315,7 +315,7 @@ void FilamentGroupPopup::SetFilamentMapMode(const FilamentMapMode mode)
     if (m_sync_plate) {
         if (m_slice_all) {
             auto plate_list = plater_ref->get_partplate_list().get_plate_list();
-            for (int i = 0; i < plate_list.size(); ++i) {
+            for (size_t i = 0; i < plate_list.size(); ++i) {
                 plate_list[i]->set_filament_map_mode(mode);
             }
         }

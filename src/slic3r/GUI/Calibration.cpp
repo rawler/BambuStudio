@@ -287,7 +287,7 @@ void CalibrationDialog::update_cali(MachineObject *obj)
         if (is_stage_list_info_changed(obj)) {
             // change items if stage_list_info changed
             m_calibration_flow->DeleteAllItems();
-            for (int i = 0; i < obj->stage_list_info.size(); i++) {
+            for (size_t i = 0; i < obj->stage_list_info.size(); i++) {
                 m_calibration_flow->AppendItem(Slic3r::get_stage_string(obj->stage_list_info[i]));
             }
 
@@ -324,7 +324,7 @@ bool CalibrationDialog::is_stage_list_info_changed(MachineObject *obj)
 
     if (last_stage_list_info.size() != obj->stage_list_info.size()) return true;
 
-    for (int i = 0; i < last_stage_list_info.size(); i++) {
+    for (size_t i = 0; i < last_stage_list_info.size(); i++) {
         if (last_stage_list_info[i] != obj->stage_list_info[i]) return true;
     }
     last_stage_list_info = obj->stage_list_info;

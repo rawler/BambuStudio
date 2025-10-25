@@ -1717,7 +1717,7 @@ void ColourPicker::BUILD()
     // create the clear button
     m_clear_button = new wxButton(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(25, picker_size.GetHeight()), wxBORDER_NONE);
     update_clear_button_icon();
-    
+
     bool has_color = clr.IsOk() && clr != wxTransparentColour;
     m_clear_button->Show(has_color);
 
@@ -1846,7 +1846,7 @@ void ColourPicker::msw_rescale()
         // recalculate the size of the color picker and clear button
         wxSize picker_size = size;
         picker_size.SetWidth(size.GetWidth() - 30);
-    
+
         if (parent_is_custom_ctrl) {
             m_color_picker->SetSize(picker_size);
             m_clear_button->SetSize(wxSize(25, picker_size.GetHeight()));
@@ -1859,7 +1859,7 @@ void ColourPicker::msw_rescale()
         if (sizer) { sizer->Layout(); }
         window->Refresh();
     }
-    
+
 
     if (m_color_picker->GetColour() == wxTransparentColour)
         set_undef_value(m_color_picker);
@@ -1896,7 +1896,7 @@ void ColourPicker::on_button_click(wxCommandEvent &event) {
 #if !defined(__linux__) && !defined(__LINUX__)
     if (m_clrData) {
         std::vector<std::string> colors = wxGetApp().app_config->get_custom_color_from_config();
-        for (int i = 0; i < colors.size(); i++) {
+        for (size_t i = 0; i < colors.size(); i++) {
             m_clrData->SetCustomColour(i, string_to_wxColor(colors[i]));
         }
     }

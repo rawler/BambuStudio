@@ -976,7 +976,7 @@ void SeamPlacer::calculate_overhangs_and_layer_embedding(const PrintObject *po)
             bool                                should_compute_layer_embedding = regions_with_perimeter > 1;
             std::unique_ptr<PerimeterDistancer> current_layer_distancer        = std::make_unique<PerimeterDistancer>(po->layers()[layer_idx]);
 
-            int points_size = layers[layer_idx].points.size();
+            size_t points_size = layers[layer_idx].points.size();
             for (size_t i = 0; i < points_size; i++) {
                 SeamCandidate &perimeter_point = layers[layer_idx].points[i];
                 Vec2f point = Vec2f{perimeter_point.position.head<2>()};
@@ -1379,8 +1379,8 @@ void SeamPlacer::filter_scarf_seam_switch_by_angle(const float &angle, std::vect
                 int    count = 0;
 
                 for (int window_idx = -half_window; window_idx <= half_window; ++window_idx) {
-                    int index = idx + window_idx;
-                    if (index >= 0 && index < seam_group.size()) {
+                    int index = (int)idx + window_idx;
+                    if (index >= 0 && index < (int)seam_group.size()) {
                         sum += layers[seams[seam_group[index]].first].points[seams[seam_group[index]].second].enable_scarf_seam ? 1 : 0;
                         count++;
                     }

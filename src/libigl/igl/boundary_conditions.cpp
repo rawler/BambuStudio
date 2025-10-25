@@ -1,9 +1,9 @@
 // This file is part of libigl, a simple c++ geometry processing library.
-// 
+//
 // Copyright (C) 2013 Alec Jacobson <alecjacobson@gmail.com>
-// 
-// This Source Code Form is subject to the terms of the Mozilla Public License 
-// v. 2.0. If a copy of the MPL was not distributed with this file, You can 
+//
+// This Source Code Form is subject to the terms of the Mozilla Public License
+// v. 2.0. If a copy of the MPL was not distributed with this file, You can
 // obtain one at http://mozilla.org/MPL/2.0/.
 #include "boundary_conditions.h"
 
@@ -39,7 +39,7 @@ IGL_INLINE bool igl::boundary_conditions(
   vector<double> bcv;
 
   // loop over points
-  for(int p = 0;p<P.size();p++)
+  for(size_t p = 0;p<P.size();p++)
   {
     VectorXd pos = C.row(P(p));
     // loop over domain vertices

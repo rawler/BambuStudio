@@ -254,7 +254,7 @@ bool StyleManager::load_style(const Style &style, const wxFont &font)
 }
 
 Slic3r::Emboss::FontFileWithCache Slic3r::GUI::Emboss::StyleManager::get_font_file(wxString name) {
-    for (int i = 0; i < m_styles.size(); i++) {
+    for (size_t i = 0; i < m_styles.size(); i++) {
         if (m_styles[i].truncated_name == name .utf8_string()) {
             std::cout << "";
         }
@@ -488,7 +488,7 @@ ImFont *StyleManager::create_imgui_font(const std::string &text, double scale, b
     font = m_style_cache.atlas.AddFontFromMemoryTTF((void *) buffer.data(), buffer.size(), font_size, &font_config, m_style_cache.ranges.Data);
     if (support_backup_fonts) {
         font_config.MergeMode = true;
-        for (int i = 0; i < Slic3r::GUI::BackupFonts::backup_fonts.size(); i++) {
+        for (size_t i = 0; i < Slic3r::GUI::BackupFonts::backup_fonts.size(); i++) {
             if (Slic3r::GUI::BackupFonts::backup_fonts[i].has_value()) {
                 auto &                            temp_ff        = Slic3r::GUI::BackupFonts::backup_fonts[i];
                 const FontFile &                  temp_font_file = *temp_ff.font_file;

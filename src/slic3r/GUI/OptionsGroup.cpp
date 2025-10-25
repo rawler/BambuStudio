@@ -228,7 +228,7 @@ void OptionsGroup::append_line(const Line& line)
 //BBS: get line for opt_key
 Line* OptionsGroup::get_line(const std::string& opt_key)
 {
-    for (int index = 0; index < m_lines.size(); index++)
+    for (size_t index = 0; index < m_lines.size(); index++)
     {
         for (auto & opt : m_lines[index].get_options())
             if (opt.opt_id == opt_key)
@@ -970,7 +970,7 @@ boost::any ConfigOptionsGroup::get_config_value(const DynamicPrintConfig& config
                 ret = _(L("N/A"));
                 break;
             }
-            if (opt_index < 0 || opt_index >= option->size() ? config.option(opt_key)->is_nil() : option->is_nil(opt_index))
+            if (opt_index < 0 || opt_index >= (int)option->size() ? config.option(opt_key)->is_nil() : option->is_nil(opt_index))
                 ret = _(L("N/A"));
             else {
                 double val = opt->type == coFloats ?
@@ -986,7 +986,7 @@ boost::any ConfigOptionsGroup::get_config_value(const DynamicPrintConfig& config
                 ret = _(L("N/A"));
                 break;
             }
-            if (opt_index < 0 || opt_index >= option->size() ? config.option(opt_key)->is_nil() : option->is_nil(opt_index))
+            if (opt_index < 0 || opt_index >= (int)option->size() ? config.option(opt_key)->is_nil() : option->is_nil(opt_index))
                 ret = _(L("N/A"));
             else {
                 const auto& value = config.option<ConfigOptionFloatsOrPercentsNullable>(opt_key)->get_at(idx);

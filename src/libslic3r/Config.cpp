@@ -460,7 +460,7 @@ void ConfigBase::apply_only(const ConfigBase &other, const t_config_option_keys 
                     if (my_opt2->empty()) {
                         my_opt2->resize(1, other_opt);
                     }
-                }   
+                }
                 if (my_opt2) {
                     int index = std::atoi(opt_key.c_str() + n + 1);
                     if (other_opt)
@@ -1011,7 +1011,7 @@ int ConfigBase::load_from_json(const std::string &file, ConfigSubstitutionContex
 
                 std::vector<bool> is_first(size, false);
                 std::vector<std::vector<std::string>> original_diffs(size);
-                for (int index = 0; index < size; index++)
+                for (size_t index = 0; index < size; index++)
                 {
                     if (different_settings[index].empty()) {
                         is_first[index] = true;
@@ -1054,7 +1054,7 @@ int ConfigBase::load_from_json(const std::string &file, ConfigSubstitutionContex
 
                     //check whether exist firstly
                     if (!original_diffs[index].empty()) {
-                        for (int j = 0; j < original_diffs[index].size(); j++) {
+                        for (size_t j = 0; j < original_diffs[index].size(); j++) {
                             if (original_diffs[index][j] == diff_key) {
                                 need_insert = false;
                                 break;
@@ -1466,7 +1466,7 @@ void ConfigBase::save_to_json(const std::string &file, const std::string &name, 
             //if (!vec->empty())
             std::vector<std::string> string_values = vec->vserialize();
 
-            /*for (int i = 0; i < string_values.size(); i++)
+            /*for (size_t i = 0; i < string_values.size(); i++)
             {
             std::string string_value = escape_string_cstyle(string_values[i]);
             j[opt_key][i] = string_value;

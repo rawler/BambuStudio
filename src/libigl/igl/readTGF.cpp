@@ -1,9 +1,9 @@
 // This file is part of libigl, a simple c++ geometry processing library.
-// 
+//
 // Copyright (C) 2013 Alec Jacobson <alecjacobson@gmail.com>
-// 
-// This Source Code Form is subject to the terms of the Mozilla Public License 
-// v. 2.0. If a copy of the MPL was not distributed with this file, You can 
+//
+// This Source Code Form is subject to the terms of the Mozilla Public License
+// v. 2.0. If a copy of the MPL was not distributed with this file, You can
 // obtain one at http://mozilla.org/MPL/2.0/.
 #include "readTGF.h"
 
@@ -27,11 +27,11 @@ IGL_INLINE bool igl::readTGF(
   CE.clear();
   PE.clear();
 
-  FILE * tgf_file = fopen(tgf_filename.c_str(),"r");                                       
+  FILE * tgf_file = fopen(tgf_filename.c_str(),"r");
   if(NULL==tgf_file)
   {
     printf("IOError: %s could not be opened\n",tgf_filename.c_str());
-    return false;  
+    return false;
   }
 
   bool reading_vertices = true;
@@ -57,7 +57,7 @@ IGL_INLINE bool igl::readTGF(
     {
       int index;
       vector<double> position(3);
-      int count = 
+      int count =
         sscanf(line,"%d %lg %lg %lg",
           &index,
           &position[0],
@@ -117,10 +117,10 @@ IGL_INLINE bool igl::readTGF(
   }
   fclose(tgf_file);
   // Construct P, indices not in BE
-  for(int i = 0;i<(int)C.size();i++)
+  for( size_t i = 0;i<(int)C.size();i++)
   {
     bool in_edge = false;
-    for(int j = 0;j<(int)BE.size();j++)
+    for(size_t j = 0;j<(int)BE.size();j++)
     {
       if(i == BE[j][0] || i == BE[j][1])
       {

@@ -1131,7 +1131,7 @@ void BoundingVolumeHierarchy::intersectBVHTrees(
 
             symmetric_intersecting_pairs.insert(partial_res.cbegin(), partial_res.cend());
 
-            for (int i = 0; i < (int)futures.size(); ++i) {
+            for (size_t i = 0; i < (int)futures.size(); ++i) {
                 std::future<OutputStorageType>& f = futures[i];
                 MCUT_ASSERT(f.valid());
                 OutputStorageType future_res = f.get();

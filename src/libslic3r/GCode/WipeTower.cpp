@@ -78,7 +78,7 @@ Polygon chamfer_polygon(Polygon &polygon, double chamfer_dis = 2., double angle_
     int    mod           = polygon.points.size();
     double cos_angle_tol = abs(std::cos(angle_tol));
 
-    for (int i = 0; i < polygon.points.size(); i++) {
+    for (size_t i = 0; i < polygon.points.size(); i++) {
         Vec2d  a        = unscaled(polygon.points[(i - 1 + mod) % mod]);
         Vec2d  b        = unscaled(polygon.points[i]);
         Vec2d  c        = unscaled(polygon.points[(i + 1) % mod]);
@@ -112,7 +112,7 @@ Polygon WipeTower::rounding_polygon(Polygon &polygon, double rounding /*= 2.*/, 
     int    mod           = polygon.points.size();
     double cos_angle_tol = abs(std::cos(angle_tol));
 
-    for (int i = 0; i < polygon.points.size(); i++) {
+    for (size_t i = 0; i < polygon.points.size(); i++) {
         Vec2d  a      = unscaled(polygon.points[(i - 1 + mod) % mod]);
         Vec2d  b      = unscaled(polygon.points[i]);
         Vec2d  c      = unscaled(polygon.points[(i + 1) % mod]);
@@ -179,7 +179,7 @@ Polygon rounding_rectangle(Polygon &polygon, double rounding = 2., double angle_
     int    mod           = polygon.points.size();
     double cos_angle_tol = abs(std::cos(angle_tol));
 
-    for (int i = 0; i < polygon.points.size(); i++) {
+    for (size_t i = 0; i < polygon.points.size(); i++) {
         Vec2d  a      = unscaled(polygon.points[(i - 1 + mod) % mod]);
         Vec2d  b      = unscaled(polygon.points[i]);
         Vec2d  c      = unscaled(polygon.points[(i + 1) % mod]);
@@ -432,8 +432,8 @@ Polylines remove_points_from_polygon(const Polygon &polygon, const std::vector<V
         points.pop_back();
     }
 
-    for (int i = 0; i < skip_points.size(); i++) {
-        for (int j = 0; j < points.size(); j++) {
+    for (size_t i = 0; i < skip_points.size(); i++) {
+        for (size_t j = 0; j < points.size(); j++) {
             Vec2f& p1                   = points[j];
             Vec2f& p2                   = points[(j + 1) % points.size()];
             auto [is_inter, inter_pos] = ray_intersetion_line(skip_points[i], ray, p1, p2);
@@ -914,7 +914,7 @@ public:
             Vec2f anchor{this->m_current_pos.x(), this->m_current_pos.y()};
             int   closestIndex = -1;
             float minDistance  = std::numeric_limits<float>::max();
-            for (int i = 0; i < corners.size(); ++i) {
+            for (size_t i = 0; i < corners.size(); ++i) {
                 float distance = (corners[i].start - anchor).squaredNorm();
                 if (distance < minDistance) {
                     minDistance  = distance;
@@ -924,9 +924,9 @@ public:
             return closestIndex;
         };
         std::vector<Segment> segments;
-        for (int i = 0; i < pl.fitting_result.size(); i++) {
+        for (size_t i = 0; i < pl.fitting_result.size(); i++) {
             if (pl.fitting_result[i].path_type == EMovePathType::Linear_move) {
-                for (int j = pl.fitting_result[i].start_point_index; j < pl.fitting_result[i].end_point_index; j++)
+                for (size_t j = pl.fitting_result[i].start_point_index; j < pl.fitting_result[i].end_point_index; j++)
                     segments.push_back({unscaled<float>(pl.points[j]), unscaled<float>(pl.points[j + 1])});
             } else {
                 int beg = pl.fitting_result[i].start_point_index;
@@ -1131,7 +1131,7 @@ public:
         int closest_idx = polygon.closest_point_index(scaled(m_current_pos));
         Polyline wipe_path   = polygon.split_at_index(closest_idx);
         wipe_path.reverse();
-        for (int i = 0; i < wipe_path.size(); ++i) {
+        for (size_t i = 0; i < wipe_path.size(); ++i) {
             if (wipe_dist < EPSILON) break;
             add_wipe_point(unscaled<float>(wipe_path[i]));
             if (i != 0) wipe_dist -= (unscaled(wipe_path[i]) - unscaled(wipe_path[i - 1])).norm();
@@ -1144,7 +1144,7 @@ public:
             Vec2f anchor{this->m_current_pos.x(), this->m_current_pos.y()};
             int   closestIndex = -1;
             float minDistance  = std::numeric_limits<float>::max();
-            for (int i = 0; i < corners.size(); ++i) {
+            for (size_t i = 0; i < corners.size(); ++i) {
                 float distance = (corners[i].start - anchor).squaredNorm();
                 if (distance < minDistance) {
                     minDistance  = distance;
@@ -1158,9 +1158,9 @@ public:
         std::vector<Segment> segments;
         for (const auto &pl : pls) {
             if (pl.points.size()<2) continue;
-            for (int i = 0; i < pl.fitting_result.size(); i++) {
+            for (size_t i = 0; i < pl.fitting_result.size(); i++) {
                 if (pl.fitting_result[i].path_type == EMovePathType::Linear_move) {
-                    for (int j = pl.fitting_result[i].start_point_index; j < pl.fitting_result[i].end_point_index; j++)
+                    for (size_t j = pl.fitting_result[i].start_point_index; j < pl.fitting_result[i].end_point_index; j++)
                         segments.push_back({unscaled<float>(pl.points[j]), unscaled<float>(pl.points[j + 1])});
                 } else {
                     int beg = pl.fitting_result[i].start_point_index;
@@ -1533,8 +1533,8 @@ TriangleMesh WipeTower::its_make_rib_tower(float width, float depth, float heigh
     for (auto &t : faces_bottom) res.its.indices.push_back({t[1], t[0], t[2]});
     for (auto &t : faces_top) res.its.indices.push_back({t[0] + offset, t[1] + offset, t[2] + offset});
 
-    for (int i = 0; i < bottom.size(); i++) res.its.vertices.push_back({unscaled<float>(bottom[i][0]), unscaled<float>(bottom[i][1]), 0});
-    for (int i = 0; i < top.size(); i++) res.its.vertices.push_back({unscaled<float>(top[i][0]), unscaled<float>(top[i][1]), height});
+    for (size_t i = 0; i < bottom.size(); i++) res.its.vertices.push_back({unscaled<float>(bottom[i][0]), unscaled<float>(bottom[i][1]), 0});
+    for (size_t i = 0; i < top.size(); i++) res.its.vertices.push_back({unscaled<float>(top[i][0]), unscaled<float>(top[i][1]), height});
 
     for (int i = 0; i < offset; i++) {
         int a = i;
@@ -1557,10 +1557,10 @@ TriangleMesh WipeTower::its_make_rib_brim(const Polygon& brim, float layer_heigh
     for (auto &t : faces) res.its.indices.push_back({t[1], t[0], t[2]});
     for (auto &t : faces) res.its.indices.push_back({t[0] + offset, t[1] + offset, t[2] + offset});
 
-    for (int i = 0; i < brim.size(); i++) res.its.vertices.push_back({unscaled<float>(brim[i][0]), unscaled<float>(brim[i][1]), 0});
-    for (int i = 0; i < brim.size(); i++) res.its.vertices.push_back({unscaled<float>(brim[i][0]), unscaled<float>(brim[i][1]), layer_height});
+    for (size_t i = 0; i < brim.size(); i++) res.its.vertices.push_back({unscaled<float>(brim[i][0]), unscaled<float>(brim[i][1]), 0});
+    for (size_t i = 0; i < brim.size(); i++) res.its.vertices.push_back({unscaled<float>(brim[i][0]), unscaled<float>(brim[i][1]), layer_height});
 
-    for (int i = 0; i < offset; i++) {
+    for (size_t i = 0; i < offset; i++) {
         int a = i;
         int b = (i + 1) % offset;
         int c = i + offset;
@@ -1721,7 +1721,7 @@ void WipeTower::set_extruder(size_t idx, const PrintConfig& config)
     m_filpar[idx].precool_t.resize(uniqueElements.size(), 0.f);
     m_filpar[idx].precool_t_first_layer.resize(uniqueElements.size(), 0.f);
     if (config.enable_pre_heating.value && !config.filament_pre_cooling_temperature.is_nil(idx) && config.filament_pre_cooling_temperature.get_at(idx) != 0) {
-        for (int i = 0; i < m_filpar[idx].precool_t.size(); i++) {
+        for (size_t i = 0; i < m_filpar[idx].precool_t.size(); i++) {
             m_filpar[idx].precool_t[i] = std::max(0.f, float(config.nozzle_temperature.get_at(idx)) - float(config.filament_pre_cooling_temperature.get_at(idx))) /
                                          float(config.hotend_cooling_rate.values.at(i));
             m_filpar[idx].precool_t_first_layer[i] = std::max(0.f, float(config.nozzle_temperature_initial_layer.get_at(idx)) -
@@ -2728,7 +2728,7 @@ void WipeTower::plan_tower()
         else
             m_extra_spacing = 1.f;
 
-        for (int idx = 0; idx < m_plan.size(); idx++) {
+        for (size_t idx = 0; idx < m_plan.size(); idx++) {
             auto& info = m_plan[idx];
             if (idx == 0 && m_extra_spacing > 1.f + EPSILON) {
                 // apply solid fill for the first layer
@@ -3774,9 +3774,9 @@ void WipeTower::reset_block_status()
 }
 void WipeTower::set_nozzle_last_layer_id()
 {
-    for (int idx = 0; idx < m_plan.size(); idx++) {
+    for (size_t idx = 0; idx < m_plan.size(); idx++) {
         auto &info = m_plan[idx];
-        for(int i =0 ; i<info.tool_changes.size();i++) {
+        for(size_t i =0 ; i<info.tool_changes.size();i++) {
             int old_tool = info.tool_changes[i].old_tool;
             int new_tool = info.tool_changes[i].new_tool;
             if (old_tool >= 0) m_last_layer_id[m_filament_map[old_tool] - 1] = idx;
@@ -3851,7 +3851,7 @@ void WipeTower::generate_wipe_tower_blocks()
 
     // 3. generate wipe tower block
     m_wipe_tower_blocks.clear();
-    for (int layer_id = 0; layer_id < all_layer_category_to_depth.size(); ++layer_id) {
+    for (size_t layer_id = 0; layer_id < all_layer_category_to_depth.size(); ++layer_id) {
         const auto &layer_category_depths = all_layer_category_to_depth[layer_id];
         for (auto iter = layer_category_depths.begin(); iter != layer_category_depths.end(); ++iter) {
             auto* block = get_block_by_category(iter->first, true);
@@ -3868,7 +3868,7 @@ void WipeTower::generate_wipe_tower_blocks()
     // add solid infill flag
     int solid_infill_layer = 4;
     for (WipeTowerBlock& block : m_wipe_tower_blocks) {
-        for (int layer_id = 0; layer_id < all_layer_category_to_depth.size(); ++layer_id) {
+        for (size_t layer_id = 0; layer_id < all_layer_category_to_depth.size(); ++layer_id) {
             std::unordered_map<int, float> &category_to_depth = all_layer_category_to_depth[layer_id];
             if (is_approx(category_to_depth[block.filament_adhesiveness_category], 0.f)) {
                 int layer_count = solid_infill_layer;
@@ -3979,7 +3979,7 @@ void WipeTower::calc_block_infill_gap()
     }
 
     //2. recalculate toolchange depth
-     for (int idx = 0; idx < m_plan.size(); idx++) {
+     for (size_t idx = 0; idx < m_plan.size(); idx++) {
         for (auto &toolchange : m_plan[idx].tool_changes) {
             toolchange = set_toolchange(toolchange.old_tool, toolchange.new_tool, m_plan[idx].height, toolchange.wipe_volume, toolchange.purge_volume);
         }
@@ -3997,7 +3997,7 @@ void WipeTower::plan_tower_new()
         float max_depth    = std::accumulate(m_wipe_tower_blocks.begin(), m_wipe_tower_blocks.end(), 0.f, [](float a, const auto &t) { return a + t.depth; }) + m_perimeter_width;
         float square_width = align_ceil(std::sqrt(max_depth * m_wipe_tower_width * m_extra_spacing), m_perimeter_width);
         m_wipe_tower_width = square_width;
-        for (int idx = 0; idx < m_plan.size(); idx++) {
+        for (size_t idx = 0; idx < m_plan.size(); idx++) {
             for (auto &toolchange : m_plan[idx].tool_changes) {
                 toolchange = set_toolchange(toolchange.old_tool, toolchange.new_tool, m_plan[idx].height, toolchange.wipe_volume, toolchange.purge_volume);
             }
@@ -4036,7 +4036,7 @@ void WipeTower::plan_tower_new()
                 m_extra_spacing = std::max(min_wipe_tower_depth / max_depth, m_extra_spacing);
         }
 
-        for (int idx = 0; idx < m_plan.size(); idx++) {
+        for (size_t idx = 0; idx < m_plan.size(); idx++) {
             auto &info = m_plan[idx];
             if (idx == 0 /*&& m_extra_spacing > 1.f + EPSILON*/) {
                 // apply solid fill for the first layer
@@ -4555,8 +4555,8 @@ Polygon WipeTower::generate_support_wall_new(WipeTowerWriter &writer, const box_
         int   closestIndex = -1;
         int   closestPl = -1;
         float minDistance  = std::numeric_limits<float>::max();
-        for (int i = 0; i < pls.size(); ++i) {
-            for (int j = 0; j < pls[i].size(); ++j) {
+        for (size_t i = 0; i < pls.size(); ++i) {
+            for (size_t j = 0; j < pls[i].size(); ++j) {
                 float distance = (unscaled<float>(pls[i][j]) - anchor).squaredNorm();
                 if (distance < minDistance) {
                     minDistance  = distance;

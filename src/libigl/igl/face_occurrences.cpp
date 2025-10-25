@@ -1,9 +1,9 @@
 // This file is part of libigl, a simple c++ geometry processing library.
-// 
+//
 // Copyright (C) 2013 Alec Jacobson <alecjacobson@gmail.com>
-// 
-// This Source Code Form is subject to the terms of the Mozilla Public License 
-// v. 2.0. If a copy of the MPL was not distributed with this file, You can 
+//
+// This Source Code Form is subject to the terms of the Mozilla Public License
+// v. 2.0. If a copy of the MPL was not distributed with this file, You can
 // obtain one at http://mozilla.org/MPL/2.0/.
 #include "face_occurrences.h"
 
@@ -20,13 +20,13 @@ IGL_INLINE void igl::face_occurrences(
 
   // Get a list of sorted faces
   vector<vector<IntegerF> > sortedF = F;
-  for(int i = 0; i < (int)F.size();i++)
+  for( size_t i = 0; i < (int)F.size();i++)
   {
     sort(sortedF[i].begin(),sortedF[i].end());
   }
   // Count how many times each sorted face occurs
   map<vector<IntegerF>,int> counts;
-  for(int i = 0; i < (int)sortedF.size();i++)
+  for( size_t i = 0; i < (int)sortedF.size();i++)
   {
     if(counts.find(sortedF[i]) == counts.end())
     {
@@ -42,7 +42,7 @@ IGL_INLINE void igl::face_occurrences(
 
   // Resize output to fit number of ones
   C.resize(F.size());
-  for(int i = 0;i< (int)F.size();i++)
+  for( size_t i = 0;i< (int)F.size();i++)
   {
     // sorted face should definitely be in counts map
     assert(counts.find(sortedF[i]) != counts.end());

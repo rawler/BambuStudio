@@ -3135,7 +3135,7 @@ wxArrayString CreatePrinterPresetDialog::printer_preset_sort_with_nozzle_diamete
 
     int index_nearest_nozzle = -1;
     float nozzle_diameter_diff = 1;
-    for (int i = 0; i < preset_sort.size(); ++i) {
+    for (size_t i = 0; i < preset_sort.size(); ++i) {
         float curr_nozzle_diameter_diff = std::abs(nozzle_diameter - preset_sort[i].first);
         if (curr_nozzle_diameter_diff < nozzle_diameter_diff) {
             index_nearest_nozzle = i;

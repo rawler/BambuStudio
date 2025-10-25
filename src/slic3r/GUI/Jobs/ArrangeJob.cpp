@@ -479,7 +479,7 @@ void ArrangeJob::prepare_outside_plate() {
     }
 
     std::set<int> locked_plates;
-    for (int obj_idx = 0; obj_idx < model.objects.size(); obj_idx++) {
+    for (size_t obj_idx = 0; obj_idx < model.objects.size(); obj_idx++) {
         ModelObject *object = model.objects[obj_idx];
         for (size_t inst_idx = 0; inst_idx < object->instances.size(); ++inst_idx) {
             ModelInstance * instance = object->instances[inst_idx];
@@ -573,7 +573,7 @@ void ArrangeJob::prepare()
         Pointfs excluse_area_points = print_config.bed_exclude_area.values;
         Polygons exclude_polys;
         Polygon exclude_poly;
-        for (int i = 0; i < excluse_area_points.size(); i++) {
+        for (size_t i = 0; i < excluse_area_points.size(); i++) {
             auto pt = excluse_area_points[i];
             exclude_poly.points.emplace_back(scale_(pt.x()), scale_(pt.y()));
             if (i % 4 == 3) {  // exclude areas are always rectangle

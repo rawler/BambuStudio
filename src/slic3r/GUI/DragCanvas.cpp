@@ -32,7 +32,7 @@ DragCanvas::DragCanvas(wxWindow* parent, const std::vector<std::string>& colors,
 
 DragCanvas::~DragCanvas()
 {
-    for (int i = 0; i < m_dragshape_list.size(); i++) {
+    for (size_t i = 0; i < m_dragshape_list.size(); i++) {
         delete m_dragshape_list[i];
     }
     m_dragshape_list.clear();
@@ -45,14 +45,14 @@ void DragCanvas::set_shape_list(const std::vector<std::string>& colors, const st
 {
     m_dragshape_list.clear();
 
-    for (int i = 0; i < order.size(); i++) {
+    for (size_t i = 0; i < order.size(); i++) {
         wxBitmap* bmp = get_extruder_color_icon(colors[order[i] - 1], std::to_string(order[i]), SHAPE_SIZE, SHAPE_SIZE);
         DragShape* shape = new DragShape(*bmp, order[i]);
         m_dragshape_list.push_back(shape);
     }
 
     // wrapping lines
-    for (int i = 0; i < order.size(); i++) {
+    for (size_t i = 0; i < order.size(); i++) {
         int shape_pos_x = FromDIP(10) + i * SHAPE_GAP;
         int shape_pos_y = FromDIP(5);
         while (shape_pos_x + SHAPE_SIZE > CANVAS_WIDTH) {
@@ -111,7 +111,7 @@ void DragCanvas::on_paint(wxPaintEvent& event)
 {
     wxPaintDC dc(this);
 
-    for (int i = 0; i < m_dragshape_list.size(); i++) {
+    for (size_t i = 0; i < m_dragshape_list.size(); i++) {
         m_dragshape_list[i]->paint(dc, m_dragshape_list[i] == m_slot_shape);
 
         auto arrow_pos = m_dragshape_list[i]->GetPosition() - wxSize(SHAPE_GAP - SHAPE_SIZE, 0);
@@ -134,7 +134,7 @@ void DragCanvas::on_erase(wxEraseEvent& event)
         dc.SetBrush(*wxWHITE_BRUSH);
         dc.DrawRectangle({ 0,0 }, size);
     }
-    else 
+    else
     {
         wxClientDC dc(this);
         dc.SetPen(CANVAS_BORDER_COLOR);

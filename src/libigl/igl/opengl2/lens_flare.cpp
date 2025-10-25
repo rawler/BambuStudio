@@ -1,9 +1,9 @@
 // This file is part of libigl, a simple c++ geometry processing library.
-// 
+//
 // Copyright (C) 2013 Alec Jacobson <alecjacobson@gmail.com>
-// 
-// This Source Code Form is subject to the terms of the Mozilla Public License 
-// v. 2.0. If a copy of the MPL was not distributed with this file, You can 
+//
+// This Source Code Form is subject to the terms of the Mozilla Public License
+// v. 2.0. If a copy of the MPL was not distributed with this file, You can
 // obtain one at http://mozilla.org/MPL/2.0/.
 #include "lens_flare.h"
 
@@ -41,7 +41,7 @@ IGL_INLINE void igl::opengl2::lens_flare_load_textures(
   glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
   shine_id.resize(10);
   glGenTextures(10,&shine_id[0]);
-  for (int i = 0; i < (int)shine_id.size(); i++) {
+  for (size_t i = 0; i < (int)shine_id.size(); i++) {
     setup_texture(
       SHINE_TEXTURES[i],
       SHINE_TEXTURE_WIDTHS[i],
@@ -50,7 +50,7 @@ IGL_INLINE void igl::opengl2::lens_flare_load_textures(
   }
   flare_id.resize(6);
   glGenTextures(6,&flare_id[0]);
-  for (int i = 0; i < (int)flare_id.size(); i++) {
+  for (size_t i = 0; i < (int)flare_id.size(); i++) {
     setup_texture(
       FLARE_TEXTURES[i],
       FLARE_TEXTURE_WIDTHS[i],
@@ -145,7 +145,7 @@ IGL_INLINE void igl::opengl2::lens_flare_draw(
   const Vector3f SX = unproject(psx).normalized();
   const Vector3f SY = unproject(psy).normalized();
 
-  for(int i = 0; i < (int)flares.size(); i++)
+  for( size_t i = 0; i < (int)flares.size(); i++)
   {
     const Vector3f sx = flares[i].scale * SX;
     const Vector3f sy = flares[i].scale * SY;
@@ -153,7 +153,7 @@ IGL_INLINE void igl::opengl2::lens_flare_draw(
     if (flares[i].type < 0) {
       glBindTexture(GL_TEXTURE_2D, shine_ids[shine_tic]);
       shine_tic = (shine_tic + 1) % shine_ids.size();
-    } else 
+    } else
     {
       glBindTexture(GL_TEXTURE_2D, flare_ids[flares[i].type]);
     }

@@ -1023,7 +1023,7 @@ void ObjectGrid::paste_data( wxTextDataObject& text_data )
         wxChar split_char2 = '\n';
         bool finished = false;
         while (!finished && (temp.Length() > 0)) {
-            int pos = temp.find(split_char2);
+            size_t pos = temp.find(split_char2);
             if (pos == 0)
             {
                 temp = temp.substr(1);
@@ -1182,14 +1182,14 @@ std::string ObjectGridTable::plate_outside = L("Outside");
 ObjectGridTable::~ObjectGridTable()
 {
     BOOST_LOG_TRIVIAL(info) << __FUNCTION__ << boost::format(", this %1%, row_data size %2%") %this % m_grid_data.size();
-    for ( int index = 0; index < m_grid_data.size(); index++ )
+    for ( size_t index = 0; index < m_grid_data.size(); index++ )
     {
         if (m_grid_data[index])
             delete (m_grid_data[index]);
     }
     m_grid_data.clear();
 
-    for ( int index = 0; index < m_col_data.size(); index++ )
+    for ( size_t index = 0; index < m_col_data.size(); index++ )
     {
         if (m_col_data[index])
             delete (m_col_data[index]);
@@ -1453,7 +1453,7 @@ void ObjectGridTable::update_volume_values_from_object(int row, int col)
     bool need_refresh = false;
     DynamicPrintConfig&  global_config   = wxGetApp().preset_bundle->prints.get_edited_preset().config;
     if (grid_row->row_type == row_object) {
-        int next_row = row + 1;
+        size_t next_row = row + 1;
         while ((next_row - 1) < m_grid_data.size())
         {
             ObjectGridRow* part_row = m_grid_data[next_row - 1];
@@ -1776,7 +1776,7 @@ void ObjectGridTable::release_object_configs()
 {
     if (m_grid_data.size() > 0)
     {
-        for (int i = 0; i < m_grid_data.size(); i ++)
+        for (size_t i = 0; i < m_grid_data.size(); i ++)
         {
             delete m_grid_data[i];
         }
@@ -1785,7 +1785,7 @@ void ObjectGridTable::release_object_configs()
 
     if (m_col_data.size() > 0)
     {
-        for (int i = 0; i < m_col_data.size(); i ++)
+        for (size_t i = 0; i < m_col_data.size(); i ++)
         {
             delete m_col_data[i];
         }
@@ -1801,19 +1801,19 @@ void ObjectGridTable::release_object_configs()
 wxString ObjectGridTable::convert_filament_string(int index, wxString& filament_str)
 {
     wxString result_str;
-    if (filament_str.find("PLA") !=  wxNOT_FOUND ) {
+    if (filament_str.find("PLA") !=  wxString::npos ) {
         //PLA
         result_str = wxString(std::to_string(index+1) + ": PLA");
     }
-    else if (filament_str.find("ABS") != wxNOT_FOUND ) {
+    else if (filament_str.find("ABS") != wxString::npos ) {
         //ABS
         result_str = wxString(std::to_string(index+1) + ": ABS");
     }
-    else if (filament_str.find("PETG") != wxNOT_FOUND ) {
+    else if (filament_str.find("PETG") != wxString::npos ) {
         //PETG
         result_str= wxString(std::to_string(index+1) + ": PETG");
     }
-    else if (filament_str.find("TPU") != wxNOT_FOUND ) {
+    else if (filament_str.find("TPU") != wxString::npos ) {
         //TPU
         result_str = wxString(std::to_string(index+1) + ": TPU");
     }
@@ -2058,7 +2058,7 @@ void ObjectGridTable::SetSelection(int object_id, int volume_id)
     if ((object_id == -1)&&(volume_id == -1))
         return;
 
-    for (int index = 0; index <  m_grid_data.size(); index++)
+    for (size_t index = 0; index <  m_grid_data.size(); index++)
     {
         ObjectGridRow* row = m_grid_data[index];
         if (row->object_id == object_id) {
@@ -2182,7 +2182,7 @@ void ObjectGridTable::reload_cell_data(int row, const std::string& category)
     if (grid_row->row_type == row_object) {
         reload_object_data(grid_row, category, global_config);
 
-        int next_row = row + 1;
+        size_t next_row = row + 1;
         while ((next_row - 1) < m_grid_data.size())
         {
             ObjectGridRow* part_row = m_grid_data[next_row - 1];
@@ -2674,7 +2674,7 @@ wxBitmap& ObjectGridTable::get_undo_bitmap(bool selected)
 
 wxBitmap* ObjectGridTable::get_color_bitmap(int color_index)
 {
-    if (color_index < m_panel->m_color_bitmaps.size())
+    if (color_index < (int)m_panel->m_color_bitmaps.size())
         return m_panel->m_color_bitmaps[color_index];
     else
         return m_panel->m_color_bitmaps[0];

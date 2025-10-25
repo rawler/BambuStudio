@@ -515,7 +515,7 @@ CaliPageStepGuide::CaliPageStepGuide(wxWindow* parent, wxArrayString steps,
 
     m_step_sizer = new wxBoxSizer(wxHORIZONTAL);
     m_step_sizer->AddSpacer(FromDIP(90));
-    for (int i = 0; i < m_steps.size(); i++) {
+    for (size_t i = 0; i < m_steps.size(); i++) {
         Label* step_text = new Label(this, m_steps[i]);
         step_text->SetForegroundColour(wxColour(206, 206, 206));
         m_text_steps.push_back(step_text);
@@ -553,7 +553,7 @@ void CaliPageStepGuide::set_steps_string(wxArrayString steps)
     m_step_sizer->Clear(true);
     m_steps = steps;
     m_step_sizer->AddSpacer(FromDIP(90));
-    for (int i = 0; i < m_steps.size(); i++) {
+    for (size_t i = 0; i < m_steps.size(); i++) {
         Label* step_text = new Label(this, m_steps[i]);
         step_text->SetForegroundColour(wxColour(206, 206, 206));
         m_text_steps.push_back(step_text);
@@ -747,7 +747,7 @@ CaliPageActionPanel::CaliPageActionPanel(wxWindow* parent,
     auto top_sizer = new wxBoxSizer(wxHORIZONTAL);
 
     top_sizer->Add(0, 0, 1, wxEXPAND, 0);
-    for (int i = 0; i < m_action_btns.size(); i++) {
+    for (size_t i = 0; i < m_action_btns.size(); i++) {
         top_sizer->Add(m_action_btns[i], 0, wxALL, FromDIP(5));
 
         m_action_btns[i]->Bind(wxEVT_BUTTON,
@@ -766,7 +766,7 @@ CaliPageActionPanel::CaliPageActionPanel(wxWindow* parent,
 
 void CaliPageActionPanel::bind_button(CaliPageActionType action_type, bool is_block)
 {
-    for (int i = 0; i < m_action_btns.size(); i++) {
+    for (size_t i = 0; i < m_action_btns.size(); i++) {
         if (m_action_btns[i]->get_action_type() == action_type) {
 
             if (is_block) {
@@ -792,7 +792,7 @@ void CaliPageActionPanel::bind_button(CaliPageActionType action_type, bool is_bl
 
 void CaliPageActionPanel::show_button(CaliPageActionType action_type, bool show)
 {
-    for (int i = 0; i < m_action_btns.size(); i++) {
+    for (size_t i = 0; i < m_action_btns.size(); i++) {
         if (m_action_btns[i]->get_action_type() == action_type) {
             m_action_btns[i]->Show(show);
         }
@@ -802,7 +802,7 @@ void CaliPageActionPanel::show_button(CaliPageActionType action_type, bool show)
 
 void CaliPageActionPanel::enable_button(CaliPageActionType action_type, bool enable)
 {
-    for (int i = 0; i < m_action_btns.size(); i++) {
+    for (size_t i = 0; i < m_action_btns.size(); i++) {
         if (m_action_btns[i]->get_action_type() == action_type) {
             m_action_btns[i]->Enable(enable);
         }
@@ -811,7 +811,7 @@ void CaliPageActionPanel::enable_button(CaliPageActionType action_type, bool ena
 
 void CaliPageActionPanel::msw_rescale()
 {
-    for (int i = 0; i < m_action_btns.size(); i++) {
+    for (size_t i = 0; i < m_action_btns.size(); i++) {
         m_action_btns[i]->msw_rescale();
     }
 }

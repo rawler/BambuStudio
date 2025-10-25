@@ -66,7 +66,7 @@ static Polylines generate_transform_pattern(double inprogress, int direction, co
 
     // replicate to odd line
     Point translate = Point(0, 0);
-    for (size_t i = 0; i < num_of_cycle; i++) {
+    for (int i = 0; i < num_of_cycle; i++) {
         Polyline odd_points;
         odd_points = Polyline(one_cycle);
         odd_points.translate(Point(i * grid_size, 0.0));
@@ -76,7 +76,7 @@ static Polylines generate_transform_pattern(double inprogress, int direction, co
     // fill the height
     int num_of_lines = height / grid_size + 2;
     odd_polylines.reserve(num_of_lines * odd_poly.size());
-    for (size_t i = 0; i < num_of_lines; i++) {
+    for (int i = 0; i < num_of_lines; i++) {
         Polyline poly = odd_poly;
         poly.translate(Point(0.0, grid_size * i));
         odd_polylines.push_back(poly);

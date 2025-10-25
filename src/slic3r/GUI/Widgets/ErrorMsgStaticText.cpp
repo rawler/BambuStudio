@@ -25,7 +25,7 @@ void ErrorMsgStaticText::paintEvent(wxPaintEvent &evt)
 
     if (m_msg[0] > 0x80 && m_msg[1] > 0x80)is_ch = true;
 
-    for (int i = 0; i < m_msg.length(); i++) {
+    for (size_t i = 0; i < m_msg.length(); i++) {
         auto text_size = dc.GetTextExtent(count_txt);
         if (text_size.x < (size.x)) {
             count_txt += m_msg[i];

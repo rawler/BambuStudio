@@ -61,7 +61,7 @@ public:
 
     // filament
     bool             HasFilamentInExt() const { return m_ext_has_filament; }
-    bool             HasFilamentInBuffer() const = delete; //{ return m_buffer_has_filament; }  
+    bool             HasFilamentInBuffer() const = delete; //{ return m_buffer_has_filament; }
     bool             HasFilamBackup() const { return !m_filam_bak.empty(); }
     std::vector<int> GetFilamBackup() const { return m_filam_bak; }
 
@@ -103,9 +103,9 @@ private:
 };
 
 // ExtderSystem is the extruder management system for the device.
-// It consists of multiple extruders (Extder) and nozzles. 
-// Each extruder can be associated with different nozzles, and the number of extruders 
-// does not necessarily equal the number of nozzles. 
+// It consists of multiple extruders (Extder) and nozzles.
+// Each extruder can be associated with different nozzles, and the number of extruders
+// does not necessarily equal the number of nozzles.
 // Note: The IDs of extruders and nozzles may not match or correspond one-to-one.
 class DevExtderSystem
 {
@@ -119,7 +119,7 @@ public:
     MachineObject* Owner() const { return m_owner; }
 
     // access extder info
-    int GetTotalExtderCount() const { assert(m_extders.size() == m_total_extder_count); return m_total_extder_count; }
+    int GetTotalExtderCount() const { assert((int)m_extders.size() == m_total_extder_count); return m_total_extder_count; }
     int GetTotalExtderSize() const { return static_cast<int>(m_extders.size()); }
     int GetCurrentExtderId() const { return m_current_extder_id; }
     int GetTargetExtderId() const = delete;//{ return m_target_extder_id; }

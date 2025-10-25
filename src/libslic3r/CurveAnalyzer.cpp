@@ -194,7 +194,7 @@ void CurveAnalyzer::calculate_curvatures(ExtrusionPaths& paths, ECurveAnalyseMod
 
         paths.clear();
         paths.reserve(out.size());
-        for (int i = 0; i < out.size(); i++) {
+        for (size_t i = 0; i < out.size(); i++) {
             paths.push_back(out[i]);
         }
     }

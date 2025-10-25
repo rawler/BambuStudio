@@ -926,7 +926,7 @@ namespace Slic3r
                                 pts.emplace_back(Point(scale_(move.position.x()), scale_(move.position.y())));
                             }
                             if (move.is_arc_move_with_interpolation_points()) {
-                                for (int i = 0; i < move.interpolation_points.size(); i++) {
+                                for (size_t i = 0; i < move.interpolation_points.size(); i++) {
                                     m_paths_bounding_box.merge(move.interpolation_points[i].cast<double>());
                                     //BBS: use convex_hull for toolpath outside check
                                     pts.emplace_back(Point(scale_(move.interpolation_points[i].x()), scale_(move.interpolation_points[i].y())));
@@ -1531,7 +1531,7 @@ namespace Slic3r
                     std::memset(temp_data.data(), 0, temp_data.size() * sizeof(float));
                     for (size_t i = 0; i < color_count; ++i) {
                         const auto& tRGBA = Range_Colors[i].get_data();
-                        for (int j = 0; j < tRGBA.size(); ++j) {
+                        for (size_t j = 0; j < tRGBA.size(); ++j) {
                             temp_data[i * 4 + j] = tRGBA[j];
                         }
                     }
@@ -1576,7 +1576,7 @@ namespace Slic3r
                     std::memset(temp_data.data(), 0, temp_data.size() * sizeof(float));
                     for (size_t i = 0; i < color_count; ++i) {
                         const auto& tRGBA = Thermal_Index_Range_Colors[i].get_data();
-                        for (int j = 0; j < tRGBA.size(); ++j) {
+                        for (size_t j = 0; j < tRGBA.size(); ++j) {
                             temp_data[i * 4 + j] = tRGBA[j];
                         }
                     }
@@ -1620,7 +1620,7 @@ namespace Slic3r
                     temp_data.resize(width * height * 4);
                     std::memset(temp_data.data(), 0, temp_data.size() * sizeof(float));
                     for (size_t i = 0; i < color_count; ++i) {
-                        for (int j = 0; j < Extrusion_Role_Colors[i].size(); ++j) {
+                        for (size_t j = 0; j < Extrusion_Role_Colors[i].size(); ++j) {
                             temp_data[i * 4 + j] = Extrusion_Role_Colors[i][j];
                         }
                     }
@@ -1664,7 +1664,7 @@ namespace Slic3r
                     temp_data.resize(width * height * 4);
                     std::memset(temp_data.data(), 0, temp_data.size() * sizeof(float));
                     for (size_t i = 0; i < color_count; ++i) {
-                        for (int j = 0; j < Options_Colors[i].size(); ++j) {
+                        for (size_t j = 0; j < Options_Colors[i].size(); ++j) {
                             temp_data[i * 4 + j] = Options_Colors[i][j];
                         }
                     }
@@ -1714,7 +1714,7 @@ namespace Slic3r
                     std::memset(temp_data.data(), 0, temp_data.size() * sizeof(float));
                     for (size_t i = 0; i < color_count; ++i) {
                         const auto t_color = adjust_color_for_rendering(m_tools.m_tool_colors[i]);
-                        for (int j = 0; j < t_color.size(); ++j) {
+                        for (size_t j = 0; j < t_color.size(); ++j) {
                             temp_data[i * 4 + j] = t_color[j];
                         }
                     }
@@ -2623,7 +2623,7 @@ namespace Slic3r
                         continue;
                     }
                     const auto& t_seg = t_segments[t_segments_indices[j_seg - 1]];
-                
+
                     switch (t_seg.m_type) {
                     case EMoveType::Tool_change:
                     case EMoveType::Color_change:

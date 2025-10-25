@@ -414,7 +414,7 @@ BuildVolume::ObjectState BuildVolume::volume_state_bbox(const BoundingBoxf3& vol
            build_volume.intersects(volume_bbox) ? ObjectState::Colliding : ObjectState::Outside;
 }
 
-const BuildVolume::BuildExtruderVolume&  BuildVolume::get_extruder_area_volume(int index) const
+const BuildVolume::BuildExtruderVolume&  BuildVolume::get_extruder_area_volume(size_t index) const
 {
     assert(index >= 0 && index < m_extruder_volumes.size());
     return m_extruder_volumes[index];

@@ -6,7 +6,7 @@
 #include "../slice_mask.h"
 
 template <
-  typename DerivedV, 
+  typename DerivedV,
   typename DerivedE,
   typename DerivedWV,
   typename DerivedWF,
@@ -45,7 +45,7 @@ IGL_INLINE void igl::triangle::cdt(
   for(int i=0;i<WE.rows();i++) for(int j=0;j<WE.cols();j++) WE(i,j)=UJ(WE(i,j));
   // Remove edges from box
   //WE.conservativeResize(WE.rows()-BE.rows(),2);
-  for(int i=0;i<J.size();i++) J(i)=UJ(J(i));
+  for(size_t i=0;i<J.size();i++) J(i)=UJ(J(i));
   //J.conservativeResize(J.size()-BV.rows());
 }
 

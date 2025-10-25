@@ -390,8 +390,8 @@ static bool is_profile_self_interaction(Polygon poly)
 {
     auto  lines = poly.lines();
     Point intersection;
-    for (int i = 0; i < lines.size(); ++i) {
-        for (int j = i + 2; j < std::min(lines.size(), lines.size() + i - 1); ++j) {
+    for (size_t i = 0; i < lines.size(); ++i) {
+        for (size_t j = i + 2; j < std::min(lines.size(), lines.size() + i - 1); ++j) {
             if (lines[i].intersection(lines[j], &intersection)) return true;
         }
     }

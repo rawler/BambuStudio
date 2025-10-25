@@ -41,7 +41,7 @@ GCodeCheckResult GCodeChecker::parse_file(const std::string& path)
     }
     std::string line_raw;
     std::string line;
-    int line_number = 0; 
+    int line_number = 0;
 
 
     while (std::getline(file, line_raw)) {
@@ -248,7 +248,7 @@ GCodeCheckResult GCodeChecker::parse_comment(GCodeLine& line)
             physical_to_logic_extruder_map[(int)(tmp[idx])]= idx;
             logic_to_physical_extruder_map[idx] = (int)(tmp[idx]);
         }
-        
+
     }
     else if (starts_with(comment, Z_HEIGHT_TAG)) {
         std::string str = comment.substr(Z_HEIGHT_TAG.size());
@@ -329,11 +329,11 @@ GCodeCheckResult GCodeChecker::parse_command(GCodeLine& gcode_line)
             }
             filament_id = pt;
 
-            
+
             if (is_multi_nozzle == true) {
                 set_current_nozzle(pt);
             }
-           
+
             flow_ratio = filament_flow_ratio[pt];
             break;
         }
@@ -557,13 +557,13 @@ GCodeCheckResult GCodeChecker::parse_M83(const GCodeLine& gcode_line)
 }
 
 GCodeCheckResult GCodeChecker::parse_M104_M109(const GCodeLine &gcode_line)
-{   
+{
     const char *c = gcode_line.m_raw.c_str();
     const char *rs = strchr(c,'S');
 
     std::string strS = rs;
     strS = strS.substr(1);
-    for (int i = 0; i < strS.size(); i++) {
+    for (size_t i = 0; i < strS.size(); i++) {
         if (strS[i] == ' ')
             strS = strS.substr(0,i);
     }
@@ -607,7 +607,7 @@ GCodeCheckResult GCodeChecker::parse_M1020(const GCodeLine& gcode_line)
     if (rs != nullptr) {
         std::string str = rs;
         str = str.substr(1);
-        for (int i = 0; i < str.size(); i++) {
+        for (size_t i = 0; i < str.size(); i++) {
             if (str[i] == ' ')
                 str = str.substr(0, i);
         }
@@ -727,13 +727,13 @@ GCodeCheckResult GCodeChecker::check_G0_G1_width(const GCodeLine& line)
                 type = (delta_pos[Z] == 0.0f) ? EMoveType::Unretract : EMoveType::Travel;
             else if (delta_pos[X] != 0.0f || delta_pos[Y] != 0.0f)
                 type = EMoveType::Extrude;
-        } 
+        }
         else if (delta_pos[X] != 0.0f || delta_pos[Y] != 0.0f || delta_pos[Z] != 0.0f)
             type = EMoveType::Travel;
 
         return type;
     };
-    
+
     for (unsigned char a = X; a <= E; ++a) {
         m_end_position[a] = absolute_position((Axis)a, line);
     }
@@ -869,7 +869,7 @@ GCodeCheckResult GCodeChecker::check_G2_G3_width(const GCodeLine& line)
     return GCodeCheckResult::Success;
 }
 
-void GCodeChecker::set_current_nozzle(int filament_id) {    
+void GCodeChecker::set_current_nozzle(int filament_id) {
     if (filament_id >= 0 && filament_id < static_cast<int>(filament_map.size())) {
         current_nozzle_id = filament_map[filament_id];
     }
@@ -910,5 +910,3 @@ ExtrusionRole GCodeChecker::string_to_role(const std::string &role)
 }
 
 }
-
-

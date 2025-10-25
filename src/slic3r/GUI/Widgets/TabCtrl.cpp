@@ -232,7 +232,7 @@ void TabCtrl::relayout()
     if (item < btns.size())
         offset += btns[item]->GetMinSize().x + TAB_BUTTON_SPACE * 2;
     int  width = GetSize().x;
-    for (int i = 0; i < btns.size(); ++i) {
+    for (size_t i = 0; i < btns.size(); ++i) {
         auto size = btns[i]->GetMinSize().x + TAB_BUTTON_SPACE * 2;
         if (i < sel && offset > width) {
             sizer->Show(i * 2 + 1, false);

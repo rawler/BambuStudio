@@ -1,9 +1,9 @@
 // This file is part of libigl, a simple c++ geometry processing library.
-// 
+//
 // Copyright (C) 2013 Alec Jacobson <alecjacobson@gmail.com>
-// 
-// This Source Code Form is subject to the terms of the Mozilla Public License 
-// v. 2.0. If a copy of the MPL was not distributed with this file, You can 
+//
+// This Source Code Form is subject to the terms of the Mozilla Public License
+// v. 2.0. If a copy of the MPL was not distributed with this file, You can
 // obtain one at http://mozilla.org/MPL/2.0/.
 #include "faces_first.h"
 
@@ -12,10 +12,10 @@
 
 template <typename MatV, typename MatF, typename VecI>
 IGL_INLINE void igl::faces_first(
-  const MatV & V, 
-  const MatF & F, 
-  MatV & RV, 
-  MatF & RF, 
+  const MatV & V,
+  const MatF & F,
+  MatV & RV,
+  MatF & RF,
   VecI & IM)
 {
   assert(&V != &RV);
@@ -57,12 +57,12 @@ IGL_INLINE void igl::faces_first(
   }
   IM.resize(V.rows());
   // reindex vertices that occur in faces to be first
-  for(int i = 0;i<U.size();i++)
+  for( size_t i = 0;i<U.size();i++)
   {
     IM(U(i)) = i;
   }
   // reindex vertices that do not occur in faces to come after those that do
-  for(int i = 0;i<NU.size();i++)
+  for( size_t i = 0;i<NU.size();i++)
   {
     IM(NU(i)) = i+U.size();
   }
@@ -85,8 +85,8 @@ IGL_INLINE void igl::faces_first(
 
 template <typename MatV, typename MatF, typename VecI>
 IGL_INLINE void igl::faces_first(
-  MatV & V, 
-  MatF & F, 
+  MatV & V,
+  MatF & F,
   VecI & IM)
 {
   MatV RV;

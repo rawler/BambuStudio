@@ -50,7 +50,7 @@ private:
 
     void fetchUrl(boost::weak_ptr<PrinterFileSystem> fs);
 
-    void doAction(size_t index, int action);
+    void doAction(int index, int action);
 
 private:
     ScalableBitmap m_bmp_loading;

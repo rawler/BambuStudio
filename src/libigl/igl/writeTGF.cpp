@@ -1,9 +1,9 @@
 // This file is part of libigl, a simple c++ geometry processing library.
-// 
+//
 // Copyright (C) 2013 Alec Jacobson <alecjacobson@gmail.com>
-// 
-// This Source Code Form is subject to the terms of the Mozilla Public License 
-// v. 2.0. If a copy of the MPL was not distributed with this file, You can 
+//
+// This Source Code Form is subject to the terms of the Mozilla Public License
+// v. 2.0. If a copy of the MPL was not distributed with this file, You can
 // obtain one at http://mozilla.org/MPL/2.0/.
 #include "writeTGF.h"
 #include <cstdio>
@@ -17,15 +17,15 @@ IGL_INLINE bool igl::writeTGF(
   if(NULL==tgf_file)
   {
     printf("IOError: %s could not be opened\n",tgf_filename.c_str());
-    return false;  
+    return false;
   }
   // Loop over vertices
-  for(int i = 0; i<(int)C.size();i++)
+  for( size_t i = 0; i<(int)C.size();i++)
   {
     assert(C[i].size() == 3);
     // print a line with vertex number then "description"
     // Where "description" in our case is the 3d position in space
-    // 
+    //
     fprintf(tgf_file,
       "%4d "
       "%10.17g %10.17g %10.17g " // current location
@@ -39,7 +39,7 @@ IGL_INLINE bool igl::writeTGF(
   fprintf(tgf_file,"#\n");
 
   // loop over edges
-  for(int i = 0;i<(int)E.size();i++)
+  for( size_t i = 0;i<(int)E.size();i++)
   {
     assert(E[i].size()==2);
     fprintf(tgf_file,"%4d %4d\n",

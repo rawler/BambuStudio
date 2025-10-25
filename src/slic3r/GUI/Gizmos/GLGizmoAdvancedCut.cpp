@@ -840,7 +840,7 @@ void GLGizmoAdvancedCut::on_render_for_picking()
 
         const CutConnectors &connectors      = mo->cut_connectors;
         const bool           looking_forward = is_looking_forward();
-        for (int i = 0; i < connectors.size(); ++i) {
+        for (size_t i = 0; i < connectors.size(); ++i) {
             CutConnector connector = connectors[i];
             Vec3d        pos       = connector.pos + instance_offset + sla_shift * Vec3d::UnitZ();
             float        height    = connector.height;
@@ -1978,7 +1978,7 @@ void GLGizmoAdvancedCut::toggle_model_objects_visibility(bool show_in_3d)
         if (idx < 0) {
             return;
         }
-        if (idx >= model_objects.size()) {
+        if (idx >= (int)model_objects.size()) {
             return;
         }
         m_parent.toggle_model_objects_visibility(true, model_objects[idx], selection.get_instance_idx());
@@ -2238,7 +2238,7 @@ void GLGizmoAdvancedCut::render_cut_plane_input_window(float x, float y, float b
     m_imgui->text(_L("Rotation") + " ");
     ImGui::SameLine(caption_size + 1 * space_size);
     ImGui::PushItemWidth(unit_size);
-    for (int i = 0; i < m_buffered_rotation.size(); i++) {
+    for (size_t i = 0; i < m_buffered_rotation.size(); i++) {
         if (abs(m_buffered_rotation[i]) < 1e-3) {
             m_buffered_rotation[i] = 0;
         }

@@ -748,7 +748,7 @@ double CalibPressureAdvancePattern::glyph_tab_max_x() const
 double CalibPressureAdvancePattern::max_numbering_height() const
 {
     std::string::size_type most_characters = 0;
-    const int              num_patterns    = get_num_patterns();
+    const unsigned int num_patterns        = get_num_patterns();
 
     // note: only every other number is printed
     for (std::string::size_type i = 0; i < num_patterns; i += 2) {
@@ -764,4 +764,3 @@ double CalibPressureAdvancePattern::max_numbering_height() const
 
 double CalibPressureAdvancePattern::pattern_shift() const { return (wall_count() - 1) * line_spacing_first_layer() + line_width_first_layer() + m_glyph_padding_horizontal; }
 } // namespace Slic3r
-

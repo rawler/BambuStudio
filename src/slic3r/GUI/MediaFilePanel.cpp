@@ -562,7 +562,7 @@ struct MediaProgressDialog : ProgressDialog
     std::function<void()> m_cancel;
 };
 
-void MediaFilePanel::doAction(size_t index, int action)
+void MediaFilePanel::doAction(int index, int action)
 {
     auto fs = m_image_grid->GetFileSystem();
     if (action == 0) {

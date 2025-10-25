@@ -201,7 +201,7 @@ public:
     int GetChildIndex(ObjectDataViewModelNode* child) const
     {
         size_t child_count = GetChildCount();
-        for (int index = 0; index < child_count; index++)
+        for (size_t index = 0; index < child_count; index++)
         {
             if (m_children.Item(index) == child)
                 return index;

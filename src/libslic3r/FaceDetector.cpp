@@ -19,7 +19,7 @@ void FaceDetector::detect_exterior_face()
 
     TriangleMesh object_mesh;
     std::vector<MeshFacetRange> volume_facet_ranges;
-    for (int i = 0; i < m_meshes.size(); i++) {
+    for (size_t i = 0; i < m_meshes.size(); i++) {
         TriangleMesh vol_mesh = m_meshes[i];
         volume_facet_ranges.emplace_back(&m_meshes[i], object_mesh.stats().number_of_facets, object_mesh.stats().number_of_facets + vol_mesh.stats().number_of_facets);
 

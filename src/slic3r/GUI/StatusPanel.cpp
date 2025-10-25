@@ -950,13 +950,13 @@ void PrintingTaskPanel::create_panel(wxWindow* parent)
     m_star_count                        = 0;
     wxBoxSizer *static_score_star_sizer = new wxBoxSizer(wxHORIZONTAL);
     m_score_star.resize(5);
-    for (int i = 0; i < m_score_star.size(); ++i) {
+    for (size_t i = 0; i < m_score_star.size(); ++i) {
         m_score_star[i] = new ScalableButton(m_score_subtask_info, wxID_ANY, "score_star_dark", wxEmptyString, wxSize(FromDIP(26), FromDIP(26)), wxDefaultPosition,
                                              wxBU_EXACTFIT | wxNO_BORDER, true, 26);
         m_score_star[i]->SetMinSize(wxSize(FromDIP(26), FromDIP(26)));
         m_score_star[i]->SetMaxSize(wxSize(FromDIP(26), FromDIP(26)));
         m_score_star[i]->Bind(wxEVT_LEFT_DOWN, [this, i](auto &e) {
-            for (int j = 0; j < m_score_star.size(); ++j) {
+            for (size_t j = 0; j < m_score_star.size(); ++j) {
                 ScalableBitmap light_star = ScalableBitmap(nullptr, "score_star_light", 26);
                 m_score_star[j]->SetBitmap(light_star.bmp());
                 if (m_score_star[j] == m_score_star[i]) {
@@ -964,7 +964,7 @@ void PrintingTaskPanel::create_panel(wxWindow* parent)
                     break;
                 }
             }
-            for (int k = m_star_count; k < m_score_star.size(); ++k) {
+            for (size_t k = m_star_count; k < m_score_star.size(); ++k) {
                 ScalableBitmap dark_star = ScalableBitmap(nullptr, "score_star_dark", 26);
                 m_score_star[k]->SetBitmap(dark_star.bmp());
             }
@@ -1055,8 +1055,8 @@ void PrintingTaskPanel::msw_rescale()
     m_bitmap_thumbnail->SetSize(TASK_THUMBNAIL_SIZE);
 
     {
-        for (int i = 0; i < m_score_star.size(); ++i) {
-            if (i < m_star_count) {
+        for (size_t i = 0; i < m_score_star.size(); ++i) {
+            if ((int)i < m_star_count) {
                 ScalableBitmap light_star = ScalableBitmap(nullptr, "score_star_light", 26);
                 m_score_star[i]->SetBitmap(light_star.bmp());
             } else {
@@ -1365,8 +1365,8 @@ void PrintingTaskPanel::set_star_count(int star_count)
 {
     m_star_count = star_count;
 
-    for (int i = 0; i < m_score_star.size(); ++i) {
-        if (i < star_count) {
+    for (size_t i = 0; i < m_score_star.size(); ++i) {
+        if ((int)i < star_count) {
             ScalableBitmap light_star = ScalableBitmap(nullptr, "score_star_light", 26);
             m_score_star[i]->SetBitmap(light_star.bmp());
         } else {
@@ -5043,7 +5043,7 @@ bool StatusPanel::is_stage_list_info_changed(MachineObject *obj)
 
     if (last_stage_list_info.size() != obj->stage_list_info.size()) return true;
 
-    for (int i = 0; i < last_stage_list_info.size(); i++) {
+    for (size_t i = 0; i < last_stage_list_info.size(); i++) {
         if (last_stage_list_info[i] != obj->stage_list_info[i]) return true;
     }
     last_stage_list_info = obj->stage_list_info;
@@ -5225,7 +5225,7 @@ void StatusPanel::msw_rescale()
     m_tempCtrl_chamber->SetMinSize(size);
     m_tempCtrl_chamber->Rescale();
 
-    for(int i = 0; i < m_extruder_book->GetPageCount(); i++)
+    for(size_t i = 0; i < m_extruder_book->GetPageCount(); i++)
     {
         ExtruderImage* ext_img = dynamic_cast<ExtruderImage*> (m_extruder_book->GetPage(i));
         if (ext_img)
@@ -5632,7 +5632,7 @@ wxBoxSizer *ScoreDialog::get_star_sizer()
     wxBoxSizer *static_score_star_sizer = new wxBoxSizer(wxHORIZONTAL);
     static_score_star_sizer->AddSpacer(FromDIP(20));
     m_score_star.resize(5);
-    for (int i = 0; i < m_score_star.size(); ++i) {
+    for (size_t i = 0; i < m_score_star.size(); ++i) {
         if (!m_success_printed && m_star_count > 3) {
             m_star_count = 3;
             warning_text->Show();
@@ -5659,7 +5659,7 @@ wxBoxSizer *ScoreDialog::get_star_sizer()
                 Layout();
                 Fit();
             }
-            for (int j = 0; j < m_score_star.size(); ++j) {
+            for (size_t j = 0; j < m_score_star.size(); ++j) {
                 ScalableBitmap light_star = ScalableBitmap(nullptr, "score_star_light", 26);
                 m_score_star[j]->SetBitmap(light_star.bmp());
                 if (m_score_star[j] == m_score_star[i]) {
@@ -5667,7 +5667,7 @@ wxBoxSizer *ScoreDialog::get_star_sizer()
                     break;
                 }
             }
-            for (int k = m_star_count; k < m_score_star.size(); ++k) {
+            for (size_t k = m_star_count; k < m_score_star.size(); ++k) {
                 ScalableBitmap dark_star = ScalableBitmap(nullptr, "score_star_dark", 26);
                 m_score_star[k]->SetBitmap(dark_star.bmp());
             }
@@ -5738,7 +5738,7 @@ wxBoxSizer *ScoreDialog::get_photo_btn_sizer() {
         openFileDialog.GetPaths(filePaths);
         //wxArrayString filePaths_reduction;
         std::vector<std::pair<wxString, std::string>> local_path;
-        for (int i = 0; i < filePaths.GetCount(); i++) { //It's ugly, but useful
+        for (size_t i = 0; i < filePaths.GetCount(); i++) { //It's ugly, but useful
             bool is_repeat = false;
             for (auto image : m_image) {
                 if (filePaths[i] == image.second.local_image_url) {
@@ -5748,7 +5748,7 @@ wxBoxSizer *ScoreDialog::get_photo_btn_sizer() {
             }
             if (!is_repeat) {
                 local_path.push_back(std::make_pair(filePaths[i], ""));
-                if (local_path.size() + m_image.size() > m_photo_nums) {
+                if ((int)(local_path.size() + m_image.size()) > m_photo_nums) {
                     break;
                 }
             }

@@ -2290,7 +2290,7 @@ unsigned int PresetBundle::sync_ams_list(std::vector<std::pair<DynamicPrintConfi
         };
         check_has_merge_info(maps, merge_info,filament_color->values.size());
         auto get_map_index = [&ams_infos](const std::vector<AMSMapInfo> &infos, const AMSMapInfo &temp) {
-            for (int i = 0; i < infos.size(); i++) {
+            for (int i = 0; i < (int)infos.size(); i++) {
                 if (infos[i].slot_id == temp.slot_id && infos[i].ams_id == temp.ams_id) {
                     ams_infos[i].is_map = true;
                     return i;
@@ -2304,7 +2304,7 @@ unsigned int PresetBundle::sync_ams_list(std::vector<std::pair<DynamicPrintConfi
         auto exist_filament_presets = this->filament_presets;
         std::vector<std::vector<std::string>> exist_multi_color_filment;
         exist_multi_color_filment.resize(exist_colors.size());
-        for (int i = 0; i < exist_colors.size(); i++) {
+        for (size_t i = 0; i < exist_colors.size(); i++) {
             exist_multi_color_filment[i] = {exist_colors[i]};
         }
         for (size_t i = 0; i < exist_colors.size(); i++) {
@@ -2434,7 +2434,7 @@ std::vector<int> PresetBundle::get_used_tpu_filaments(const std::vector<int> &us
         if (iter == used_filaments.end()) continue;
 
         std::string filament_name = this->filament_presets[i];
-        for (int f_index = 0; f_index < this->filaments.size(); f_index++) {
+        for (size_t f_index = 0; f_index < this->filaments.size(); f_index++) {
             PresetCollection *filament_presets = &this->filaments;
             Preset           *preset           = &filament_presets->preset(f_index);
             int               size             = this->filaments.size();
@@ -2653,11 +2653,11 @@ void PresetBundle::reset_default_nozzle_volume_type()
     this->project_config.option<ConfigOptionEnumsGeneric>("nozzle_volume_type")->values = current_printer.config.option<ConfigOptionEnumsGeneric>("default_nozzle_volume_type")->values;
 }
 
-int PresetBundle::get_printer_extruder_count() const
+size_t PresetBundle::get_printer_extruder_count() const
 {
     const Preset& printer_preset = this->printers.get_edited_preset();
 
-    int count = printer_preset.config.option<ConfigOptionFloatsNullable>("nozzle_diameter")->values.size();
+    size_t count = printer_preset.config.option<ConfigOptionFloatsNullable>("nozzle_diameter")->values.size();
 
     return count;
 }

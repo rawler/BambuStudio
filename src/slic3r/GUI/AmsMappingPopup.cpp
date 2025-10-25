@@ -1121,7 +1121,7 @@ void AmsMapingPopup::update(MachineObject* obj, const std::vector<FilamentInfo>&
         }
     }
 
-    for (int i = 0; i < obj->vt_slot.size(); i++) {
+    for (size_t i = 0; i < obj->vt_slot.size(); i++) {
 
         DevAmsTray* tray_data = &obj->vt_slot[i];
         TrayData td;
@@ -2707,12 +2707,12 @@ void AmsHumidityLevelList::msw_rescale()
 {
     background_img.msw_rescale();
 
-    for (int i = 0; i < hum_level_img_light.size(); i++)
+    for (size_t i = 0; i < hum_level_img_light.size(); i++)
     {
         hum_level_img_light[i].msw_rescale();
     }
 
-    for (int i = 0; i < hum_level_img_dark.size(); i++)
+    for (size_t i = 0; i < hum_level_img_dark.size(); i++)
     {
         hum_level_img_dark[i].msw_rescale();
     }
@@ -2766,7 +2766,7 @@ void AmsHumidityLevelList::doRender(wxDC& dc)
 
     //level list
 
-    for (int i = 0; i < hum_level_img_light.size(); i++) {
+    for (size_t i = 0; i < hum_level_img_light.size(); i++) {
         if (wxGetApp().dark_mode()) {
             dc.DrawBitmap(hum_level_img_dark[i].bmp(), left, (GetSize().y - FromDIP(54)) / 2);
         }

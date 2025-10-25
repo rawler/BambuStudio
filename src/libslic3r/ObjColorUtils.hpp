@@ -123,7 +123,7 @@ public:
             cur_color = image8UC3.at<cv::Vec3b>(i, 0);
             if (!is_in(cur_color, uniqueImage)) {
                 uniqueImage.emplace_back(cur_color);
-                if (uniqueImage.size() >= target_num) return true;
+                if ((int)uniqueImage.size() >= target_num) return true;
             }
         }
         return false;

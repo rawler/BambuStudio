@@ -1,9 +1,9 @@
 // This file is part of libigl, a simple c++ geometry processing library.
-// 
+//
 // Copyright (C) 2016 Alec Jacobson <alecjacobson@gmail.com>
-// 
-// This Source Code Form is subject to the terms of the Mozilla Public License 
-// v. 2.0. If a copy of the MPL was not distributed with this file, You can 
+//
+// This Source Code Form is subject to the terms of the Mozilla Public License
+// v. 2.0. If a copy of the MPL was not distributed with this file, You can
 // obtain one at http://mozilla.org/MPL/2.0/.
 #include <igl/cut_mesh.h>
 #include <igl/vertex_triangle_adjacency.h>
@@ -281,8 +281,8 @@ IGL_INLINE void igl::cut_mesh(
   //we have the faces, we need the vertices;
   int newNumV = Fcut.maxCoeff()+1;
   Vcut.setZero(newNumV,3);
-  for (int vi=0; vi<V.rows(); ++vi)
-    for (int i=0; i<mc.HandleV_Integer[vi].size();++i)
+  for (size_t vi=0; vi<V.rows(); ++vi)
+    for (size_t i=0; i<mc.HandleV_Integer[vi].size();++i)
       Vcut.row(mc.HandleV_Integer[vi][i]) = V.row(vi);
 
   //ugly hack to fix some problematic cases (border vertex that is also on the boundary of the hole

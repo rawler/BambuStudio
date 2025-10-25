@@ -304,7 +304,7 @@ private:
 
     double    height_first_layer() const { return m_config.option<ConfigOptionFloat>("initial_layer_print_height")->value; };
     double    height_layer() const { return m_config.option<ConfigOptionFloat>("layer_height")->value; };
-    const int get_num_patterns() const { return std::ceil((m_params.end - m_params.start) / m_params.step + 1); }
+    const unsigned int get_num_patterns() const { return std::ceil((m_params.end - m_params.start) / m_params.step + 1); }
 
     /*
     from slic3r documentation: spacing = extrusion_width - layer_height * (1 - PI/4)

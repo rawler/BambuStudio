@@ -387,7 +387,7 @@ void MultiMachinePickPage::update_selected_count()
         app_config->erase("multi_devices",std::to_string(i));
     }
 
-    for (int j = 0; j < selected_multi_devices.size(); j++) {
+    for (size_t j = 0; j < selected_multi_devices.size(); j++) {
         app_config->set_str("multi_devices",  std::to_string(j), selected_multi_devices[j]);
     }
     app_config->save();

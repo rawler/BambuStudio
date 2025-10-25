@@ -4030,7 +4030,7 @@ void MainFrame::get_recent_projects(boost::property_tree::wptree &tree, int imag
         if (!ec) {
             std::wstring time = wxDateTime(t).FormatISOCombined(' ').ToStdWstring();
             item.put(L"time", time);
-            if (i <= images) {
+            if ((int)i <= images) {
                 auto thumbnail = m_recent_projects.GetThumbnailUrl(i);
                 if (!thumbnail.empty()) item.put(L"image", thumbnail);
             }

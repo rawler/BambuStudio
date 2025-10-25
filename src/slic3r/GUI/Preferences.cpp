@@ -258,7 +258,7 @@ wxBoxSizer *PreferencesDialog::create_item_language_combobox(
             };
 
             m_current_language_selected = combobox->GetSelection();
-            if (m_current_language_selected >= 0 && m_current_language_selected < vlist.size()) {
+            if (m_current_language_selected >= 0 && m_current_language_selected < (int)vlist.size()) {
                 app_config->set(param, vlist[m_current_language_selected]->CanonicalName.ToUTF8().data());
                 app_config->save();
 
@@ -305,7 +305,7 @@ wxBoxSizer *PreferencesDialog::create_item_region_combobox(wxString title, wxWin
     int         current_region = 0;
     if (!config->get("region").empty()) {
         std::string country_code = config->get("region");
-        for (auto i = 0; i < vlist.size(); i++) {
+        for (size_t i = 0; i < vlist.size(); i++) {
             if (local_regions[i].ToStdString() == country_code) {
                 combobox->SetSelection(i);
                 current_region = i;
@@ -1173,7 +1173,7 @@ wxWindow* PreferencesDialog::create_general_page()
 
         if (langinfo == nullptr) continue;
 
-        for (auto si = 0; si < s_supported_languages.size(); si++) {
+        for (size_t si = 0; si < s_supported_languages.size(); si++) {
             if (langinfo == wxLocale::GetLanguageInfo(s_supported_languages[si])) {
                 language_infos.emplace_back(langinfo);
             }

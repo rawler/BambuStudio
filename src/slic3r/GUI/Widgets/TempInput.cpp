@@ -154,7 +154,7 @@ void TempInput::Create(wxWindow *parent, wxString text, wxString label, wxString
 
 bool TempInput::AllisNum(std::string str)
 {
-    for (int i = 0; i < str.size(); i++) {
+    for (size_t i = 0; i < str.size(); i++) {
         int tmp = (int) str[i];
         if (tmp >= 48 && tmp <= 57) {
             continue;

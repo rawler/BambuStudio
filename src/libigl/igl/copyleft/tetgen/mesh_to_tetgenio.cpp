@@ -1,21 +1,21 @@
 // This file is part of libigl, a simple c++ geometry processing library.
-// 
+//
 // Copyright (C) 2013 Alec Jacobson <alecjacobson@gmail.com>
-// 
-// This Source Code Form is subject to the terms of the Mozilla Public License 
-// v. 2.0. If a copy of the MPL was not distributed with this file, You can 
+//
+// This Source Code Form is subject to the terms of the Mozilla Public License
+// v. 2.0. If a copy of the MPL was not distributed with this file, You can
 // obtain one at http://mozilla.org/MPL/2.0/.
 #include "mesh_to_tetgenio.h"
 
-// IGL includes 
+// IGL includes
 #include "../../matrix_to_list.h"
 
 // STL includes
 #include <cassert>
 
 IGL_INLINE bool igl::copyleft::tetgen::mesh_to_tetgenio(
-  const std::vector<std::vector<REAL > > & V, 
-  const std::vector<std::vector<int> > & F, 
+  const std::vector<std::vector<REAL > > & V,
+  const std::vector<std::vector<int> > & F,
   tetgenio & in)
 {
   using namespace std;
@@ -25,7 +25,7 @@ IGL_INLINE bool igl::copyleft::tetgen::mesh_to_tetgenio(
   in.numberofpoints = V.size();
   in.pointlist = new REAL[in.numberofpoints * 3];
   // loop over points
-  for(int i = 0; i < (int)V.size(); i++)
+  for( size_t i = 0; i < (int)V.size(); i++)
   {
     assert(V[i].size() == 3);
     in.pointlist[i*3+0] = V[i][0];
@@ -38,7 +38,7 @@ IGL_INLINE bool igl::copyleft::tetgen::mesh_to_tetgenio(
   in.facetmarkerlist = new int[in.numberoffacets];
 
   // loop over face
-  for(int i = 0;i < (int)F.size(); i++)
+  for( size_t i = 0;i < (int)F.size(); i++)
   {
     in.facetmarkerlist[i] = i;
     tetgenio::facet * f = &in.facetlist[i];
@@ -50,7 +50,7 @@ IGL_INLINE bool igl::copyleft::tetgen::mesh_to_tetgenio(
     p->numberofvertices = F[i].size();
     p->vertexlist = new int[p->numberofvertices];
     // loop around face
-    for(int j = 0;j < (int)F[i].size(); j++)
+    for(size_t j = 0;j < (int)F[i].size(); j++)
     {
       p->vertexlist[j] = F[i][j];
     }

@@ -1923,7 +1923,7 @@ void PlateData::parse_filament_info(GCodeProcessorResult *result)
                     ObjectMetadata::VolumeMetadataList volumes;
                     ObjectMetadata::VolumeMetadataList* volumes_ptr = nullptr;
 
-                    for (int k = 0; k < object_id_list.size(); k++)
+                    for (size_t k = 0; k < object_id_list.size(); k++)
                     {
                         Id object_id = object_id_list[k].object_id;
                         volumes.emplace_back(object_id.second);
@@ -2045,7 +2045,7 @@ void PlateData::parse_filament_info(GCodeProcessorResult *result)
 
                 // add the entire geometry as the single volume to generate
                 //volumes.emplace_back(0, (int)obj_geometry->second.triangles.size() - 1);
-                for (int k = 0; k < object_id_list.size(); k++)
+                for (size_t k = 0; k < object_id_list.size(); k++)
                 {
                     Id object_id = object_id_list[k].object_id;
                     volumes.emplace_back(object_id.second);
@@ -2254,7 +2254,7 @@ void PlateData::parse_filament_info(GCodeProcessorResult *result)
         if ((plate_id > 0) && (plate_id <= m_plater_data.size())) {
             //remove the no need objects
             std::vector<size_t> delete_ids;
-            for (int index = 0; index < m_model->objects.size(); index++) {
+            for (size_t index = 0; index < m_model->objects.size(); index++) {
                 ModelObject* obj =  m_model->objects[index];
                 if (obj->volumes.size() == 0) {
                     //remove this model objects
@@ -2633,7 +2633,7 @@ void PlateData::parse_filament_info(GCodeProcessorResult *result)
             }
             else
                 preset->version = this->m_bambuslicer_generator_version?*this->m_bambuslicer_generator_version: Semver();
-            /*for (int i = 0; i < config_substitutions.size(); i++)
+            /*for (size_t i = 0; i < config_substitutions.size(); i++)
             {
                 //ConfigSubstitution config_substitution;
                 //config_substitution.opt_def   = optdef;
@@ -3464,7 +3464,7 @@ void PlateData::parse_filament_info(GCodeProcessorResult *result)
                     first_id.second = 0;
                     IdToCurrentObjectMap::iterator current_object = m_current_objects.lower_bound(first_id);
                     IdToCurrentObjectMap new_map;
-                    for (int index = 0; index < m_curr_object->components.size(); index++)
+                    for (size_t index = 0; index < m_curr_object->components.size(); index++)
                     {
                         Component& component = m_curr_object->components[index];
                         Id new_id = component.object_id;
@@ -4465,7 +4465,7 @@ void PlateData::parse_filament_info(GCodeProcessorResult *result)
         Transform3d transform = bbs_get_transform_from_3mf_specs_string(bbs_get_attribute_value_string(attributes, num_attributes, TRANSFORM_ATTR));
         Vec3d ofs2ass = bbs_get_offset_from_3mf_specs_string(bbs_get_attribute_value_string(attributes, num_attributes, OFFSET_ATTR));
         if (object_id < m_model->objects.size()) {
-            if (instance_id < m_model->objects[object_id]->instances.size()) {
+            if (instance_id < (int)m_model->objects[object_id]->instances.size()) {
                 m_model->objects[object_id]->instances[instance_id]->set_assemble_from_transform(transform);
                 m_model->objects[object_id]->instances[instance_id]->set_offset_to_assembly(ofs2ass);
             }
@@ -4485,7 +4485,7 @@ void PlateData::parse_filament_info(GCodeProcessorResult *result)
             add_error("can not find object for text_info, id " + std::to_string(m_curr_config.object_id));
             return false;
         }
-        if ((m_curr_config.volume_id == -1) || ((object->second.volumes.size() - 1) < m_curr_config.volume_id)) {
+        if ((m_curr_config.volume_id == -1) || ((int)(object->second.volumes.size() - 1) < m_curr_config.volume_id)) {
             add_error("can not find part for text_info");
             return false;
         }
@@ -5135,7 +5135,7 @@ void PlateData::parse_filament_info(GCodeProcessorResult *result)
                 }
                 //if (need_replace)
                 {
-                    for (int index = 0; index < current_object->components.size(); index++)
+                    for (size_t index = 0; index < current_object->components.size(); index++)
                     {
                         int temp_id = (index + 1) << 16 | backup_id;
                         Component& component = current_object->components[index];
@@ -5924,7 +5924,7 @@ void PlateData::parse_filament_info(GCodeProcessorResult *result)
                 }
             }
 
-            for (int i = 0; i < plate_data_list.size(); i++) {
+            for (size_t i = 0; i < plate_data_list.size(); i++) {
                 PlateData *plate_data = plate_data_list[i];
 
                 if (!thumbnail_status[i] && !plate_data->thumbnail_file.empty() && (boost::filesystem::exists(plate_data->thumbnail_file))){
@@ -6124,7 +6124,7 @@ void PlateData::parse_filament_info(GCodeProcessorResult *result)
 
         // add plate_N.gcode.md5 to file
         if (!m_skip_static && m_save_gcode) {
-            for (int i = 0; i < plate_data_list.size(); i++) {
+            for (size_t i = 0; i < plate_data_list.size(); i++) {
                 PlateData *plate_data = plate_data_list[i];
                 if (!plate_data->gcode_file.empty() && plate_data->is_sliced_valid && boost::filesystem::exists(plate_data->gcode_file)) {
                     unsigned char digest[16];
@@ -7416,7 +7416,7 @@ void PlateData::parse_filament_info(GCodeProcessorResult *result)
         int print_count = 0, filament_count = 0, printer_count = 0;
         const std::string& temp_path = model.get_backup_path();
 
-        for (int i = 0; i < project_presets.size(); i++)
+        for (size_t i = 0; i < project_presets.size(); i++)
         {
             Preset* preset = project_presets[i];
 
@@ -7656,7 +7656,7 @@ void PlateData::parse_filament_info(GCodeProcessorResult *result)
                 if (first_layer_print_sequence_opt != nullptr) {
                     stream << "    <" << METADATA_TAG << " " << KEY_ATTR << "=\"" << FIRST_LAYER_PRINT_SEQUENCE_ATTR << "\" " << VALUE_ATTR << "=\"";
                     const std::vector<int>& values = first_layer_print_sequence_opt->values;
-                    for (int i = 0; i < values.size(); ++i) {
+                    for (size_t i = 0; i < values.size(); ++i) {
                         stream << values[i];
                         if (i != (values.size() - 1))
                             stream << " ";
@@ -7668,7 +7668,7 @@ void PlateData::parse_filament_info(GCodeProcessorResult *result)
                 if (other_layers_print_sequence_opt != nullptr) {
                     stream << "    <" << METADATA_TAG << " " << KEY_ATTR << "=\"" << OTHER_LAYERS_PRINT_SEQUENCE_ATTR << "\" " << VALUE_ATTR << "=\"";
                     const std::vector<int> &values = other_layers_print_sequence_opt->values;
-                    for (int i = 0; i < values.size(); ++i) {
+                    for (size_t i = 0; i < values.size(); ++i) {
                         stream << values[i];
                         if (i != (values.size() - 1))
                             stream << " ";
@@ -7696,7 +7696,7 @@ void PlateData::parse_filament_info(GCodeProcessorResult *result)
                 if (filament_map_mode_opt !=nullptr && filament_maps_opt != nullptr) {
                     stream << "    <" << METADATA_TAG << " " << KEY_ATTR << "=\"" << FILAMENT_MAP_ATTR << "\" " << VALUE_ATTR << "=\"";
                     const std::vector<int>& values = filament_maps_opt->values;
-                    for (int i = 0; i < values.size(); ++i) {
+                    for (size_t i = 0; i < values.size(); ++i) {
                         stream << values[i];
                         if (i != (values.size() - 1))
                             stream << " ";
@@ -7796,7 +7796,7 @@ void PlateData::parse_filament_info(GCodeProcessorResult *result)
             auto object_data = obj_metadata.second;
             const ModelObject* obj = object_data.object;
             if (obj != nullptr) {
-                for (int instance_idx = 0; instance_idx < obj->instances.size(); ++instance_idx) {
+                for (size_t instance_idx = 0; instance_idx < obj->instances.size(); ++instance_idx) {
                     if (obj->instances[instance_idx]->is_assemble_initialized()) {
                         stream << "   <" << ASSEMBLE_ITEM_TAG << " " << OBJECT_ID_ATTR << "=\"" << object_data.object_id << "\" ";
                         stream << INSTANCEID_ATTR << "=\"" << instance_idx << "\" " << TRANSFORM_ATTR << "=\"";
@@ -8080,7 +8080,7 @@ bool _BBS_3MF_Exporter::_add_gcode_file_to_archive(mz_zip_archive& archive, cons
 
     boost::mutex mutex;
     tbb::parallel_for(tbb::blocked_range<size_t>(0, plate_data_list2.size(), 1), [this, &plate_data_list2, &root_archive = archive, &mutex, &result](const tbb::blocked_range<size_t>& range) {
-        for (int i = range.begin(); i < range.end(); ++i) {
+        for (size_t i = range.begin(); i < range.end(); ++i) {
             PlateData* plate_data = plate_data_list2[i];
             auto src_gcode_file = plate_data->gcode_file;
             std::string gcode_in_3mf = (boost::format(GCODE_FILE_FORMAT) % (plate_data->plate_index + 1)).str();

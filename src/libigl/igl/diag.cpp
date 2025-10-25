@@ -92,7 +92,7 @@ IGL_INLINE void igl::diag(
   Eigen::DynamicSparseMatrix<T, Eigen::RowMajor> dyn_X(V.size(),V.size());
   dyn_X.reserve(V.size());
   // loop over non-zeros
-  for(int i = 0;i<V.size();i++)
+  for( size_t i = 0;i<V.size();i++)
   {
     dyn_X.coeffRef(i,i) += V[i];
   }

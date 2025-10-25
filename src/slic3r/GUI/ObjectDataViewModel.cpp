@@ -535,7 +535,7 @@ wxDataViewItem ObjectDataViewModel::AddPlate(PartPlate* part_plate, wxString nam
         ItemAdded(wxDataViewItem(nullptr), plate_item);
     }
 
-    for (int obj_idx = 0; obj_idx < m_objects.size(); obj_idx++) {
+    for (size_t obj_idx = 0; obj_idx < m_objects.size(); obj_idx++) {
         auto obj_node = m_objects[obj_idx];
         if (part_plate && part_plate->contain_instance_totally(obj_idx, 0)) {
             ReparentObject(plate_node, obj_node);
@@ -1551,7 +1551,7 @@ void ObjectDataViewModel::UpdateItemNames()
 void ObjectDataViewModel::assembly_name()
 {
     assembly_name_list.clear();
-    for (int i = 0; i < m_plates.size(); ++i) {
+    for (size_t i = 0; i < m_plates.size(); ++i) {
         assembly_name(m_plates[i], m_plates[i]->GetName());
     }
     search_found_list = assembly_name_list;
@@ -2548,5 +2548,3 @@ void ObjectDataViewModel::UpdateCutObjectIcon(const wxDataViewItem &item, bool h
 
 } // namespace GUI
 } // namespace Slic3r
-
-

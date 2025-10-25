@@ -16,7 +16,7 @@ namespace Slic3r
     {
         if (result.empty()) return false;
 
-        for (int i = 0; i < result.size(); i++)
+        for (size_t i = 0; i < result.size(); i++)
         {
             // invalid mapping result
             if (result[i].tray_id < 0)
@@ -136,7 +136,7 @@ namespace Slic3r
                 }
 
                 // skip exclude id
-                for (int i = 0; i < exclude_id.size(); i++)
+                for (size_t i = 0; i < exclude_id.size(); i++)
                 {
                     if (tray_index == exclude_id[i])
                         continue;
@@ -207,7 +207,7 @@ namespace Slic3r
         }
         BOOST_LOG_TRIVIAL(info) << "ams_mapping_distance:" << line;// Print the collected filaments
 
-        for (int i = 0; i < filaments.size(); i++)
+        for (size_t i = 0; i < filaments.size(); i++)
         {
             std::vector<DisValue> rol;
             ::sprintf(buffer, "F(%02d)", filaments[i].id + 1);
@@ -242,7 +242,7 @@ namespace Slic3r
         // Step 3: do mapping algorithm
 
         // setup the mapping result
-        for (int i = 0; i < filaments.size(); i++)
+        for (size_t i = 0; i < filaments.size(); i++)
         {
             FilamentInfo info;
             info.id = filaments[i].id;
@@ -255,18 +255,18 @@ namespace Slic3r
         // traverse the mapping
         std::set<int> picked_src;
         std::set<int> picked_tar;
-        for (int k = 0; k < distance_map.size(); k++)
+        for (size_t k = 0; k < distance_map.size(); k++)
         {
             float min_val = INT_MAX;
             int picked_src_idx = -1;
             int picked_tar_idx = -1;
-            for (int i = 0; i < distance_map.size(); i++)
+            for (size_t i = 0; i < distance_map.size(); i++)
             {
                 if (picked_src.find(i) != picked_src.end())
                     continue;
 
                 // try to mapping to different tray
-                for (int j = 0; j < distance_map[i].size(); j++)
+                for (size_t j = 0; j < distance_map[i].size(); j++)
                 {
                     if (picked_tar.find(j) != picked_tar.end())
                     {
@@ -305,7 +305,7 @@ namespace Slic3r
                 // take a retry to mapping to used tray
                 if (picked_src_idx < 0 || picked_tar_idx < 0)
                 {
-                    for (int j = 0; j < distance_map[i].size(); j++)
+                    for (size_t j = 0; j < distance_map[i].size(); j++)
                     {
                         if (distance_map[i][j].is_same_color && distance_map[i][j].is_type_match)
                         {

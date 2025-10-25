@@ -106,7 +106,7 @@ void SkipPartCanvas::LoadPickImage(const std::string & path)
         }
         return depth;
     };
-    for (int i = 0; i < pick_counters.size(); ++i) {
+    for (size_t i = 0; i < pick_counters.size(); ++i) {
         int depth  = compute_depth(i);
         int parent = hierarchy[i][3];
         if (parent != -1) continue;

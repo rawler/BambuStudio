@@ -123,7 +123,7 @@ public:
     bool         all_paths_inside_vertices_and_normals_interleaved(const std::vector<float>& paths, const Eigen::AlignedBox<float, 3>& bbox, bool ignore_bottom = true) const;
 
     int          get_extruder_area_count() const { return m_extruder_volumes.size(); }
-    const BuildExtruderVolume&  get_extruder_area_volume(int index) const;
+    const BuildExtruderVolume&  get_extruder_area_volume(size_t index) const;
     ObjectState  check_object_state_with_extruder_area(const indexed_triangle_set &its, const Transform3f &trafo, int index) const;
     ObjectState  check_object_state_with_extruder_areas(const indexed_triangle_set &its, const Transform3f &trafo, std::vector<bool>& inside_extruders) const;
     ObjectState  check_volume_bbox_state_with_extruder_area(const BoundingBoxf3& volume_bbox, int index) const;

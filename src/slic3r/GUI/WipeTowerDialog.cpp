@@ -23,7 +23,7 @@ bool is_flush_config_modified()
     const std::vector<double> &config_multiplier = (project_config.option<ConfigOptionFloats>("flush_multiplier"))->values;
 
     bool has_modify = false;
-    for (int i = 0; i < config_multiplier.size(); i++) {
+    for (size_t i = 0; i < config_multiplier.size(); i++) {
         if (config_multiplier[i] != 1) {
             has_modify = true;
             break;
@@ -338,12 +338,12 @@ WipingDialog::VolumeMatrix WipingDialog::CalcFlushingVolumes(int extruder_id)
 
     int flush_dataset_value = full_config.option<ConfigOptionIntsNullable>("nozzle_flush_dataset")->values[extruder_id];
     // Support for multi-color filament
-    for (int i = 0; i < filament_colors.size(); ++i) {
+    for (size_t i = 0; i < filament_colors.size(); ++i) {
         std::vector<wxColour> single_filament;
         if (i < ams_multi_color_filament.size()) {
             if (!ams_multi_color_filament[i].empty()) {
                 std::vector<std::string> colors = ams_multi_color_filament[i];
-                for (int j = 0; j < colors.size(); ++j) {
+                for (size_t j = 0; j < colors.size(); ++j) {
                     single_filament.push_back(wxColour(colors[j]));
                 }
                 multi_colors.push_back(single_filament);
@@ -357,10 +357,10 @@ WipingDialog::VolumeMatrix WipingDialog::CalcFlushingVolumes(int extruder_id)
     VolumeMatrix matrix;
     const std::vector<int> min_flush_volumes = get_min_flush_volumes(full_config, extruder_id);
 
-    for (int from_idx = 0; from_idx < multi_colors.size(); ++from_idx) {
+    for (size_t from_idx = 0; from_idx < multi_colors.size(); ++from_idx) {
         bool is_from_support = is_support_filament(from_idx);
         matrix.emplace_back();
-        for (int to_idx = 0; to_idx < multi_colors.size(); ++to_idx) {
+        for (size_t to_idx = 0; to_idx < multi_colors.size(); ++to_idx) {
             if (from_idx == to_idx) {
                 matrix.back().emplace_back(0);
                 continue;
@@ -373,9 +373,9 @@ WipingDialog::VolumeMatrix WipingDialog::CalcFlushingVolumes(int extruder_id)
                 flushing_volume = Slic3r::g_flush_volume_to_support;
             }
             else {
-                for (int i = 0; i < multi_colors[from_idx].size(); ++i) {
+                for (size_t i = 0; i < multi_colors[from_idx].size(); ++i) {
                     const wxColour& from = multi_colors[from_idx][i];
-                    for (int j = 0; j < multi_colors[to_idx].size(); ++j) {
+                    for (size_t j = 0; j < multi_colors[to_idx].size(); ++j) {
                         const wxColour& to = multi_colors[to_idx][j];
                         int volume = CalcFlushingVolume(from, to, min_flush_volumes[from_idx], flush_dataset_value);
                         flushing_volume = std::max(flushing_volume, volume);

@@ -1,9 +1,9 @@
 // This file is part of libigl, a simple c++ geometry processing library.
-// 
+//
 // Copyright (C) 2013 Alec Jacobson <alecjacobson@gmail.com>
-// 
-// This Source Code Form is subject to the terms of the Mozilla Public License 
-// v. 2.0. If a copy of the MPL was not distributed with this file, You can 
+//
+// This Source Code Form is subject to the terms of the Mozilla Public License
+// v. 2.0. If a copy of the MPL was not distributed with this file, You can
 // obtain one at http://mozilla.org/MPL/2.0/.
 #include "reorder.h"
 #include "SortableRow.h"
@@ -22,7 +22,7 @@ IGL_INLINE void igl::reorder(
   // sorted
   std::vector<T> copy = unordered;
   ordered.resize(index_map.size());
-  for(int i = 0; i<(int)index_map.size();i++)
+  for( size_t i = 0; i<(int)index_map.size();i++)
   {
     ordered[i] = copy[index_map[i]];
   }

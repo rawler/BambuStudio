@@ -1275,7 +1275,7 @@ bool SyncAmsInfoDialog::do_ams_mapping(MachineObject *obj_)
         bool is_valid = DevMappingUtil::is_valid_mapping_result(obj_, m_ams_mapping_result);
         if (filament_result != 1 && !is_valid) {
             // reset invalid result
-            for (int i = 0; i < m_ams_mapping_result.size(); i++) {
+            for (size_t i = 0; i < m_ams_mapping_result.size(); i++) {
                 m_ams_mapping_result[i].tray_id  = -1;
                 m_ams_mapping_result[i].distance = 99999;
             }
@@ -1326,7 +1326,7 @@ bool SyncAmsInfoDialog::get_ams_mapping_result(std::string &mapping_array_str, s
 
     bool valid_mapping_result = true;
     int  invalid_count        = 0;
-    for (int i = 0; i < m_ams_mapping_result.size(); i++) {
+    for (size_t i = 0; i < m_ams_mapping_result.size(); i++) {
         if (m_ams_mapping_result[i].tray_id == -1) {
             valid_mapping_result = false;
             invalid_count++;
@@ -1356,7 +1356,7 @@ bool SyncAmsInfoDialog::get_ams_mapping_result(std::string &mapping_array_str, s
             BOOST_LOG_TRIVIAL(error) << "get_ams_mapping_result, plater is nullptr";
         }
 
-        for (int i = 0; i < wxGetApp().preset_bundle->filament_presets.size(); i++) {
+        for (size_t i = 0; i < wxGetApp().preset_bundle->filament_presets.size(); i++) {
             int  tray_id = -1;
             json mapping_item_v1;
             mapping_item_v1["ams_id"]  = 0xff;
@@ -1366,7 +1366,7 @@ bool SyncAmsInfoDialog::get_ams_mapping_result(std::string &mapping_array_str, s
             mapping_item["targetColor"]  = "";
             mapping_item["filamentId"]   = "";
             mapping_item["filamentType"] = "";
-            for (int k = 0; k < m_ams_mapping_result.size(); k++) {
+            for (size_t k = 0; k < m_ams_mapping_result.size(); k++) {
                 if (m_ams_mapping_result[k].id == i) {
                     tray_id                      = m_ams_mapping_result[k].tray_id;
                     mapping_item["ams"]          = tray_id;
@@ -1477,7 +1477,7 @@ bool SyncAmsInfoDialog::can_hybrid_mapping(DevExtderSystem data)
 
     // Only when all preset nozzle types and machine nozzle types are exactly the same, return true.
     auto type = flow_types[0];
-    for (int i = 0; i < flow_types.size(); i++) {
+    for (size_t i = 0; i < flow_types.size(); i++) {
         if (flow_types[i] != type || flow_type_of_machine[i] != type) return false;
     }
     return true;
@@ -1488,7 +1488,7 @@ void SyncAmsInfoDialog::auto_supply_with_ext(std::vector<DevAmsTray> slots)
 {
     if (slots.size() <= 0) return;
 
-    for (int i = 0; i < m_ams_mapping_result.size(); i++) {
+    for (size_t i = 0; i < m_ams_mapping_result.size(); i++) {
         auto it = m_ams_mapping_result[i];
         if (it.ams_id == "") {
             DevAmsTray slot("");
@@ -2460,7 +2460,7 @@ void SyncAmsInfoDialog::reset_ams_material()
 
 void SyncAmsInfoDialog::reset_all_ams_info()
 {
-    for (int i = 0; i < m_ams_mapping_result.size(); i++) {
+    for (size_t i = 0; i < m_ams_mapping_result.size(); i++) {
         reset_one_ams_material(std::to_string(i+1),true);
     }
     sync_ams_mapping_result(m_ams_mapping_result);
@@ -2592,7 +2592,7 @@ void SyncAmsInfoDialog::reset_and_sync_ams_list()
     auto                     preset_bundle = wxGetApp().preset_bundle;
 
     for (auto filament_name : preset_bundle->filament_presets) {
-        for (int f_index = 0; f_index < preset_bundle->filaments.size(); f_index++) {
+        for (size_t f_index = 0; f_index < preset_bundle->filaments.size(); f_index++) {
             PresetCollection *filament_presets = &wxGetApp().preset_bundle->filaments;
             Preset *          preset           = &filament_presets->preset(f_index);
             int               size             = preset_bundle->filaments.size();
@@ -2809,7 +2809,7 @@ void SyncAmsInfoDialog::generate_override_fix_ams_list()
     auto                     preset_bundle = wxGetApp().preset_bundle;
 
     for (auto filament_name : preset_bundle->filament_presets) {
-        for (int f_index = 0; f_index < preset_bundle->filaments.size(); f_index++) {
+        for (size_t f_index = 0; f_index < preset_bundle->filaments.size(); f_index++) {
             PresetCollection *filament_presets = &wxGetApp().preset_bundle->filaments;
             Preset *          preset           = &filament_presets->preset(f_index);
             int               size             = preset_bundle->filaments.size();

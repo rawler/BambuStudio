@@ -293,7 +293,7 @@ inline void igl::embree::EmbreeIntersector::init(
     flags = flags | RTC_SCENE_STATIC;
   scene = rtcNewScene(flags,RTC_INTERSECT1);
 
-  for(int g=0;g<(int)V.size();g++)
+  for(size_t g=0;g<(int)V.size();g++)
   {
     // create triangle mesh geometry in that scene
     geomID = rtcNewTriangleMesh(scene,RTC_GEOMETRY_STATIC,F[g]->rows(),V[g]->rows(),1);
@@ -425,8 +425,8 @@ inline bool igl::embree::EmbreeIntersector::intersectBeam(
 
   for(int r=0;r<(int)samples;r++)
   {
-    if(intersectRay(origin+offset*eps,direction,hit,tnear,tfar,mask) && 
-        ((closestHit && (hit.t < bestHit.t)) || 
+    if(intersectRay(origin+offset*eps,direction,hit,tnear,tfar,mask) &&
+        ((closestHit && (hit.t < bestHit.t)) ||
            (!closestHit && (hit.t > bestHit.t)))  &&
         (hit.gid == geoId || geoId == -1))
     {

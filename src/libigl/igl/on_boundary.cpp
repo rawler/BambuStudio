@@ -34,7 +34,7 @@ IGL_INLINE void igl::on_boundary(
       // Get a list of all faces
       vector<vector<IntegerT> > F(T.size()*3,vector<IntegerT>(2));
       // Gather faces, loop over tets
-      for(int i = 0; i< (int)T.size();i++)
+      for( size_t i = 0; i< (int)T.size();i++)
       {
         assert(T[i].size() == 3);
         // get face in correct order
@@ -50,7 +50,7 @@ IGL_INLINE void igl::on_boundary(
       face_occurrences(F,FC);
       C.resize(T.size(),vector<bool>(3));
       I.resize(T.size(),false);
-      for(int i = 0; i< (int)T.size();i++)
+      for( size_t i = 0; i< (int)T.size();i++)
       {
         for(int j = 0;j<3;j++)
         {
@@ -67,7 +67,7 @@ IGL_INLINE void igl::on_boundary(
       // Get a list of all faces
       vector<vector<IntegerT> > F(T.size()*4,vector<IntegerT>(3));
       // Gather faces, loop over tets
-      for(int i = 0; i< (int)T.size();i++)
+      for( size_t i = 0; i< (int)T.size();i++)
       {
         assert(T[i].size() == 4);
         // get face in correct order
@@ -92,7 +92,7 @@ IGL_INLINE void igl::on_boundary(
       face_occurrences(F,FC);
       C.resize(T.size(),vector<bool>(4));
       I.resize(T.size(),false);
-      for(int i = 0; i< (int)T.size();i++)
+      for( size_t i = 0; i< (int)T.size();i++)
       {
         for(int j = 0;j<4;j++)
         {

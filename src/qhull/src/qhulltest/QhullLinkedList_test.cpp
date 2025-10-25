@@ -83,7 +83,7 @@ t_convert()
         std::vector<QhullVertex> vs2= vs.toStdVector();
         QCOMPARE(vs2.size(), vs.size());
         QhullVertexList::Iterator i= vs.begin();
-        for(int k= 0; k<(int)vs2.size(); k++){
+        for(size_t k= 0; k<(int)vs2.size(); k++){
             QCOMPARE(vs2[k], *i++);
         }
         QList<QhullVertex> vs3= vs.toQList();

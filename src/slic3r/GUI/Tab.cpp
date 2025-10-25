@@ -1597,7 +1597,7 @@ void Tab::on_value_change(const std::string& opt_key, const boost::any& value)
         auto           &filament_presets      = Slic3r::GUI::wxGetApp().preset_bundle->filament_presets;
         auto           &filaments             = Slic3r::GUI::wxGetApp().preset_bundle->filaments;
         bool            support_TPU           = false;
-        if (filament_id >= 0 && filament_id < filament_presets.size()) {
+        if (filament_id >= 0 && filament_id < (int)filament_presets.size()) {
             Slic3r::Preset *filament      = filaments.find_preset(filament_presets[filament_id]);
             if (filament) {
                 std::string filament_type = filament->config.option<ConfigOptionStrings>("filament_type")->values[0];
@@ -1658,7 +1658,7 @@ void Tab::on_value_change(const std::string& opt_key, const boost::any& value)
         auto           &filament_presets      = Slic3r::GUI::wxGetApp().preset_bundle->filament_presets;
         auto           &filaments             = Slic3r::GUI::wxGetApp().preset_bundle->filaments;
         bool            support_TPU = false;
-        if (interface_filament_id >= 0 && interface_filament_id < filament_presets.size()) {
+        if (interface_filament_id >= 0 && interface_filament_id < (int)filament_presets.size()) {
             Slic3r::Preset *filament      = filaments.find_preset(filament_presets[interface_filament_id]);
             if (filament) {
                 std::string filament_type = filament->config.option<ConfigOptionStrings>("filament_type")->values[0];
@@ -1802,7 +1802,7 @@ void Tab::on_value_change(const std::string& opt_key, const boost::any& value)
         int extruder_idx = std::atoi(opt_key.substr(opt_key.find_last_of('#') + 1).c_str());
         if (opt_key.find("min_layer_height") != std::string::npos) {
             auto min_layer_height_from_nozzle = m_preset_bundle->full_config().option<ConfigOptionFloatsNullable>("min_layer_height")->values;
-            if (extruder_idx < min_layer_height_from_nozzle.size()) {
+            if (extruder_idx < (int)min_layer_height_from_nozzle.size()) {
                 double value = min_layer_height_from_nozzle[extruder_idx];
                 std::fill(min_layer_height_from_nozzle.begin(), min_layer_height_from_nozzle.end(), value);
             }
@@ -1812,7 +1812,7 @@ void Tab::on_value_change(const std::string& opt_key, const boost::any& value)
         }
         else if (opt_key.find("max_layer_height") != std::string::npos) {
             auto max_layer_height_from_nozzle = m_preset_bundle->full_config().option<ConfigOptionFloatsNullable>("max_layer_height")->values;
-            if (extruder_idx < max_layer_height_from_nozzle.size()) {
+            if (extruder_idx < (int)max_layer_height_from_nozzle.size()) {
                 double value = max_layer_height_from_nozzle[extruder_idx];
                 std::fill(max_layer_height_from_nozzle.begin(), max_layer_height_from_nozzle.end(), value);
             }
@@ -4935,7 +4935,7 @@ void Tab::load_current_preset()
                 //process the object params here
                 Model& model = wxGetApp().plater()->model();
                 size_t num_objects = model.objects.size();
-                for (int i = 0; i < num_objects; ++i) {
+                for (size_t i = 0; i < num_objects; ++i) {
                     ModelObject* object = model.objects[i];
                     DynamicPrintConfig object_config = object->config.get();
                     if (!object_config.empty()) {
@@ -6357,8 +6357,8 @@ void Tab::update_extruder_variants(int extruder_id, bool reload)
             auto     nozzle_volumes_def = m_preset_bundle->project_config.def()->get("nozzle_volume_type");
             wxString left, right;
             for (size_t i = 0; i < nozzle_volumes_def->enum_labels.size(); ++i) {
-                if (nozzle_volumes->values[0] == i) left = _L(nozzle_volumes_def->enum_labels[i]);
-                if (nozzle_volumes->values[1] == i) right = _L(nozzle_volumes_def->enum_labels[i]);
+                if (nozzle_volumes->values[0] == (int)i) left = _L(nozzle_volumes_def->enum_labels[i]);
+                if (nozzle_volumes->values[1] == (int)i) right = _L(nozzle_volumes_def->enum_labels[i]);
             }
             m_extruder_switch->SetLabels(wxString::Format(_L("Left: %s"), left), wxString::Format(_L("Right: %s"), right));
             m_extruder_switch->SetValue(extruder_id == 1);
@@ -6375,7 +6375,7 @@ void Tab::update_extruder_variants(int extruder_id, bool reload)
         int  n        = m_variant_combo->GetSelection();
         m_variant_combo->Clear();
         for (auto &v : variants->values) {
-            int n = v.find("Drive ");
+            size_t n = v.find("Drive ");
             if (n != std::string::npos)
                 m_variant_combo->Append(_L(v.substr(0, n + 5)) + " " + _L(v.substr(n + 6)));
             else
@@ -6484,7 +6484,7 @@ void Tab::sync_excluder()
     auto dest_str = std::to_string(dest_index);
     auto dirty_options = m_presets->current_dirty_options(true);
     DynamicConfig config_origin, config_to_apply;
-    for (int i = 0; i < dirty_options.size(); ++i) {
+    for (size_t i = 0; i < dirty_options.size(); ++i) {
         auto &opt = dirty_options[i];
         auto n= opt.find('#');
         if (n == std::string::npos)

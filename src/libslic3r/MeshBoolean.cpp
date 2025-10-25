@@ -501,7 +501,7 @@ void triangle_mesh_to_mcut(const TriangleMesh &src_mesh, McutMesh &srcMesh, cons
 {
     // vertices precision convention and copy
     srcMesh.vertexCoordsArray.reserve(src_mesh.its.vertices.size() * 3);
-    for (int i = 0; i < src_mesh.its.vertices.size(); ++i) {
+    for (size_t i = 0; i < src_mesh.its.vertices.size(); ++i) {
         const Vec3d v = src_nm * src_mesh.its.vertices[i].cast<double>();
         srcMesh.vertexCoordsArray.push_back(v[0]);
         srcMesh.vertexCoordsArray.push_back(v[1]);
@@ -511,7 +511,7 @@ void triangle_mesh_to_mcut(const TriangleMesh &src_mesh, McutMesh &srcMesh, cons
     // faces copy
     srcMesh.faceIndicesArray.reserve(src_mesh.its.indices.size() * 3);
     srcMesh.faceSizesArray.reserve(src_mesh.its.indices.size());
-    for (int i = 0; i < src_mesh.its.indices.size(); ++i) {
+    for (size_t i = 0; i < src_mesh.its.indices.size(); ++i) {
         const int &f0 = src_mesh.its.indices[i][0];
         const int &f1 = src_mesh.its.indices[i][1];
         const int &f2 = src_mesh.its.indices[i][2];
@@ -699,7 +699,7 @@ bool do_boolean_single(McutMesh &srcMesh, const McutMesh &cutMesh, const std::st
     McutMesh outMesh;
     int N_vertices = 0;
     // traversal of all connected components
-    for (int n = 0; n < numConnComps; ++n) {
+    for (size_t n = 0; n < numConnComps; ++n) {
         // query the data of each connected component from MCUT
         McConnectedComponent connComp = connectedComponents[n];
 

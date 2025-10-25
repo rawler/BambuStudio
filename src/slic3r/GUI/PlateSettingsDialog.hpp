@@ -33,9 +33,9 @@ public:
         End
     };
     LayerNumberTextInput(wxWindow* parent, int layer_number, wxSize size, Type type, ValueType value_type = ValueType::Custom);
-    void link(LayerNumberTextInput* layer_input) { 
-        if (m_another_layer_input) return; 
-        m_another_layer_input = layer_input; 
+    void link(LayerNumberTextInput* layer_input) {
+        if (m_another_layer_input) return;
+        m_another_layer_input = layer_input;
         layer_input->link(this); }
     void set_layer_number(int layer_number);
     int get_layer_number();
@@ -135,7 +135,7 @@ public:
         const std::vector<LayerSeqInfo>& layer_seq_infos = m_other_layers_seq_panel->get_layers_print_seq_infos();
         std::vector<LayerPrintSequence> result;
         result.reserve(layer_seq_infos.size());
-        for (int i = 0; i < layer_seq_infos.size(); i++) {
+        for (size_t i = 0; i < layer_seq_infos.size(); i++) {
             LayerPrintSequence item = std::make_pair(std::make_pair(layer_seq_infos[i].begin_layer_number, layer_seq_infos[i].end_layer_number), layer_seq_infos[i].print_sequence);
             result.push_back(item);
         }

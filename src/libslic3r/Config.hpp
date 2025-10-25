@@ -1144,7 +1144,7 @@ public:
         //BBS: add serialize
         /*std::vector<std::string> result;
         result.resize(this->values.size());
-        for (int i = 0; i < this->values.size(); i++)
+        for (size_t i = 0; i < this->values.size(); i++)
         {
             result[i] = escape_string_cstyle(this->values[i]);
         }

@@ -471,7 +471,7 @@ void Selection::add_curr_plate()
     clear();
 
     PartPlate* plate = wxGetApp().plater()->get_partplate_list().get_curr_plate();
-    for (int obj_idx = 0; obj_idx < m_model->objects.size(); obj_idx++) {
+    for (size_t obj_idx = 0; obj_idx < m_model->objects.size(); obj_idx++) {
         if (plate && plate->contain_instance_totally(obj_idx, 0)) {
             std::vector<unsigned int> volume_idxs = get_volume_idxs_from_object(obj_idx);
             do_add_volumes(volume_idxs);
@@ -489,7 +489,7 @@ void Selection::add_object_from_idx(std::vector<int>& object_idxs) {
     m_mode = Instance;
     clear();
 
-    for (int obj_idx = 0; obj_idx < object_idxs.size(); obj_idx++) {
+    for (size_t obj_idx = 0; obj_idx < object_idxs.size(); obj_idx++) {
         std::vector<unsigned int> volume_idxs = get_volume_idxs_from_object(object_idxs[obj_idx]);
         do_add_volumes(volume_idxs);
     }
@@ -511,7 +511,7 @@ void Selection::remove_curr_plate()
     m_mode = Instance;
     clear();
 
-    for (int obj_idx = 0; obj_idx < m_model->objects.size(); obj_idx++) {
+    for (size_t obj_idx = 0; obj_idx < m_model->objects.size(); obj_idx++) {
         if (plate && plate->contain_instance(obj_idx, 0)) {
             std::vector<unsigned int> volume_idxs = get_volume_idxs_from_object(obj_idx);
             do_add_volumes(volume_idxs);
@@ -1881,7 +1881,7 @@ void Selection::notify_instance_update(int object_idx, int instance_idx)
             {
                 ModelObject* object = m_model->objects[obj_index];
 
-                for (int instance_index = 0; instance_index < object->instances.size(); instance_index++)
+                for (size_t instance_index = 0; instance_index < object->instances.size(); instance_index++)
                 {
                     std::pair<int, int> notify_index(obj_index, instance_index);
                     if (notify_set.find(notify_index) == notify_set.end()) {
@@ -1905,7 +1905,7 @@ void Selection::notify_instance_update(int object_idx, int instance_idx)
         {
             ModelObject* object = m_model->objects[object_idx];
 
-            for (int index = 0; index < object->instances.size(); index++)
+            for (size_t index = 0; index < object->instances.size(); index++)
             {
                 plate_list.notify_instance_update(object_idx, index);
             }

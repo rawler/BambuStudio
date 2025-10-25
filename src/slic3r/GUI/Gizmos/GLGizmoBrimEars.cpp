@@ -1013,7 +1013,7 @@ void GLGizmoBrimEars::get_detection_radius_max()
 bool GLGizmoBrimEars::add_point_to_cache(Vec3f pos, float head_radius, bool selected, Vec3f normal, int volume_idx)
 {
     BrimPoint point(pos, head_radius, volume_idx);
-    for (int i = 0; i < m_editing_cache.size(); i++) {
+    for (size_t i = 0; i < m_editing_cache.size(); i++) {
         if (m_editing_cache[i].brim_point == point) { return false; }
     }
     m_editing_cache.emplace_back(point, selected, normal);
@@ -1086,7 +1086,7 @@ void GLGizmoBrimEars::find_single()
     ExPolygons               model_pl  = m_first_layer;
 
     m_single_brim.clear();
-    for (int i = 0; i < m_editing_cache.size(); i++)
+    for (size_t i = 0; i < m_editing_cache.size(); i++)
         m_single_brim[i] = m_editing_cache[i];
     unsigned int index = 0;
     bool cyc = true;

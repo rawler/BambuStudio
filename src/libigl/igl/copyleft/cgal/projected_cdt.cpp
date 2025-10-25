@@ -58,9 +58,9 @@ IGL_INLINE void igl::copyleft::cgal::projected_cdt(
   std::vector<std::vector<typename DerivedF::Scalar> > faces;
   projected_cdt(objects,P,vertices,faces);
   V.resize(vertices.size(),3);
-  for(int v = 0;v<vertices.size();v++)
+  for(size_t v = 0;v<vertices.size();v++)
   {
-    for(int d = 0;d<3;d++)
+    for(size_t d = 0;d<3;d++)
     {
       assign_scalar(vertices[v][d], V(v,d));
     }

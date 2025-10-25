@@ -682,7 +682,7 @@ void ObjectList::update_filament_values_for_items(const size_t filaments_count)
 
         static const char *keys[] = {"support_filament", "support_interface_filament"};
         for (auto key : keys)
-            if (object->config.has(key) && object->config.opt_int(key) > filaments_count)
+            if (object->config.has(key) && object->config.opt_int(key) > (int)filaments_count)
                 object->config.erase(key);
 
         if (object->volumes.size() > 1) {
@@ -700,7 +700,7 @@ void ObjectList::update_filament_values_for_items(const size_t filaments_count)
                 m_objects_model->SetExtruder(extruder, item);
 
                 for (auto key : keys)
-                    if (object->volumes[id]->config.has(key) && object->volumes[id]->config.opt_int(key) > filaments_count)
+                    if (object->volumes[id]->config.has(key) && object->volumes[id]->config.opt_int(key) > (int)filaments_count)
                         object->volumes[id]->config.erase(key);
             }
         }
@@ -728,7 +728,7 @@ void ObjectList::update_filament_values_for_items_when_delete_filament(const siz
             extruder = std::to_string(replace_filament_id);
             object->config.set_key_value("extruder", new ConfigOptionInt(replace_filament_id));
         } else {
-            int new_extruder = object->config.extruder() > filament_id ? object->config.extruder() - 1 : object->config.extruder();
+            int new_extruder = object->config.extruder() > (int)filament_id ? object->config.extruder() - 1 : object->config.extruder();
             extruder = wxString::Format("%d", new_extruder);
             object->config.set_key_value("extruder", new ConfigOptionInt(new_extruder));
         }
@@ -740,7 +740,7 @@ void ObjectList::update_filament_values_for_items_when_delete_filament(const siz
                 if(object->config.opt_int(key) == filament_id + 1)
                     object->config.erase(key);
                 else {
-                    int new_value = object->config.opt_int(key) > filament_id ? object->config.opt_int(key) - 1 : object->config.opt_int(key);
+                    int new_value = object->config.opt_int(key) > (int)filament_id ? object->config.opt_int(key) - 1 : object->config.opt_int(key);
                     object->config.set_key_value(key, new ConfigOptionInt(new_value));
                 }
             }
@@ -757,7 +757,7 @@ void ObjectList::update_filament_values_for_items_when_delete_filament(const siz
                         if (object->volumes[id]->config.opt_int(key) == filament_id + 1)
                             object->volumes[id]->config.erase(key);
                         else {
-                            int new_value = object->volumes[id]->config.opt_int(key) > filament_id ? object->volumes[id]->config.opt_int(key) - 1 :
+                            int new_value = object->volumes[id]->config.opt_int(key) > (int)filament_id ? object->volumes[id]->config.opt_int(key) - 1 :
                                                                                                      object->volumes[id]->config.opt_int(key);
                             object->config.set_key_value(key, new ConfigOptionInt(new_value));
                         }
@@ -770,7 +770,7 @@ void ObjectList::update_filament_values_for_items_when_delete_filament(const siz
                 else if (size_t(object->volumes[id]->config.extruder()) == filament_id + 1) {
                     object->volumes[id]->config.set_key_value("extruder", new ConfigOptionInt(replace_filament_id));
                 } else {
-                    int new_extruder = object->volumes[id]->config.extruder() > filament_id ? object->volumes[id]->config.extruder() - 1 : object->volumes[id]->config.extruder();
+                    int new_extruder = object->volumes[id]->config.extruder() > (int)filament_id ? object->volumes[id]->config.extruder() - 1 : object->volumes[id]->config.extruder();
                     extruder = wxString::Format("%d", new_extruder);
                     object->volumes[id]->config.set_key_value("extruder", new ConfigOptionInt(new_extruder));
                 }
@@ -803,7 +803,7 @@ void ObjectList::update_filament_values_for_items_when_delete_filament(const siz
                         layer_range_item.second.set("extruder", new_extruder);
                     } else {
                         int layer_filament_id = layer_range_item.second.option("extruder")->getInt();
-                        int new_extruder      = layer_filament_id > filament_id ? layer_filament_id - 1 : layer_filament_id;
+                        int new_extruder      = layer_filament_id > (int)filament_id ? layer_filament_id - 1 : layer_filament_id;
                         extruder              = wxString::Format("%d", new_extruder);
                         layer_range_item.second.set("extruder", new_extruder);
                     }
@@ -2436,7 +2436,7 @@ void GUI::ObjectList::add_new_model_object_from_old_object() {
     ModelVolumePtrs sel_volumes;
     auto            mo = (*m_objects)[obj_idx];
     for (int i = vol_idxs.size() - 1; i >= 0; i--) {
-        if (vol_idxs[i] > mo->volumes.size()) {
+        if (vol_idxs[i] > (int)mo->volumes.size()) {
             BOOST_LOG_TRIVIAL(info) << __FUNCTION__ << "check error:array bound";
             continue;
         }
@@ -3112,13 +3112,13 @@ void ObjectList::merge(bool to_multipart_object)
             const Transform3d& transformation_matrix = transformation.get_matrix();
 
             // merge volumes
-            for(int volume_idx = 0; volume_idx < object->volumes.size(); volume_idx++) {
+            for(size_t volume_idx = 0; volume_idx < object->volumes.size(); volume_idx++) {
                 const ModelVolume* volume = object->volumes[volume_idx];
                 ModelVolume* new_volume = new_object->add_volume(*volume);
                 int new_volume_idx = new_object->volumes.size() - 1;
                 // merge brim ears
                 for (auto p : object->brim_points) {
-                    if (p.volume_idx == volume_idx) {
+                    if (p.volume_idx == (int)volume_idx) {
                         Transform3d v_matrix = object->volumes[p.volume_idx]->get_matrix();
                         p.set_transform(v_matrix);
                         p.set_transform(transformation_matrix);
@@ -3408,7 +3408,7 @@ bool ObjectList::get_volume_by_item(const wxDataViewItem& item, ModelVolume*& vo
     auto obj_idx = get_selected_obj_idx();
     if (!item || obj_idx < 0)
         return false;
-    if (m_objects->size() <= obj_idx) {
+    if ((int)m_objects->size() <= obj_idx) {
         return false;
     }
     const auto volume_id = m_objects_model->GetVolumeIdByItem(item);
@@ -3441,7 +3441,7 @@ bool ObjectList::is_splittable(bool to_objects)
             auto obj_idx = get_selected_obj_idx();
             if (obj_idx < 0)
                 return false;
-            if (m_objects->size() <= obj_idx) {
+            if ((int)m_objects->size() <= obj_idx) {
                 return false;
             }
             if ((*m_objects)[obj_idx]->volumes.size() > 1)
@@ -4106,7 +4106,7 @@ void ObjectList::update_info_items(size_t obj_idx, wxDataViewItemArray *selectio
     {
         bool shows = this->GetColumn(colSinking)->IsShown();
         bool should_show = false;
-        for (int i = 0; i < m_objects->size(); ++i) {
+        for (size_t i = 0; i < m_objects->size(); ++i) {
             if (wxGetApp().plater()->canvas3D()->is_object_sinking(i)) {
                 should_show = true;
                 break;
@@ -4236,7 +4236,7 @@ wxDataViewItemArray ObjectList::add_volumes_to_object_in_list(size_t obj_idx, st
         int volume_idx{-1};
         auto& ui_and_3d_volume_map = m_objects_model->get_ui_and_3d_volume_map();
         for (auto item : ui_and_3d_volume_map) {
-            if (item.first == obj_idx) {
+            if (item.first == (int)obj_idx) {
                 item.second.clear();
             }
         }
@@ -6195,7 +6195,7 @@ void ObjectList::set_extruder_for_selected_items(const int extruder)
 {
     // BBS: check extruder id
     std::vector<std::string> colors = wxGetApp().plater()->get_extruder_colors_from_plater_config();
-    if (extruder > colors.size())
+    if (extruder > (int)colors.size())
         return;
 
     wxDataViewItemArray sels;
@@ -6218,7 +6218,7 @@ void ObjectList::set_extruder_for_selected_items(const int extruder)
             const int obj_idx = m_objects_model->GetObjectIdByItem(item);
             int vol_idx = m_objects_model->GetVolumeIdByItem(item);
             vol_idx     = m_objects_model->get_real_volume_index_in_3d(obj_idx, vol_idx);
-            if ((obj_idx < m_objects->size()) && (obj_idx < (*m_objects)[obj_idx]->volumes.size())) {
+            if ((obj_idx < (int)m_objects->size()) && (obj_idx < (int)(*m_objects)[obj_idx]->volumes.size())) {
                 auto volume_type = (*m_objects)[obj_idx]->volumes[vol_idx]->type();
                 if (volume_type != ModelVolumeType::MODEL_PART && volume_type != ModelVolumeType::PARAMETER_MODIFIER)
                     continue;
@@ -6375,7 +6375,7 @@ void ObjectList::update_after_undo_redo()
 wxDataViewItemArray ObjectList::reorder_volumes_and_get_selection(int obj_idx, std::function<bool(const ModelVolume*)> add_to_selection/* = nullptr*/)
 {
     wxDataViewItemArray items;
-    if (obj_idx < 0 || obj_idx >= m_objects->size()) {
+    if (obj_idx < 0 || obj_idx >= (int)m_objects->size()) {
         return items;
     }
     ModelObject* object = (*m_objects)[obj_idx];
